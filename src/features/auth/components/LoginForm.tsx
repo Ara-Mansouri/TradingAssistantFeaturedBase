@@ -33,7 +33,7 @@ export default function LoginForm() {
       />
                     <div className="flex flex-wrap gap-3 justify-between text-sm text-white/70 mb-6">
                 <a href="#" className="hover:text-white underline-offset-4 hover:underline">Register</a>
-                <a href="#" className="hover:text-white underline-offset-4 hover:underline">Forgot Password?</a>
+               <a href="/auth/forgot-password" className="hover:text-white underline-offset-4 hover:underline">Forgot Password?</a>
               </div>
 
       {error && <p className="text-red-400 text-sm mb-3">{error}</p>}

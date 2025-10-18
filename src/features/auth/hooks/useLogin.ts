@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";   // ✅ حتماً ایمپورت کن
+import { useRouter } from "next/navigation";   
 import { loginApi } from "../services/auth.api";
 
 export function useLogin() {
-  const router = useRouter();   // ✅ اینو اضافه کن
+  const router = useRouter();   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,9 +17,9 @@ export function useLogin() {
       setError(null);
 
       const result = await loginApi({ email, password });
-      console.log("✅ Login success:", result);
 
-      // ✅ بعد از لاگین موفق برو به صفحه welcome
+      console.log("Login success:", result);
+
       if (result.status === 200) {
         router.push("/welcome");
       }
