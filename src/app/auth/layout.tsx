@@ -1,7 +1,7 @@
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="relative min-h-screen bg-[radial-gradient(ellipse_at_top,_#1a1a1a_0%,_#0b0b0b_60%,_#000_100%)] text-white flex items-center justify-center p-4 overflow-hidden">
-      <section className="relative w-full max-w-6xl rounded-2xl overflow-hidden bg-black/60 backdrop-blur-md ring-1 ring-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]">
+      <section className="relative w-full max-w-4xl rounded-2xl overflow-hidden bg-black/60 backdrop-blur-md ring-1 ring-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]">
         <div className="grid grid-cols-1 md:grid-cols-2">
           
           <div className="relative">

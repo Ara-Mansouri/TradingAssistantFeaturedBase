@@ -5,6 +5,15 @@ interface LoginPayload {
   password: string;
 }
 
+interface LoginResponse {
+  tokenType: string;
+  expireIn: number;
+  accessToken: string;
+  refreshToken: string;
+  email: string;
+}
+
+
 interface ResetPasswordPayload {
   email: string;
   verificationCode: string;
@@ -13,10 +22,9 @@ interface ResetPasswordPayload {
 
 
 export async function loginApi(payload: LoginPayload) {
-  const response = await apiClient.post("/api/v1/users/sign-in-password", payload);
+  const response = await apiClient.post<LoginResponse>("/api/v1/users/sign-in-password", payload);
   return response;
 }
-
 export async function forgotPasswordApi(email: string) {
   return apiClient.post("/api/v1/users/forgot-password", { email });
 }
