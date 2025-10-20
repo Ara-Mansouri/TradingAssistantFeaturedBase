@@ -1,11 +1,28 @@
 "use client";
+import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 
+
+
 export default function LoginForm() {
-  const { email, password, setEmail, setPassword, handleLogin, loading, error } = useLogin();
+
+  const [email , setEmail] = useState("");
+  const [password , setPassword] = useState("");
+
+  const { mutate:  handleLogin, isPending, isError, error} = useLogin();
+
+  const onSubmit = (e : React.FormEvent) =>{
+    e.preventDefault();
+    handleLogin({email , password});
+
+  }
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0f1115]/90 backdrop-blur-sm p-6 md:p-8 shadow-xl shadow-black/30">
+      <form
+        onSubmit={onSubmit}
+        className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0f1115]/90 backdrop-blur-sm p-6 md:p-8 shadow-xl shadow-black/30"
+      >
+
       <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-6 md:mb-8">
         Login
       </h1>
@@ -36,16 +53,22 @@ export default function LoginForm() {
                <a href="/auth/forgot-password" className="hover:text-white underline-offset-4 hover:underline">Forgot Password?</a>
               </div>
 
-      {error && <p className="text-red-400 text-sm mb-3">{error}</p>}
 
-      <button
-        onClick={handleLogin}
-        disabled={loading}
+    {isError && (
+        <p className="text-red-400 text-sm mb-3">
+          {(error as any)?.response?.data?.message || "Login failed"}
+        </p>
+      )}
+    <button
+    type="submit" 
+      disabled={isPending}
         className="w-full py-3 rounded-xl font-semibold
         bg-[#D41414] hover:bg-[#b91010] transition focus:outline-none focus:ring-4 focus:ring-red-500/30"
-      >
-        {loading ? "Logging in..." : "Login"}
-      </button>
-    </div>
+    >
+ {isPending ? "Logging in..." : "Login"}
+    </button>
+
+       </form>
+
   );
 }
