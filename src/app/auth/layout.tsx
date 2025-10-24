@@ -1,30 +1,47 @@
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="relative min-h-screen bg-[radial-gradient(ellipse_at_top,_#1a1a1a_0%,_#0b0b0b_60%,_#000_100%)] text-white flex items-center justify-center p-4 overflow-hidden">
-      <section className="relative w-full max-w-4xl rounded-2xl overflow-hidden bg-black/60 backdrop-blur-md ring-1 ring-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]">
-        <div className="grid grid-cols-1 md:grid-cols-2">
+    <main className="relative min-h-screen bg-black text-white flex items-center justify-center p-4 overflow-hidden">
+      <section className="relative w-full max-w-5xl rounded-3xl overflow-hidden bg-black shadow-2xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px] gap-0">
           
-          <div className="relative">
+          {/* Image Section */}
+          <div className="relative order-1 lg:order-1 overflow-hidden">
             <img
-               src="/images/login-bg.png"
+              src="/images/login-bg.png"
               alt="Trading Assistant"
-              className="w-full h-64 md:h-full object-cover object-center"
+              className="w-full h-64 lg:h-full object-cover object-center"
             />
-            <div className="absolute inset-0 pointer-events-none
-                            bg-gradient-to-b from-transparent to-black/80
-                            md:bg-gradient-to-r md:from-transparent md:to-black/80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent lg:bg-gradient-to-r lg:from-black/0 lg:via-black/0 lg:to-black/45" />
+
+            {/* Subtle black accent divider */}
+            <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-black/60 to-transparent hidden lg:block" />
           </div>
 
-        
-          <div className="relative flex items-center justify-center p-6 md:p-10">
-            {children}
+          {/* Form Section */}
+          <div className="relative order-2 lg:order-2 flex items-center justify-center p-6 lg:p-12 bg-gradient-to-br from-black via-red-900/15 to-black overflow-hidden">
+            <div className="w-full max-w-md">
+              {children}
+            </div>
+            {/* Subtle black accent divider */}
+            <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-black/60 to-transparent hidden lg:block" />
           </div>
         </div>
 
+        {/* Enhanced background effects for seamless transition */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10
-                     bg-gradient-to-r from-red-600/10 via-transparent to-red-600/10 blur-2xl"
+                     bg-gradient-to-r from-red-600/12 via-red-600/8 to-red-600/12 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full -z-10
+                     bg-gradient-radial from-red-600/8 via-red-600/3 to-transparent"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10
+                     bg-gradient-to-br from-transparent via-red-500/5 to-transparent"
         />
       </section>
     </main>
