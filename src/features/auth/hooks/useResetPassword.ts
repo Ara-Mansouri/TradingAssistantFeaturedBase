@@ -13,8 +13,8 @@ export function useResetPassword()
   const mutation = useMutation({
     mutationFn :(payload : ResetPasswordPayload) => resetPasswordApi(payload),
     onSuccess : () =>{
-      // sessionStorage.removeItem("resetEmail");
-      router.push("/auth/Login")
+      
+      router.replace("/auth/Login")
     },
     onError :(error : any) =>{
       console.error("Reset Password Error" , error)
