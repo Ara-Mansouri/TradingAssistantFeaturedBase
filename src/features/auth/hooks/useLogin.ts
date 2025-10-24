@@ -1,36 +1,31 @@
 "use client";
 
-// import { useState } from "react";
-import { Mutation, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";   
-import { loginApi } from "../services/auth.api";
+import { loginApi , LoginPayload } from "../services/auth.api";
+import { Router } from "next/router";
 
-interface LoginPayload
-{
-    email : string;
-    password : string; 
-}
+// interface LoginPayload
+// {
+//     email : string;
+//     password : string; 
+// }
 
 export function useLogin(){
   const router = useRouter()
   const mutation = useMutation({
     mutationFn :(payload : LoginPayload) => loginApi(payload),
-    onSuccess: (res) =>{
-      console.log("Login Succsesful:" , res)
-    
-  if (res.status === 200) {
-       const { accessToken, refreshToken } = res.data;
-        localStorage.setItem("accessToken" ,accessToken )
-        localStorage.setItem("refreshToken" ,refreshToken )
-        router.push("/welcome")
-  }
-
-  },
+    onSuccess: () =>
+      {
+      router.push("/dashboard");
+             },
   onError :(err : any) =>
   {
-    console.error("Login failed", err)
+    console.error("Login failed", err?.message) // inja chetoori bayad handle beshe
+    console.log(err);
   },
 
     });
     return mutation;
+    
   }

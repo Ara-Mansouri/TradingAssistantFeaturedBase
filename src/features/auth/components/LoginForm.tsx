@@ -17,17 +17,14 @@ export default function LoginForm() {
     <div className="w-full px-4 sm:px-0 animate-fade-in">
       <div className="text-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-white">
-          Sign In
+          Login
         </h1>
-        <p className="text-gray-400 text-sm lg:text-base">
-          Access your trading dashboard
-        </p>
       </div>
 
       <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-            Email Address
+            Email 
           </label>
           <input
             type="email"
@@ -58,29 +55,29 @@ export default function LoginForm() {
             required
           />
         </div>
-
+    {isError && (
+          <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
+            <p className="text-red-400 text-sm">
+              {error?.message ?? "Login failed. Please try again."}
+            </p>
+          </div>
+        )}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
           <a 
             href="#" 
-            className="text-red-400 hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
+            className="text-white hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
           >
             Create Account
           </a>
           <a 
             href="/auth/forgot-password" 
-            className="text-red-400 hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
+            className="text-white hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
           >
             Forgot Password?
           </a>
         </div>
 
-        {isError && (
-          <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
-            <p className="text-red-400 text-sm">
-              {(error as any)?.response?.data?.message || "Login failed. Please try again."}
-            </p>
-          </div>
-        )}
+        
 
         <button
           type="submit"
@@ -94,12 +91,13 @@ export default function LoginForm() {
           {isPending ? (
             <div className="flex items-center justify-center gap-2">
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-              Signing In...
+              Loging In...
             </div>
           ) : (
-            "Sign In"
+            "Login"
           )}
         </button>
+        
       </form>
     </div>
   );
