@@ -22,7 +22,6 @@ export function useLogin(){
   onError :(err : any) =>
   {
     console.error("Login failed", err?.message) // inja chetoori bayad handle beshe
-    console.log(err);
   },
 
     });
