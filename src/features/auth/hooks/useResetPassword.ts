@@ -8,20 +8,18 @@ import { resetPasswordApi, ResetPasswordPayload } from "../services/auth.api";
 export function useResetPassword() 
 {
   const router = useRouter();
-  const email = sessionStorage.getItem("resetEmail")
 
   const mutation = useMutation({
     mutationFn :(payload : ResetPasswordPayload) => resetPasswordApi(payload),
     onSuccess : () =>{
       
-      router.replace("/auth/Login")
+      router.replace("/auth/login")
     },
     onError :(error : any) =>{
       console.error("Reset Password Error" , error)
     }
   });
  return {
-   email :email,
     mutate: mutation.mutate,
     isPending: mutation.isPending,
     isError: mutation.isError,
