@@ -36,7 +36,7 @@ export default function ForgotPasswordForm() {
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            required
+            // required
           />
         </div>
 

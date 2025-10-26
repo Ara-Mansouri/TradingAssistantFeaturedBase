@@ -24,7 +24,7 @@ export default function ResetPasswordForm() {
           Reset Password
         </h1>
         <p className="text-gray-400 text-sm lg:text-base">
-          Enter the verification code and your new password
+           Verify code Sent to your email
         </p>
       </div>
 
@@ -33,7 +33,7 @@ export default function ResetPasswordForm() {
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-            Verification Code
+            Verify Code
           </label>
           <input
             type="text"
@@ -44,7 +44,7 @@ export default function ResetPasswordForm() {
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            required
+            // required
           />
         </div>
 
@@ -61,24 +61,24 @@ export default function ResetPasswordForm() {
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            required
+            // required
           />
         </div>
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-            Confirm New Password
+            Compare Password
           </label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm new password"
+            placeholder="Enter Compare Password"
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            required
+            // required
           />
         </div>
 
@@ -111,7 +111,7 @@ export default function ResetPasswordForm() {
 
         <div className="text-center">
           <a 
-            href="/auth/Login" 
+            href="/auth/login" 
             className="text-red-400 hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline text-sm"
           >
             Back to Sign In

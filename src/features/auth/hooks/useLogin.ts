@@ -3,13 +3,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";   
 import { loginApi , LoginPayload } from "../services/auth.api";
-import { Router } from "next/router";
 
-// interface LoginPayload
-// {
-//     email : string;
-//     password : string; 
-// }
+
 
 export function useLogin(){
   const router = useRouter()
