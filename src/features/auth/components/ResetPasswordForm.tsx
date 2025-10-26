@@ -1,24 +1,21 @@
 "use client";
 import { useResetPassword } from "../hooks/useResetPassword";
-import { useState } from "react";
+import {useState } from "react";
+import { useAuthContext  } from "@/context/AuthContext";
+
+
 export default function ResetPasswordForm() {
 
   const [verificationCode, setVerificationCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { email, mutate: handleReset, isPending, isError, error } = useResetPassword();
-
- if (!email) /// nabayd dakhel middleware handle beshe????
-  {
-    // اگه کاربر مستقیم اومد بدون مرحله قبل، برگرد به forgot password
-    if (typeof window !== "undefined") window.location.href = "/auth/forgot-password";
-    return null;
-  }
+  const {mutate: handleReset, isPending, isError, error } = useResetPassword();
+ const { email } = useAuthContext();
   const onSubmit = (e: React.FormEvent) => 
     {
     e.preventDefault();
 
-    handleReset({ email, verificationCode, newPassword });
+    handleReset({ email, verificationCode, newPassword }); 
   };
   return (
     <div className="w-full px-4 sm:px-0 animate-fade-in">
