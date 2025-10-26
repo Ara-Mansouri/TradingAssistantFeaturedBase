@@ -19,7 +19,7 @@ export async function  POST (req: Request)
       let data = {};
       try 
       {
-        data=await res.json;
+        data=await res.json();
       }
       catch
       {
@@ -31,7 +31,10 @@ export async function  POST (req: Request)
 
       );
     }
-    return NextResponse.json({message: "Reset Link Sent"} , {status : 204});
+     if(res.status == 204)
+        {
+          return new NextResponse(null , {status : 204});
+        }
   }
   catch (error)
   {
