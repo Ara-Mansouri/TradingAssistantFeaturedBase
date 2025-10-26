@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { setAuthCookies } from "@/lib/cookies";
-// import { apiClient } from "@/api/client";
 
 interface LoginResponse {
   accessToken: string;
@@ -26,7 +25,7 @@ export async function POST(req: Request)
     if (!Results.ok) 
     {
       return NextResponse.json({ title: data?.title ?? "Login failed" },{ status: Results.status });
-      console.log("torokhodaa",Results.status);
+     
     }
 
     const { accessToken, refreshToken } = data as LoginResponse;

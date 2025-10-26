@@ -1,4 +1,4 @@
- import { apiClient } from "@/app/api/client";
+
 
 export  interface ResetPasswordPayload {
   email: string;
@@ -24,14 +24,13 @@ export async function loginApi(payload: LoginPayload)
   try {
     json = await res.json();
   } catch {
-   // yani chi bi seda ???
-   console.log("khata servicee");
+
   }
 
   if (!res.ok) {
     
     const title = json?.title ?? "Login failed";// gharare i18n piyade sazi beshe chejoori ba vojud in ?
-    console.log("maaaannnn")
+   
    
     throw new Error(title);
   }
@@ -42,7 +41,7 @@ export async function loginApi(payload: LoginPayload)
 
 export async function forgotPasswordApi(email: string) // nemishe baraye darkhasta format headers ro config nevesht ehy tekrar nashe?
 {
-  const res = await fetch("/api/v1/users/forgot-password",
+  const res = await fetch("/api/auth/forgot-password",
   { method : "POST",
     headers :{"Content-Type": "application/json"},
     body    : JSON.stringify({email}),//chera ba format payload mesl Login Ferestade Nemishe
@@ -74,9 +73,10 @@ if(res.status == 204)
   if(!res.ok)
   {
     let data: any;
-try {
-  data = await res.json();
-} catch {
+  try {
+     data = await res.json();
+    } 
+catch {
   data = await res.text(); // fallback if it’s not JSON
 }
 

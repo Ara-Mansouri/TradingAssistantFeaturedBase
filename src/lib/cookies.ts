@@ -8,7 +8,7 @@ export function setAuthCookies(res : NextResponse , access : string , refresh : 
         secure : true ,
         sameSite : "lax",
         path :   "/" ,
-        maxAge : 60 * 15 ,
+        maxAge : 60 * 60 ,
 
 
     });
@@ -18,7 +18,7 @@ export function setAuthCookies(res : NextResponse , access : string , refresh : 
         secure : true ,
         sameSite : "lax",
         path :   "/" ,
-        maxAge : 60 * 60 * 24 * 7 ,
+        maxAge : 60 * 60 * 24  ,
 
     });
 }
