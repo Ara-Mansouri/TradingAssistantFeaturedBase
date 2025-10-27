@@ -24,7 +24,7 @@ export default function AuthLayout({children,}: {children: React.ReactNode;})
             </div>
 
             {/* Form Section */}
-            <div className="relative order-2 lg:order-2 flex items-center justify-center p-6 lg:p-12 bg-gradient-to-br from-black via-red-900/15 to-black overflow-hidden">
+            <div className="relative order-2 lg:order-2 flex items-center justify-center p-6 lg:p-12 bg-gradient-to-br from-black via-red-900/18 to-black overflow-hidden">
               <div className="w-full max-w-md">
                 {children}
               </div>
