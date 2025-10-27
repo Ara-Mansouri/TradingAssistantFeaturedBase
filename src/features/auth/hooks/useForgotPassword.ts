@@ -1,31 +1,30 @@
 "use client";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { forgotPasswordApi } from "../services/auth.api";
+import { useAuthContext  } from "@/context/AuthContext";
+
 
 export function useForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+ const { setEmail } = useAuthContext();
+  const mutation = useMutation({
+    mutationFn: (email: string) => forgotPasswordApi(email),
 
-  const handleSubmit = async () => {
-    try {
-      setLoading(true);
-      setError(null);
+    onSuccess: (_data, email) => {
+       setEmail(email);
+      router.push("/auth/reset-password"); 
+    },
 
-     const result =  await forgotPasswordApi(email);
-if (result.status === 204) {
-  sessionStorage.setItem("resetEmail", email);
-  router.push("/auth/reset-password");
-}
+    onError: (error: any) => {
+      console.error("Forgot password error:", error);
+    },
+  });
 
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
+  return {
+    mutate: mutation.mutate,
+    isPending: mutation.isPending,
+    isError: mutation.isError,
+    error: mutation.error,
   };
-
-  return { email, setEmail, handleSubmit, loading, error };
 }

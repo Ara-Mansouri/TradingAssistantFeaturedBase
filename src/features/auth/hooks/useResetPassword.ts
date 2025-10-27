@@ -1,75 +1,32 @@
 "use client";
-
-import { useState, useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { resetPasswordApi } from "../services/auth.api";
+import { resetPasswordApi, ResetPasswordPayload } from "../services/auth.api";
+import { useAuthContext } from "@/context/AuthContext";
 
-export function useResetPassword() {
+
+export function useResetPassword() 
+{
   const router = useRouter();
-
-  const [email, setEmail] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const savedEmail = sessionStorage.getItem("resetEmail");
-    if (!savedEmail) {
-      router.push("/auth/forgot-password");
-    } else {
-      setEmail(savedEmail);
+  const { clearEmail } = useAuthContext();
+  const mutation = useMutation({
+    mutationFn :(payload : ResetPasswordPayload) => resetPasswordApi(payload),
+    onSuccess : () =>{
+      
+      router.replace("/auth/login")
+         clearEmail();
+    },
+    onError :(error : any) =>{
+      console.error("Reset Password Error" , error)
     }
-  }, [router]);
-
-
-  const handleSubmit = async () => {
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-
-     const result= await resetPasswordApi({
-        email,
-        verificationCode,
-        newPassword,
-      });
- if (result.status === 204) {
-       sessionStorage.removeItem("resetEmail");
-       console.log(result.status)
-       console.log(result.data)
-        router.push("/auth/Login");
-        }
-        else
-        {
-           console.log(result.status)
-           console.log(result.data)
-
-        }
+  });
+ return {
+    mutate: mutation.mutate,
+    isPending: mutation.isPending,
+    isError: mutation.isError,
+    error: mutation.error,
+  };
     
-     
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Password reset failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
-  return {
-    email,
-    verificationCode,
-    setVerificationCode,
-    newPassword,
-    setNewPassword,
-    confirmPassword,
-    setConfirmPassword,
-    handleSubmit,
-    loading,
-    error,
-  };
 }
