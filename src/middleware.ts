@@ -22,14 +22,14 @@ if(pathname.startsWith("/dashboard"))
   }
 }
 
- if(!verifyAccessToken(accessToken) && refreshToken) 
- {
-    const refreshUrl = req.nextUrl.clone();
-    refreshUrl.pathname = "/api/auth/refresh-token";
-    return NextResponse.rewrite(refreshUrl);
- }
-  
+if (!verifyAccessToken(accessToken) && refreshToken) {
  
+  const refreshUrl = req.nextUrl.clone();
+ 
+  refreshUrl.pathname = "/api/auth/refresh-token";
+  return NextResponse.rewrite(refreshUrl);
+   
+}
 
   return NextResponse.next();
 }
