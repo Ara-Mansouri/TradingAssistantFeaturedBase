@@ -1,16 +1,24 @@
 
 
-export  interface ResetPasswordPayload {
+export  interface ResetPasswordPayload
+ {
   email: string;
   verificationCode: string;
   newPassword: string;
 }
-// src/features/auth/services/auth.api.ts
-export interface LoginPayload {
+
+export interface LoginPayload 
+{
   email: string;
   password: string;
 }
-
+export interface RegisterPayload 
+{
+  email: string;
+  password: string;
+  firstName : string ;
+  lastName : string ;
+}
 export async function loginApi(payload: LoginPayload) 
 {
   const res = await fetch("/api/auth/login", {
@@ -57,7 +65,6 @@ export async function forgotPasswordApi(email: string) // nemishe baraye darkhas
   return {ok : true};//chera khod Result Ro Bar NemiGardunim
 }
 
-
 export async function resetPasswordApi(payload: ResetPasswordPayload)
  {
   const res = await fetch("/api/auth/reset-password", {
@@ -90,8 +97,48 @@ throw new Error(message);
   }
   }
 
-  //   const data = await res.json().catch(()=>({}));// chear ba await minevisim
-  //   throw new Error(data?.title || "Reset Password Failed.");
+export async function registerApi(payload: RegisterPayload)
+ {
+  const res = await fetch("/api/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+let json: any = null;
+  try {
+    json = await res.json();
+  } catch {
 
-  // }
-  // throw new Error("Unexpected Error");//Chera syntax inja injoriye to baghiye ba if , else , return handle mishe chera yeja throw mikone , yeja return
+  }
+
+  if (!res.ok) {
+    
+    const title = json?.title ?? "";
+   
+   
+    throw new Error(title);
+  }
+
+ 
+  return { ok: true };
+
+  }
+
+export async function verifyemailstatusApi(Token: string) // nemishe baraye darkhasta format headers ro config nevesht ehy tekrar nashe?
+{
+  console.log("We got here")
+  const res = await fetch("/api/auth/verify-emailstatus",
+  { method : "POST",
+    headers :{"Content-Type": "application/json"},
+    body    : JSON.stringify({Token}),//chera ba format payload mesl Login Ferestade Nemishe
+
+  });
+
+  if(!res.ok)
+  {
+    const data = await res.json().catch(() => ({}));//age error dad data nabud kkhali bar gardun
+    throw new Error(data?.title ||"Failed To Verify Email");
+
+  }
+  return {ok : true};//chera khod Result Ro Bar NemiGardunim
+}

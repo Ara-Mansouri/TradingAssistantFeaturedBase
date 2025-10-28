@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-// import { useRegister } from "../hooks/useRegister";
+ import { useRegister } from "../hooks/useRegister";
 
 export default function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -8,11 +8,11 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // const { mutate: handleRegister, isPending, isError, error } = useRegister();
+   const { mutate: handleRegister, isPending, isError, error } = useRegister();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // handleRegister({ firstName, lastName, email, password });
+     handleRegister({ email, password ,firstName,lastName});
   };
 
   return (
@@ -90,13 +90,13 @@ export default function RegisterForm() {
           />
         </div>
 
-        {/* {isError && (
+        {isError && (
           <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
             <p className="text-red-400 text-sm">
               {error?.message ?? "Registration failed. Please try again."}
             </p>
           </div>
-        )} */}
+        )}
 
         <div className="flex justify-between items-center text-sm">
           <a
@@ -109,22 +109,21 @@ export default function RegisterForm() {
 
         <button
           type="submit"
-          // disabled={isPending}
+          disabled={isPending}
           className="w-full py-3 px-4 rounded-xl font-semibold text-white
                    bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900
                    focus:outline-none focus:ring-2 focus:ring-red-500/60 focus:ring-offset-2 focus:ring-offset-transparent
                    disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300
                    shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
-          {/* {isPending ? (
+          {isPending ? (
             <div className="flex items-center justify-center gap-2">
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               Registering...
             </div>
           ) : (
             "Register"
-          )} */}
-          {"Register"}
+          )}
         </button>
       </form>
     </div>
