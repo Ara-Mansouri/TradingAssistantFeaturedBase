@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyAccessToken, refreshTokens } from "@/lib/auth";
+import { verifyAccessToken } from "@/lib/auth";
 
 export async function middleware(req: NextRequest) {
   const accessToken = req.cookies.get("accessToken")?.value;
