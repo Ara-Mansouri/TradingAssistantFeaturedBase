@@ -12,11 +12,7 @@ export default function VerifyEmailStatusForm({ code }: { code: string }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    if (!code) {
-      setErrorMsg("");
-      setStatus("error");
-      return;
-    }
+    
 
     const verify = async () => {
       try {
@@ -43,12 +39,12 @@ export default function VerifyEmailStatusForm({ code }: { code: string }) {
         )}
         {status === "success" && (
           <>
-            <h1 className="text-2xl font-bold text-green-400 mb-3">Email verified successfully!</h1>
+            <h1 className="text-2xl font-bold text-white-400 mb-3">Email verified successfully!</h1>
             <p className="text-gray-300 text-sm">You’ll be redirected to the login page shortly.</p>
           </>
         )}
         {status === "error" && (
-          <h1 className="text-2xl font-bold text-red-500 mb-3">{errorMsg}</h1>
+          <h1 className="text-2xl font-bold text-white-500 mb-3">{errorMsg}</h1>
         )}
       </div>
     </div>
