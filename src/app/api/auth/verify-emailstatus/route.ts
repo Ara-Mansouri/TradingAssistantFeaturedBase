@@ -5,7 +5,7 @@ export async function  POST (req: Request)
 {
   try 
   {
-    console.log("🔍 [API] verify-emailstatus called");
+
     const body = await req.json();
     const {Code} = body;
     const res = await fetch (`${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/verify-email`,{
@@ -27,7 +27,7 @@ export async function  POST (req: Request)
         //No Body
       }
       return NextResponse.json(
-      {title : (data as any).title || "Verify Email Failed"},
+      {title : (data as any).title || "Unexpected Error"},
       {status : res.status}
 
       );

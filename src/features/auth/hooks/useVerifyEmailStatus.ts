@@ -13,8 +13,8 @@ export function useVerifyEmailStatus() {
              },
   onError :(err : any) =>
   {
-    console.error("Error*******", err?.message) // inja chetoori bayad handle beshe
-    console.log(err?.message)
+    console.error( err?.message) // inja chetoori bayad handle beshe
+ 
   },
   });
 }

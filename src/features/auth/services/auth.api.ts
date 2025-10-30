@@ -124,20 +124,20 @@ let json: any = null;
 
   }
 
-export async function verifyemailstatusApi(Token: string) // nemishe baraye darkhasta format headers ro config nevesht ehy tekrar nashe?
+export async function verifyemailstatusApi(code: string) // nemishe baraye darkhasta format headers ro config nevesht ehy tekrar nashe?
 {
-  console.log("We got here")
+ 
   const res = await fetch("/api/auth/verify-emailstatus",
   { method : "POST",
     headers :{"Content-Type": "application/json"},
-    body    : JSON.stringify({Token}),//chera ba format payload mesl Login Ferestade Nemishe
+    body    : JSON.stringify({code}),//chera ba format payload mesl Login Ferestade Nemishe
 
   });
 
   if(!res.ok)
   {
     const data = await res.json().catch(() => ({}));//age error dad data nabud kkhali bar gardun
-    throw new Error(data?.title ||"Failed To Verify Email");
+    throw new Error(data?.title ||"");
 
   }
   return {ok : true};//chera khod Result Ro Bar NemiGardunim

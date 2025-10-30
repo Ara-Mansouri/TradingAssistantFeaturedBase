@@ -25,18 +25,18 @@ export function verifyAccessToken(token?: string): boolean
   }
 }
 
-export async function refreshTokens(refreshToken?: string) {
-  if (!refreshToken) return null;
+// export async function refreshTokens(refreshToken?: string) {
+//   if (!refreshToken) return null;
 
 
-  const response = await fetch("/api/auth/refresh-token",
- {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ refreshToken }),
-  });
+//   const response = await fetch("/api/auth/refresh-token",
+//  {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ refreshToken }),
+//   });
 
-  if (!response.ok) return null;
-  const data = await response.json();
-  return { accessToken: data.accessToken, refreshToken: data.refreshToken };
-}
+//   if (!response.ok) return null;
+//   const data = await response.json();
+//   return { accessToken: data.accessToken, refreshToken: data.refreshToken };
+// }
