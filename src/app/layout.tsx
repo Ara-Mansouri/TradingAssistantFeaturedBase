@@ -19,10 +19,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    <html>
     <body
       className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0b0b] text-white`}
     >
       <Providers>{children}</Providers>
     </body>
+    </html>
   );
 }

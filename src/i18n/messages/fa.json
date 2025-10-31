@@ -23,7 +23,7 @@
     "loginFailed": "ورود ناموفق بود",
     "registerFailed": "ثبت‌نام تکمیل نشد",
     "forgotPasswordFailed": "ارسال لینک بازیابی انجام نشد",
-    "resetPasswordFailed": "تغییر گذرواژه انجام نشد",
+    "resetPasswordFailed": "تغییر رمز عبور انجام نشد",
     "verifyEmailFailed": "اعتبارسنجی ایمیل انجام نشد"
   },
   "auth": {
@@ -31,25 +31,25 @@
       "title": "ورود",
       "emailLabel": "ایمیل",
       "emailPlaceholder": "ایمیل خود را وارد کنید",
-      "passwordLabel": "گذرواژه",
-      "passwordPlaceholder": "گذرواژه خود را وارد کنید",
+      "passwordLabel": "رمز عبور",
+      "passwordPlaceholder": "رمز عبور خود را وارد کنید",
       "submit": "ورود",
       "loading": "در حال ورود...",
       "registerLink": "ثبت‌نام",
-      "forgotPasswordLink": "گذرواژه را فراموش کرده‌اید؟"
+      "forgotPasswordLink": "فراموشی رمز؟"
     },
     "register": {
       "title": "ساخت حساب",
       "firstNameLabel": "نام",
       "lastNameLabel": "نام خانوادگی",
       "emailLabel": "ایمیل",
-      "passwordLabel": "گذرواژه",
+      "passwordLabel": "رمز عبور",
       "submit": "ثبت‌نام",
       "loading": "در حال ثبت‌نام...",
       "loginLink": "از قبل حساب دارید؟"
     },
     "forgot": {
-      "title": "فراموشی گذرواژه",
+      "title": "فراموشی رمز عبور",
       "description": "برای دریافت لینک بازیابی، ایمیل خود را وارد کنید",
       "emailLabel": "آدرس ایمیل",
       "emailPlaceholder": "ایمیل خود را وارد کنید",
@@ -57,16 +57,16 @@
       "loading": "در حال ارسال لینک..."
     },
     "reset": {
-      "title": "تغییر گذرواژه",
+      "title": "تغییر رمز عبور",
       "description": "کد ارسال‌شده به ایمیل خود را وارد کنید.",
       "codeLabel": "کد تأیید",
       "codePlaceholder": "کد تأیید را وارد کنید",
-      "newPasswordLabel": "گذرواژه جدید",
-      "newPasswordPlaceholder": "گذرواژه جدید را وارد کنید",
-      "confirmPasswordLabel": "تکرار گذرواژه",
-      "confirmPasswordPlaceholder": "گذرواژه جدید را دوباره وارد کنید",
-      "submit": "تغییر گذرواژه",
-      "loading": "در حال تغییر گذرواژه...",
+      "newPasswordLabel": "رمز عبور جدید",
+      "newPasswordPlaceholder": "رمز عبور جدید را وارد کنید",
+      "confirmPasswordLabel": "تکرار رمز عبور",
+      "confirmPasswordPlaceholder": "رمز عبور جدید را دوباره وارد کنید",
+      "submit": "تغییر رمز عبور",
+      "loading": "در حال تغییر رمز عبور...",
       "backToLogin": "بازگشت به ورود"
     },
     "verify": {
