@@ -13,7 +13,8 @@
     }
   },
   "Dashboard": {
-       "welcome": "خوش آمدید!"
+       "welcome": "خوش آمدید!",
+        "logout": "خروج از حساب"
   },
   "errors": {
     "generic": "خطایی رخ داد. دوباره تلاش کنید.",
@@ -37,7 +38,7 @@
       "forgotPasswordLink": "فراموشی رمز؟"
     },
     "register": {
-      "title": "ساخت اکانت",
+      "title": "ساخت حساب کاربری",
       "firstNameLabel": "نام",
       "lastNameLabel": "نام خانوادگی",
       "emailLabel": "ایمیل",

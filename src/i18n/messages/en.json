@@ -13,7 +13,8 @@
     }
   },
   "Dashboard": {
-    "welcome": "Welcome!"
+    "welcome": "Welcome!",
+      "logout": "Log out"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",

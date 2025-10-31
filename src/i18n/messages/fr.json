@@ -13,7 +13,8 @@
     }
   },
   "Dashboard": {
-       "welcome": "bienvenu!"
+       "welcome": "bienvenu!",
+        "logout": "Se déconnecter"
   },
   "errors": {
     "generic": "Une erreur s’est produite. Veuillez réessayer.",

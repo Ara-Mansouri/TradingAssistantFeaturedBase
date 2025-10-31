@@ -15,14 +15,18 @@ export async function POST(req: Request)
      
       });
 
-    const data = await Results.json();
+      if(Results.status == 201)
+        {
+          return new NextResponse(null , {status : 201});
+        }
+
     if (!Results.ok) 
     {
+      const data = await Results.json().catch(()=>({}));
         return NextResponse.json({ title: data?.title ?? "" },{ status: Results.status });
      
     }
 
-    return NextResponse.json(data, { status: Results.status });
     } 
    catch (err) 
    {
