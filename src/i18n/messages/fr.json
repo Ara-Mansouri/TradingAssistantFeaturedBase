@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "title": "Assistant de trading",
+    "description": "Assistant de trading alimenté par l’IA"
+  },
+  "header": {
+    "language": "Langue",
+    "current": "Affichage actuel",
+    "locales": {
+      "en": "English",
+      "fa": "فارسی",
+      "fr": "Français"
+    }
+  },
+  "home": {
+    "headline": "Construisez des stratégies de trading plus intelligentes",
+    "subheadline": "Exploitez les insights de l’IA pour analyser les marchés et garder une longueur d’avance.",
+    "docs": "Documentation produit",
+    "cta": "Ouvrir le tableau de bord"
+  },
+  "errors": {
+    "generic": "Une erreur s’est produite. Veuillez réessayer.",
+    "loginFailed": "Impossible de vous connecter",
+    "registerFailed": "Impossible de finaliser l’inscription",
+    "forgotPasswordFailed": "Impossible d’envoyer le lien de réinitialisation",
+    "resetPasswordFailed": "Impossible de réinitialiser le mot de passe",
+    "verifyEmailFailed": "Impossible de vérifier l’état de l’email"
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "Saisissez votre e-mail",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "Saisissez votre mot de passe",
+      "submit": "Connexion",
+      "loading": "Connexion en cours...",
+      "registerLink": "Créer un compte",
+      "forgotPasswordLink": "Mot de passe oublié ?"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "firstNameLabel": "Prénom",
+      "lastNameLabel": "Nom",
+      "emailLabel": "E-mail",
+      "passwordLabel": "Mot de passe",
+      "submit": "S’inscrire",
+      "loading": "Inscription en cours...",
+      "loginLink": "Vous avez déjà un compte ?"
+    },
+    "forgot": {
+      "title": "Mot de passe oublié",
+      "description": "Saisissez votre e-mail pour recevoir un lien de réinitialisation",
+      "emailLabel": "Adresse e-mail",
+      "emailPlaceholder": "Saisissez votre adresse e-mail",
+      "submit": "Envoyer le lien de réinitialisation",
+      "loading": "Envoi du lien..."
+    },
+    "reset": {
+      "title": "Réinitialiser le mot de passe",
+      "description": "Entrez le code de vérification envoyé à votre e-mail.",
+      "codeLabel": "Code de vérification",
+      "codePlaceholder": "Saisissez le code de vérification",
+      "newPasswordLabel": "Nouveau mot de passe",
+      "newPasswordPlaceholder": "Saisissez un nouveau mot de passe",
+      "confirmPasswordLabel": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Saisissez à nouveau le mot de passe",
+      "submit": "Réinitialiser le mot de passe",
+      "loading": "Réinitialisation en cours...",
+      "backToLogin": "Retour à la connexion"
+    },
+    "verify": {
+      "title": "Vérifiez votre e-mail",
+      "description": "Nous avons envoyé un lien de vérification à votre adresse e-mail. Veuillez consulter votre boîte de réception et cliquer sur le lien pour activer votre compte."
+    },
+    "status": {
+      "verifyingTitle": "Vérification de votre e-mail...",
+      "verifyingDescription": "Veuillez patienter pendant la confirmation de votre compte.",
+      "successTitle": "E-mail vérifié avec succès !",
+      "successDescription": "Vous serez redirigé vers la page de connexion sous peu.",
+      "errorTitle": "Échec de la vérification."
+    }
+  }
+}

@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/lib/providers"; 
+import { Geist, Geist_Mono } from "next/font/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,21 +12,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Trading Assistant",
-  description: "AI-powered trading assistant",
-};
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0b0b] text-white`}
-      >
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <body
+      className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0b0b] text-white`}
+    >
+      <Providers>{children}</Providers>
+    </body>
   );
 }

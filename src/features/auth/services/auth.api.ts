@@ -19,6 +19,7 @@ export interface RegisterPayload
   firstName : string ;
   lastName : string ;
 }
+
 export async function loginApi(payload: LoginPayload) 
 {
   const res = await fetch("/api/auth/login", {

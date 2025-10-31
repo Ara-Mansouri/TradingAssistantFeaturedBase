@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "title": "Trading Assistant",
+    "description": "AI-powered trading assistant"
+  },
+  "header": {
+    "language": "Language",
+    "current": "Currently viewing",
+    "locales": {
+      "en": "English",
+      "fa": "فارسی",
+      "fr": "Français"
+    }
+  },
+  "home": {
+    "headline": "Build smarter trading strategies",
+    "subheadline": "Leverage AI insights to analyze markets and stay ahead of the curve.",
+    "docs": "Product documentation",
+    "cta": "Open dashboard"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "loginFailed": "Unable to sign in",
+    "registerFailed": "Unable to complete registration",
+    "forgotPasswordFailed": "Unable to send reset link",
+    "resetPasswordFailed": "Unable to reset password",
+    "verifyEmailFailed": "Unable to verify email status"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Enter your email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Login",
+      "loading": "Logging in...",
+      "registerLink": "Register",
+      "forgotPasswordLink": "Forgot password?"
+    },
+    "register": {
+      "title": "Create account",
+      "firstNameLabel": "First name",
+      "lastNameLabel": "Last name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Register",
+      "loading": "Registering...",
+      "loginLink": "Already have an account?"
+    },
+    "forgot": {
+      "title": "Forgot password",
+      "description": "Enter your email to receive a reset link",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "Enter your email address",
+      "submit": "Send reset link",
+      "loading": "Sending reset link..."
+    },
+    "reset": {
+      "title": "Reset password",
+      "description": "Enter the verification code we sent to your email.",
+      "codeLabel": "Verification code",
+      "codePlaceholder": "Enter verification code",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Re-enter new password",
+      "submit": "Reset password",
+      "loading": "Resetting password...",
+      "backToLogin": "Back to sign in"
+    },
+    "verify": {
+      "title": "Verify your email",
+      "description": "We’ve sent a verification link to your email address. Please check your inbox and click the link to activate your account."
+    },
+    "status": {
+      "verifyingTitle": "Verifying your email...",
+      "verifyingDescription": "Please wait while we confirm your account.",
+      "successTitle": "Email verified successfully!",
+      "successDescription": "You’ll be redirected to the login page shortly.",
+      "errorTitle": "Verification failed."
+    }
+  }
+}
