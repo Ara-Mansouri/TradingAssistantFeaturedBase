@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <AuthProvider>
-      <main
+      <main 
         className={`relative min-h-screen bg-black text-white flex items-center justify-center p-4 overflow-hidden 
           ${
           isRTL ? "text-right" : "text-left"
@@ -38,7 +38,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
             {/* 🔸 Form Section */}
             <div className="relative order-2 lg:order-2 flex items-center justify-center p-6 lg:p-12 bg-gradient-to-br from-black via-red-900/18 to-black overflow-hidden">
-              <div className="w-full max-w-md" >{children}</div>
+              <div className="w-full max-w-md"   dir={isRTL ? "rtl" : "ltr"}    >{children}</div>
             </div>
           </div>
 

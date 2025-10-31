@@ -37,28 +37,28 @@ export default function LanguageSwitcher() {
     setIsOpen(false);
   };
 
-  // 🔹 زبان فعلی
+
   const activeLocale = locales.find((l) => l.code === currentLocale) ?? locales[0];
 
   return (
     <div ref={dropdownRef} className="absolute top-4 right-4 z-50">
-      {/* 🔸 دکمه اصلی */}
+
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-between px-3 py-2 w-28 rounded-md 
+          className="flex items-center justify-between px-3 py-2 w-33 rounded-md 
                      bg-gray-900/80 text-gray-100 text-sm font-semibold 
                      border border-gray-700 hover:border-red-600
                      hover:bg-gray-800 transition-all duration-200 shadow-md"
         >
           <span className="flex items-center gap-2">
             <span className={`fi fi-${activeLocale.countryCode} fis mr-1`}></span>
-            {activeLocale.code.toUpperCase()}
+            {activeLocale.label.toUpperCase()}
           </span>
           <span className="ml-2 text-gray-400">{isOpen ? "▲" : "▼"}</span>
         </button>
 
-        {/* 🔸 منوی کشویی */}
+
         {isOpen && (
           <div
             className="absolute right-0 mt-2 w-28 bg-gray-950 border border-gray-700 rounded-lg 
