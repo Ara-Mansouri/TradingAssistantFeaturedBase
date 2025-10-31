@@ -12,11 +12,8 @@
       "fr": "Français"
     }
   },
-  "home": {
-    "headline": "Build smarter trading strategies",
-    "subheadline": "Leverage AI insights to analyze markets and stay ahead of the curve.",
-    "docs": "Product documentation",
-    "cta": "Open dashboard"
+  "Dashboard": {
+    "welcome": "Welcome!"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",

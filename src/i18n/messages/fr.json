@@ -12,11 +12,8 @@
       "fr": "Français"
     }
   },
-  "home": {
-    "headline": "Construisez des stratégies de trading plus intelligentes",
-    "subheadline": "Exploitez les insights de l’IA pour analyser les marchés et garder une longueur d’avance.",
-    "docs": "Documentation produit",
-    "cta": "Ouvrir le tableau de bord"
+  "Dashboard": {
+       "welcome": "bienvenu!"
   },
   "errors": {
     "generic": "Une erreur s’est produite. Veuillez réessayer.",

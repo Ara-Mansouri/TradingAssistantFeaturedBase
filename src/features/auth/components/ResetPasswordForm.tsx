@@ -24,7 +24,7 @@ const locale = useLocale();
         setLocalError(tErrors("unmatchPassword")); 
       return;
     }
-
+    setLocalError(null);
     handleReset({ email, verificationCode, newPassword }); 
   };
   return (

@@ -16,14 +16,18 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   
- if (
-    pathname.startsWith("/api") ||
-    pathname.startsWith("/_next") ||
-    pathname.match(/\.[^/]+$/) 
-  ) {
-    return NextResponse.next();
-  }
- 
+if (
+  !(
+    pathname.startsWith("/auth") ||
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/en") ||
+    pathname.startsWith("/fa") ||
+    pathname.startsWith("/fr") ||
+    pathname === "/"
+  )
+) {
+  return NextResponse.next();
+}
   const hasLocale = locales.some(
     (loc) => pathname.startsWith(`/${loc}/`) || pathname === `/${loc}`
   );
