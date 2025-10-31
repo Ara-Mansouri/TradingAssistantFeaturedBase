@@ -13,7 +13,7 @@
     }
   },
   "Dashboard": {
-       "welcome": "خوش آمدید!",
+       "welcome": "خوش آمدید",
         "logout": "خروج از حساب"
   },
   "errors": {

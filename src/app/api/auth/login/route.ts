@@ -10,8 +10,8 @@ interface LoginResponse {
 
 export async function POST(req: NextRequest) 
 {
-      const localeCookie = req.cookies.get("NEXT_LOCALE");
-     const locale = localeCookie ? localeCookie.value : "en";
+   const localeCookie=  req.headers.get("accept-language")
+     const locale = localeCookie ? localeCookie : "en";
     try {
       const body = await req.json();
       const Results = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/sign-in-password`,
