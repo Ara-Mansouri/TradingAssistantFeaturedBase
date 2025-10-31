@@ -24,7 +24,8 @@
     "registerFailed": "Impossible de finaliser l’inscription",
     "forgotPasswordFailed": "Impossible d’envoyer le lien de réinitialisation",
     "resetPasswordFailed": "Impossible de réinitialiser le mot de passe",
-    "verifyEmailFailed": "Impossible de vérifier l’état de l’email"
+    "verifyEmailFailed": "Impossible de vérifier l’état de l’email",
+    "unmatchPassword"  : "Les mots de passe ne correspondent pas. Veuillez réessayer."
   },
   "auth": {
     "login": {
@@ -71,7 +72,8 @@
     },
     "verify": {
       "title": "Vérifiez votre e-mail",
-      "description": "Nous avons envoyé un lien de vérification à votre adresse e-mail. Veuillez consulter votre boîte de réception et cliquer sur le lien pour activer votre compte."
+      "description": "Nous avons envoyé un lien de vérification à votre adresse e-mail.",
+      "descriptionbr": "Veuillez consulter votre boîte de réception et cliquer sur le lien pour activer votre compte."
     },
     "status": {
       "verifyingTitle": "Vérification de votre e-mail...",

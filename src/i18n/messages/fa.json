@@ -24,7 +24,8 @@
     "registerFailed": "ثبت‌نام تکمیل نشد",
     "forgotPasswordFailed": "ارسال لینک بازیابی انجام نشد",
     "resetPasswordFailed": "تغییر رمز عبور انجام نشد",
-    "verifyEmailFailed": "اعتبارسنجی ایمیل انجام نشد"
+    "verifyEmailFailed": "اعتبارسنجی ایمیل انجام نشد",
+    "unmatchPassword"  : "رمزهای عبور مطابقت ندارند. لطفاً دوباره امتحان کنید."
   },
   "auth": {
     "login": {
@@ -39,19 +40,19 @@
       "forgotPasswordLink": "فراموشی رمز؟"
     },
     "register": {
-      "title": "ساخت حساب",
+      "title": "ساخت اکانت",
       "firstNameLabel": "نام",
       "lastNameLabel": "نام خانوادگی",
       "emailLabel": "ایمیل",
       "passwordLabel": "رمز عبور",
       "submit": "ثبت‌نام",
       "loading": "در حال ثبت‌نام...",
-      "loginLink": "از قبل حساب دارید؟"
+      "loginLink": "از قبل حساب کاربری دارید؟"
     },
     "forgot": {
       "title": "فراموشی رمز عبور",
       "description": "برای دریافت لینک بازیابی، ایمیل خود را وارد کنید",
-      "emailLabel": "آدرس ایمیل",
+      "emailLabel": "ایمیل",
       "emailPlaceholder": "ایمیل خود را وارد کنید",
       "submit": "ارسال لینک بازیابی",
       "loading": "در حال ارسال لینک..."
@@ -71,11 +72,12 @@
     },
     "verify": {
       "title": "تأیید ایمیل",
-      "description": "لینک تأیید به ایمیل شما ارسال شده است. لطفاً صندوق ورودی را بررسی کرده و روی لینک کلیک کنید."
+      "description": "لینک تأیید به ایمیل شما ارسال شده است.",
+      "descriptionbr": "لطفاً صندوق ورودی را بررسی کرده و روی لینک کلیک کنید."
     },
     "status": {
       "verifyingTitle": "در حال تأیید ایمیل...",
-      "verifyingDescription": "لطفاً تا تکمیل تأیید منتظر بمانید.",
+      "verifyingDescription": "لطفاً تا تکمیل تأیید ایمیل منتظر بمانید.",
       "successTitle": "ایمیل با موفقیت تأیید شد!",
       "successDescription": "به زودی به صفحه ورود هدایت می‌شوید.",
       "errorTitle": "تأیید ایمیل ناموفق بود."

@@ -16,15 +16,13 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   
-  if (
+ if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
-    pathname.match(/\.(.*)$/)
-  ) 
-  {
+    pathname.match(/\.[^/]+$/) 
+  ) {
     return NextResponse.next();
   }
-
  
   const hasLocale = locales.some(
     (loc) => pathname.startsWith(`/${loc}/`) || pathname === `/${loc}`
@@ -69,5 +67,8 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: [
+
+    "/((?!api|_next|favicon\\.ico).*)",
+  ],
 };

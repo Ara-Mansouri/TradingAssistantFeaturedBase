@@ -1,14 +1,19 @@
 "use client";
 import { useState } from "react";
- import { useRegister } from "../hooks/useRegister";
+import { useRegister } from "../hooks/useRegister";
+import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 export default function RegisterForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { mutate: handleRegister, isPending, isError, error } = useRegister();
 
-   const { mutate: handleRegister, isPending, isError, error } = useRegister();
+  const t = useTranslations("auth.register");
+  const locale = useLocale();
+
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +24,7 @@ export default function RegisterForm() {
     <div className="w-full px-4 sm:px-0 animate-fade-in">
       <div className="text-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-white">
-          Create Account
+          {t("title")}
         </h1>
       </div>
 
@@ -27,7 +32,7 @@ export default function RegisterForm() {
         <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-200">
-              First Name
+                {t("firstNameLabel")}
             </label>
             <input
               type="text"
@@ -43,7 +48,7 @@ export default function RegisterForm() {
 
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-200">
-              Last Name
+              {t("lastNameLabel")}
             </label>
             <input
               type="text"
@@ -60,7 +65,7 @@ export default function RegisterForm() {
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-            Email
+             {t("emailLabel")}
           </label>
           <input
             type="email"
@@ -70,13 +75,13 @@ export default function RegisterForm() {
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            required
+            //required
           />
         </div>
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-            Password
+         {t("passwordLabel")}
           </label>
           <input
             type="password"
@@ -100,10 +105,10 @@ export default function RegisterForm() {
 
         <div className="flex justify-between items-center text-sm">
           <a
-            href="/auth/Login"
+             href={`/${locale}/auth/Login`} 
             className="text-white hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
           >
-            Already have an account?
+             {t("loginLink")}
           </a>
         </div>
 
@@ -119,10 +124,10 @@ export default function RegisterForm() {
           {isPending ? (
             <div className="flex items-center justify-center gap-2">
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-              Registering...
+               {t("loading")}
             </div>
           ) : (
-            "Register"
+            t("submit")
           )}
         </button>
       </form>

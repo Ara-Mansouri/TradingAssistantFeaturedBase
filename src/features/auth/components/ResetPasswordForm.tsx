@@ -2,9 +2,14 @@
 import { useResetPassword } from "../hooks/useResetPassword";
 import {useState } from "react";
 import { useAuthContext  } from "@/context/AuthContext";
+import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 
 export default function ResetPasswordForm() {
+ const t = useTranslations("auth.reset");
+const tErrors = useTranslations("errors");
+const locale = useLocale();
 
   const [verificationCode, setVerificationCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -16,7 +21,7 @@ export default function ResetPasswordForm() {
     {
     e.preventDefault();
       if (newPassword !== confirmPassword) {
-      setLocalError("Passwords do not match. Please try again.");
+        setLocalError(tErrors("unmatchPassword")); 
       return;
     }
 
@@ -26,10 +31,10 @@ export default function ResetPasswordForm() {
     <div className="w-full px-4 sm:px-0 animate-fade-in">
       <div className="text-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-white">
-          Reset Password
+         {t("title")}
         </h1>
         <p className="text-gray-400 text-sm lg:text-base">
-           Verify code Sent to your email
+           {t("description")}
         </p>
       </div>
 
@@ -38,13 +43,13 @@ export default function ResetPasswordForm() {
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-            Verify Code
+              {t("codeLabel")}
           </label>
           <input
             type="text"
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
-            placeholder="Enter verification code"
+            placeholder= {t("codePlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
@@ -55,13 +60,13 @@ export default function ResetPasswordForm() {
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-            New Password
+            {t("newPasswordLabel")}
           </label>
           <input
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            placeholder="Enter new password"
+            placeholder={t("newPasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
@@ -72,13 +77,13 @@ export default function ResetPasswordForm() {
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-            Compare Password
+           {t("confirmPasswordLabel")}
           </label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Enter Compare Password"
+            placeholder={t("confirmPasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
@@ -112,19 +117,19 @@ export default function ResetPasswordForm() {
           {isPending ? (
             <div className="flex items-center justify-center gap-2">
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-              Resetting Password...
+               {t("loading")}
             </div>
           ) : (
-            "Reset Password"
+             t("submit")
           )}
         </button>
 
         <div className="text-center">
           <a 
-            href="/auth/Login" 
+             href={`/${locale}/auth/Login`} 
             className="text-red-400 hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline text-sm"
           >
-            Back to Sign In
+            {t("backToLogin")}
           </a>
         </div>
       </form>
