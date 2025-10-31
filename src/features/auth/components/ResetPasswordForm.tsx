@@ -9,11 +9,16 @@ export default function ResetPasswordForm() {
   const [verificationCode, setVerificationCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+   const [localError, setLocalError] = useState<string | null>(null);
   const {mutate: handleReset, isPending, isError, error } = useResetPassword();
  const { email } = useAuthContext();
   const onSubmit = (e: React.FormEvent) => 
     {
     e.preventDefault();
+      if (newPassword !== confirmPassword) {
+      setLocalError("Passwords do not match. Please try again.");
+      return;
+    }
 
     handleReset({ email, verificationCode, newPassword }); 
   };
@@ -81,8 +86,13 @@ export default function ResetPasswordForm() {
             // required
           />
         </div>
+           {localError && (
+          <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
+            <p className="text-red-400 text-sm">{localError}</p>
+          </div>
+        )}
 
-          {isError && (
+          {isError && !localError && (
           <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
             <p className="text-red-400 text-sm">
               {error?.message ?? "Reset PassWord Failed"}

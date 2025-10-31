@@ -18,7 +18,7 @@ export default function VerifyEmailStatusForm({ code }: { code: string }) {
       try {
         await mutateAsync(code);
         setStatus("success");
-        setTimeout(() => router.push("/auth/login"), 2500);
+        setTimeout(() => router.push("/auth/Login"), 2500);
       } catch (err: any) {
         setErrorMsg(err.message || "Verification failed.");
         setStatus("error");

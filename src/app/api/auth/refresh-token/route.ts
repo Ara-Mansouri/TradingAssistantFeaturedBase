@@ -16,7 +16,7 @@ if (refreshToken) {
 
     if (!refreshToken) {
      
-      return NextResponse.redirect(new URL("/auth/login", req.url));
+      return NextResponse.redirect(new URL("/auth/Login", req.url));
     }
 
     const result = await fetch(
@@ -29,7 +29,7 @@ if (refreshToken) {
     );
 
     if (!result.ok) {
-      return NextResponse.redirect(new URL("/auth/login", req.url));
+      return NextResponse.redirect(new URL("/auth/Login", req.url));
     }
 
     const data = await result.json();
@@ -37,6 +37,6 @@ if (refreshToken) {
     setAuthCookies(res, data.accessToken, data.refreshToken);
     return res;
   } catch (err) {
-    return NextResponse.redirect(new URL("/auth/login", req.url));
+    return NextResponse.redirect(new URL("/auth/Login", req.url));
   }
 }
