@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { setAuthCookies } from "@/lib/cookies";
 
 interface LoginResponse {
@@ -8,14 +8,19 @@ interface LoginResponse {
   expireIn?: number;
 }
 
-export async function POST(req: Request) 
+export async function POST(req: NextRequest) 
 {
+   const localeCookie=  req.headers.get("accept-language")
+     const locale = localeCookie ? localeCookie : "en";
     try {
       const body = await req.json();
       const Results = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/sign-in-password`,
       {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json" , 
+        "Accept-Language": locale,
+               },
       body: JSON.stringify(body),
      
       });

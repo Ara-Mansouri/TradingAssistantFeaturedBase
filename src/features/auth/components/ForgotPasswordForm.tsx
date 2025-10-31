@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
 import { useForgotPassword } from "../hooks/useForgotPassword";
+import { useTranslations } from "next-intl";
 
 export default function ForgotPasswordForm() {
-
+ const t = useTranslations("auth.forgot");
   const [email, setEmail] = useState("");
   const { mutate, isPending, isError, error } = useForgotPassword();
 
@@ -15,21 +16,21 @@ export default function ForgotPasswordForm() {
     <div className="w-full px-4 sm:px-0 animate-fade-in">
       <div className="text-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-white">
-          Forgot Password
+         {t("title")}
         </h1>
         <p className="text-gray-400 text-sm lg:text-base">
-          Enter your email to receive a reset link
+          {t("description")}
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-            Email Address
+            {t("emailLabel")}
           </label>
           <input
             type="email"
-            placeholder="Enter your email address"
+            placeholder= {t("emailPlaceholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
@@ -59,10 +60,10 @@ export default function ForgotPasswordForm() {
           {isPending ? (
             <div className="flex items-center justify-center gap-2">
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-              Verifying Email...
+             {t("loading")}
             </div>
           ) : (
-            "Verify Email"
+                t("submit")
           )}
         </button>
 

@@ -12,8 +12,10 @@
     "@tanstack/react-query": "^5.90.5",
     "@tanstack/react-query-devtools": "^5.90.2",
     "axios": "^1.12.2",
+    "flag-icons": "^7.5.0",
     "jsonwebtoken": "^9.0.2",
     "next": "15.5.5",
+    "next-intl": "^4.4.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

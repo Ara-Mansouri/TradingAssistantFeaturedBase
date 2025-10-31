@@ -1,5 +1,6 @@
 
 
+
 export  interface ResetPasswordPayload
  {
   email: string;
@@ -19,11 +20,12 @@ export interface RegisterPayload
   firstName : string ;
   lastName : string ;
 }
-export async function loginApi(payload: LoginPayload) 
+
+export async function loginApi(payload: LoginPayload , locale: string) 
 {
   const res = await fetch("/api/auth/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json" ,  "Accept-Language": locale,  },
     body: JSON.stringify(payload),
   });
 

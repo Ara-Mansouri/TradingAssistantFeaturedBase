@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "title": "دستیار معاملاتی",
+    "description": "دستیار معاملاتی مبتنی بر هوش مصنوعی"
+  },
+  "header": {
+    "language": "زبان",
+    "current": "نمایش فعلی",
+    "locales": {
+      "en": "English",
+      "fa": "فارسی",
+      "fr": "Français"
+    }
+  },
+  "Dashboard": {
+       "welcome": "خوش آمدید",
+        "logout": "خروج از حساب"
+  },
+  "errors": {
+    "generic": "خطایی رخ داد. دوباره تلاش کنید.",
+    "loginFailed": "ورود ناموفق بود",
+    "registerFailed": "ثبت‌نام تکمیل نشد",
+    "forgotPasswordFailed": "ارسال لینک بازیابی انجام نشد",
+    "resetPasswordFailed": "تغییر رمز عبور انجام نشد",
+    "verifyEmailFailed": "اعتبارسنجی ایمیل انجام نشد",
+    "unmatchPassword"  : "رمزهای عبور مطابقت ندارند. لطفاً دوباره امتحان کنید."
+  },
+  "auth": {
+    "login": {
+      "title": "ورود",
+      "emailLabel": "ایمیل",
+      "emailPlaceholder": "ایمیل خود را وارد کنید",
+      "passwordLabel": "رمز عبور",
+      "passwordPlaceholder": "رمز عبور خود را وارد کنید",
+      "submit": "ورود",
+      "loading": "در حال ورود...",
+      "registerLink": "ثبت‌نام",
+      "forgotPasswordLink": "فراموشی رمز؟"
+    },
+    "register": {
+      "title": "ساخت حساب کاربری",
+      "firstNameLabel": "نام",
+      "lastNameLabel": "نام خانوادگی",
+      "emailLabel": "ایمیل",
+      "passwordLabel": "رمز عبور",
+      "submit": "ثبت‌نام",
+      "loading": "در حال ثبت‌نام...",
+      "loginLink": "از قبل حساب کاربری دارید؟"
+    },
+    "forgot": {
+      "title": "فراموشی رمز عبور",
+      "description": "برای دریافت لینک بازیابی، ایمیل خود را وارد کنید",
+      "emailLabel": "ایمیل",
+      "emailPlaceholder": "ایمیل خود را وارد کنید",
+      "submit": "ارسال لینک بازیابی",
+      "loading": "در حال ارسال لینک..."
+    },
+    "reset": {
+      "title": "تغییر رمز عبور",
+      "description": "کد ارسال‌شده به ایمیل خود را وارد کنید.",
+      "codeLabel": "کد تأیید",
+      "codePlaceholder": "کد تأیید را وارد کنید",
+      "newPasswordLabel": "رمز عبور جدید",
+      "newPasswordPlaceholder": "رمز عبور جدید را وارد کنید",
+      "confirmPasswordLabel": "تکرار رمز عبور",
+      "confirmPasswordPlaceholder": "رمز عبور جدید را دوباره وارد کنید",
+      "submit": "تغییر رمز عبور",
+      "loading": "در حال تغییر رمز عبور...",
+      "backToLogin": "بازگشت به ورود"
+    },
+    "verify": {
+      "title": "تأیید ایمیل",
+      "description": "لینک تأیید به ایمیل شما ارسال شده است.",
+      "descriptionbr": "لطفاً صندوق ورودی را بررسی کرده و روی لینک کلیک کنید."
+    },
+    "status": {
+      "verifyingTitle": "در حال تأیید ایمیل...",
+      "verifyingDescription": "لطفاً تا تکمیل تأیید ایمیل منتظر بمانید.",
+      "successTitle": "ایمیل با موفقیت تأیید شد!",
+      "successDescription": "به زودی به صفحه ورود هدایت می‌شوید.",
+      "errorTitle": "تأیید ایمیل ناموفق بود."
+    }
+  }
+}
