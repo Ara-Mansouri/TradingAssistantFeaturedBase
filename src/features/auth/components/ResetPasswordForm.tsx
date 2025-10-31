@@ -111,7 +111,7 @@ export default function ResetPasswordForm() {
 
         <div className="text-center">
           <a 
-            href="/auth/login" 
+            href="/auth/Login" 
             className="text-red-400 hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline text-sm"
           >
             Back to Sign In

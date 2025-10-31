@@ -13,7 +13,7 @@ export function useResetPassword()
     mutationFn :(payload : ResetPasswordPayload) => resetPasswordApi(payload),
     onSuccess : () =>{
       
-      router.replace("/auth/login")
+      router.replace("/auth/Login")
          clearEmail();
     },
     onError :(error : any) =>{

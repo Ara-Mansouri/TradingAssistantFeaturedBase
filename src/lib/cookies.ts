@@ -1,6 +1,10 @@
 // import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
+
+const ACCESS_MAX_AGE = Number(process.env.ACCESS_TOKEN_MAX_AGE);
+const REFRESH_MAX_AGE = Number(process.env.REFRESH_TOKEN_MAX_AGE);
+
 export function setAuthCookies(res : NextResponse , access : string , refresh : string)
 {
     res.cookies.set("accessToken",access,{
@@ -8,7 +12,7 @@ export function setAuthCookies(res : NextResponse , access : string , refresh : 
         secure : true ,
         sameSite : "lax",
         path :   "/" ,
-        maxAge : 60 * 60 ,
+        maxAge :  ACCESS_MAX_AGE ,
 
 
     });
@@ -18,7 +22,7 @@ export function setAuthCookies(res : NextResponse , access : string , refresh : 
         secure : true ,
         sameSite : "lax",
         path :   "/" ,
-        maxAge : 60 * 60 * 24  ,
+        maxAge : REFRESH_MAX_AGE  ,
 
     });
 }

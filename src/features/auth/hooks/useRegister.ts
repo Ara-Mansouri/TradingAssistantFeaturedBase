@@ -12,7 +12,7 @@ export function useRegister(){
     mutationFn :(payload : RegisterPayload) => registerApi(payload),
     onSuccess: () =>
       {
-      router.push("/auth/login");
+      router.push("/auth/Login");
              },
   onError :(err : any) =>
   {

@@ -3,38 +3,63 @@ import type { NextRequest } from "next/server";
 import { verifyAccessToken } from "@/lib/auth";
 import createMiddleware from "next-intl/middleware";
 
+const locales = ["en", "fa", "fr"];
+const defaultLocale = "en";
 
 const intlMiddleware = createMiddleware({
-  locales: ["en", "fa", "fr"],
-  defaultLocale: "en"
+  locales,
+  defaultLocale,
+  localeDetection: false,
 });
 
-
 export async function middleware(req: NextRequest) {
-
-  const intlResponse = intlMiddleware(req);
-  if (intlResponse) return intlResponse;
-
-  const accessToken = req.cookies.get("accessToken")?.value;
-  const refreshToken = req.cookies.get("refreshToken")?.value;
   const { pathname } = req.nextUrl;
 
+  
+  if (
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/_next") ||
+    pathname.match(/\.(.*)$/)
+  ) 
+  {
+    return NextResponse.next();
+  }
 
+ 
+  const hasLocale = locales.some(
+    (loc) => pathname.startsWith(`/${loc}/`) || pathname === `/${loc}`
+  );
+
+  if (!hasLocale) {
+    
+    return intlMiddleware(req);
+  }
+
+  
+  const accessToken = req.cookies.get("accessToken")?.value;
+  const refreshToken = req.cookies.get("refreshToken")?.value;
+
+  
   if (pathname.includes("/auth")) {
-    if (accessToken && verifyAccessToken(accessToken)) {
-      return NextResponse.redirect(new URL("/en/dashboard", req.url));
+    if (accessToken && verifyAccessToken(accessToken))
+     {
+      
+      const locale = pathname.split("/")[1] || defaultLocale;
+      return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url));
     }
     return NextResponse.next();
   }
 
+  // Dashboard Logic
   if (pathname.includes("/dashboard")) {
     if (!accessToken && !refreshToken) {
-      return NextResponse.redirect(new URL("/en/auth/login", req.url));
+      const locale = pathname.split("/")[1] || defaultLocale;
+      return NextResponse.redirect(new URL(`/${locale}/auth/Login`, req.url));
     }
   }
 
-  // رفرش توکن
-  if (!verifyAccessToken(accessToken) && refreshToken) {
+ // Refresh Token Logic
+  if ( !verifyAccessToken(accessToken) && refreshToken) {
     const refreshUrl = req.nextUrl.clone();
     refreshUrl.pathname = "/api/auth/refresh-token";
     return NextResponse.rewrite(refreshUrl);
@@ -43,10 +68,6 @@ export async function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-
 export const config = {
-  matcher: [
-
-    "/((?!api|_next|.*\\..*).*)"
-  ]
+  matcher: ["/((?!api|_next|.*\\..*).*)"],
 };
