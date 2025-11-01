@@ -47,8 +47,7 @@ const locale = useLocale();
           </label>
           <input
             type="text"
-            autoComplete="off"
-              name="verificationCode"
+            name="verificationCode"
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
             placeholder= {t("codePlaceholder")}
@@ -66,6 +65,7 @@ const locale = useLocale();
           </label>
           <input
             type="password"
+            name="newPasswordLabel"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder={t("newPasswordPlaceholder")}
@@ -83,6 +83,7 @@ const locale = useLocale();
           </label>
           <input
             type="password"
+            name="confirmPasswordLabel"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder={t("confirmPasswordPlaceholder")}
