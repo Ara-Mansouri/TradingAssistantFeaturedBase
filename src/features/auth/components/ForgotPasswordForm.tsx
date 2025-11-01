@@ -30,6 +30,7 @@ export default function ForgotPasswordForm() {
           </label>
           <input
             type="email"
+            name="forgetpassname"
             placeholder= {t("emailPlaceholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}

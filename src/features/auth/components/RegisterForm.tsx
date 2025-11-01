@@ -69,6 +69,7 @@ export default function RegisterForm() {
           </label>
           <input
             type="email"
+            name="registername"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
@@ -85,6 +86,7 @@ export default function RegisterForm() {
           </label>
           <input
             type="password"
+            name="registeremail"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black

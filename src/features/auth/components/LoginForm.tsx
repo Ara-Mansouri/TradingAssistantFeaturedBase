@@ -33,6 +33,7 @@ export default function LoginForm() {
           </label>
           <input
             type="email"
+            name="loginemail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t("emailPlaceholder")}
@@ -49,6 +50,7 @@ export default function LoginForm() {
           </label>
           <input
             type="password"
+            name="loginpassword"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder={t("passwordPlaceholder")}
