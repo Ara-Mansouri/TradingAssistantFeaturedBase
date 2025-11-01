@@ -47,6 +47,8 @@ const locale = useLocale();
           </label>
           <input
             type="text"
+            autoComplete="off"
+              name="verificationCode"
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
             placeholder= {t("codePlaceholder")}
