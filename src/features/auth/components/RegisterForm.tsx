@@ -12,6 +12,7 @@ export default function RegisterForm() {
   const { mutate: handleRegister, isPending, isError, error } = useRegister();
 
   const t = useTranslations("auth.register");
+  const generic = useTranslations("errors");
   const locale = useLocale();
 
 
@@ -105,7 +106,7 @@ export default function RegisterForm() {
         {isError && (
           <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
             <p className="text-red-400 text-sm">
-              {error?.message ?? "Registration failed. Please try again."}
+             {error?.message === "UNEXPECTED_ERROR"? generic("generic"): error?.message}
             </p>
           </div>
         )}

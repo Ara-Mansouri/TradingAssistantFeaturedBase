@@ -6,11 +6,13 @@ export async function POST(req: Request)
 {
     try 
     {
+     const localeCookie=  req.headers.get("accept-language")
+     const locale = localeCookie ? localeCookie : "en";
       const body = await req.json();
       const Results = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/register`,
       {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" ,"Accept-Language": locale },
       body: JSON.stringify(body),
      
       });
@@ -30,6 +32,6 @@ export async function POST(req: Request)
     } 
    catch (err) 
    {
-    return NextResponse.json({ title: "Unexpected error" }, { status: 500 });
+    return NextResponse.json({ title: "" }, { status: 500 });
    }
 }

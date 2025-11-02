@@ -17,7 +17,7 @@
       "logout": "Log out"
   },
   "errors": {
-    "generic": "Something went wrong. Please try again.",
+    "generic": "A server error has occurred",
     "loginFailed": "Unable to sign in",
     "registerFailed": "Unable to complete registration",
     "forgotPasswordFailed": "Unable to send reset link",

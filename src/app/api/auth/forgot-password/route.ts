@@ -5,11 +5,15 @@ export async function  POST (req: Request)
 {
   try 
   {
+    const localeCookie=  req.headers.get("accept-language")
+     const locale = localeCookie ? localeCookie : "en";
     const body = await req.json();
     const {email} = body;
     const res = await fetch (`${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/forgot-password`,{
         method:"POST",
-        headers:{"Content-Type": "application/json"},
+        headers:{"Content-Type": "application/json",
+                "Accept-Language": locale,
+        },
         body :JSON.stringify({email}),
 
     });

@@ -17,7 +17,7 @@
         "logout": "Se déconnecter"
   },
   "errors": {
-    "generic": "Une erreur s’est produite. Veuillez réessayer.",
+    "generic": "Une erreur est survenue sur le serveur",
     "loginFailed": "Impossible de vous connecter",
     "registerFailed": "Impossible de finaliser l’inscription",
     "forgotPasswordFailed": "Impossible d’envoyer le lien de réinitialisation",

@@ -19,7 +19,7 @@ export async function POST(req: NextRequest)
       method: "POST",
       headers: { 
         "Content-Type": "application/json" , 
-        "Accept-Language": locale,
+        "Accept-Language": locale
                },
       body: JSON.stringify(body),
      

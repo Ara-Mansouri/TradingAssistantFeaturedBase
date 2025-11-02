@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 export default function VerifyEmailStatusForm({ code }: { code: string }) {
   const router = useRouter();
   const t = useTranslations("auth.status");
+  const generic = useTranslations("errors");
   const { mutateAsync } = useVerifyEmailStatus();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [errorMsg, setErrorMsg] = useState("");
@@ -20,7 +21,7 @@ export default function VerifyEmailStatusForm({ code }: { code: string }) {
         setTimeout(() => router.push("/auth/Login"), 2500);
       } 
       catch (err: any) {
-        setErrorMsg(err.message || "Verification failed.");
+        setErrorMsg(err?.message === "UNEXPECTED_ERROR"? generic("generic"): err?.message);
         setStatus("error");
       }
     };
