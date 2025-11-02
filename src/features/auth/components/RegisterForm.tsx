@@ -38,6 +38,7 @@ export default function RegisterForm() {
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              placeholder={t("RnamePlaceHolder")}
               className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                        placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                        focus:border-red-500/50 transition-all duration-300
@@ -54,9 +55,10 @@ export default function RegisterForm() {
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
-                       placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
-                       focus:border-red-500/50 transition-all duration-300
+              placeholder={t("RLnamePlaceHolder")}
+               className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
+    placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
+    focus:border-red-500/50 transition-all duration-300
                        hover:bg-gray-50 hover:border-gray-400"
               // required
             />
@@ -70,8 +72,10 @@ export default function RegisterForm() {
           <input
             type="text"
             name="registername"
+            autoComplete="off"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder={t("RemailPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
@@ -89,6 +93,7 @@ export default function RegisterForm() {
             name="registeremail"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder={t("RpasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300

@@ -45,7 +45,11 @@
       "passwordLabel": "Mot de passe",
       "submit": "S’inscrire",
       "loading": "Inscription en cours...",
-      "loginLink": "Vous avez déjà un compte ?"
+      "loginLink": "Vous avez déjà un compte ?",
+      "RemailPlaceholder": "Entrez votre adresse e-mail",
+      "RpasswordPlaceholder": "Entrez votre mot de passe",
+      "RnamePlaceHolder": " prénom",
+      "RLnamePlaceHolder": " nom"
     },
     "forgot": {
       "title": "Mot de passe oublié",

@@ -39,7 +39,7 @@ export async function loginApi(payload: LoginPayload , locale: string)
 
   if (!res.ok) {
     
-    const title = json?.title ?? "Login failed";// gharare i18n piyade sazi beshe chejoori ba vojud in ?
+    const title = json?.title ?? "Login failed";
    
    
     throw new Error(title);
@@ -49,22 +49,22 @@ export async function loginApi(payload: LoginPayload , locale: string)
   return { ok: true };
 }
 
-export async function forgotPasswordApi(email: string) // nemishe baraye darkhasta format headers ro config nevesht ehy tekrar nashe?
+export async function forgotPasswordApi(email: string) 
 {
   const res = await fetch("/api/auth/forgot-password",
   { method : "POST",
     headers :{"Content-Type": "application/json"},
-    body    : JSON.stringify({email}),//chera ba format payload mesl Login Ferestade Nemishe
+    body    : JSON.stringify({email}),
 
   });
 
   if(!res.ok)
   {
-    const data = await res.json().catch(() => ({}));//age error dad data nabud kkhali bar gardun
+    const data = await res.json().catch(() => ({}));
     throw new Error(data?.title ||"Failed To Sent Reset Link");
 
   }
-  return {ok : true};//chera khod Result Ro Bar NemiGardunim
+  return {ok : true};
 }
 
 export async function resetPasswordApi(payload: ResetPasswordPayload)
@@ -126,21 +126,21 @@ let json: any = null;
 
   }
 
-export async function verifyemailstatusApi(code: string) // nemishe baraye darkhasta format headers ro config nevesht ehy tekrar nashe?
+export async function verifyemailstatusApi(code: string) 
 {
  
   const res = await fetch("/api/auth/verify-emailstatus",
   { method : "POST",
     headers :{"Content-Type": "application/json"},
-    body    : JSON.stringify({code}),//chera ba format payload mesl Login Ferestade Nemishe
+    body    : JSON.stringify({code}),
 
   });
 
   if(!res.ok)
   {
-    const data = await res.json().catch(() => ({}));//age error dad data nabud kkhali bar gardun
+    const data = await res.json().catch(() => ({}));
     throw new Error(data?.title ||"");
 
   }
-  return {ok : true};//chera khod Result Ro Bar NemiGardunim
+  return {ok : true};
 }

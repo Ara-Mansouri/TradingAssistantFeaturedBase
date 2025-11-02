@@ -45,7 +45,11 @@
       "passwordLabel": "رمز عبور",
       "submit": "ثبت‌نام",
       "loading": "در حال ثبت‌نام...",
-      "loginLink": "از قبل حساب کاربری دارید؟"
+      "loginLink": "از قبل حساب کاربری دارید؟",
+      "RemailPlaceholder" : "ایمیل خود را وارد کنید",
+      "RpasswordPlaceholder" : "رمز عبور خود را وارد کنید",
+      "RnamePlaceHolder" : "نام ",
+      "RLnamePlaceHolder" : "نام خانوادگی"
     },
     "forgot": {
       "title": "فراموشی رمز عبور",
