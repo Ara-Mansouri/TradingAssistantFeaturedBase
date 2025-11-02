@@ -32,7 +32,7 @@ export default function LoginForm() {
             {t("emailLabel")}
           </label>
           <input
-            type="email"
+            type="text"
             name="loginemail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

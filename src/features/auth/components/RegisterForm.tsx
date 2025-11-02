@@ -68,7 +68,7 @@ export default function RegisterForm() {
              {t("emailLabel")}
           </label>
           <input
-            type="email"
+            type="text"
             name="registername"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
