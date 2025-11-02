@@ -10,7 +10,7 @@ interface LoginResponse {
 
 export async function POST(req: NextRequest) 
 {
-   const localeCookie=  req.headers.get("accept-language")
+     const localeCookie=  req.headers.get("accept-language")
      const locale = localeCookie ? localeCookie : "en";
     try {
       const body = await req.json();
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest)
 
     if (!Results.ok) 
     {
-      return NextResponse.json({ title: data?.title ?? "Login failed" },{ status: Results.status });
+      return NextResponse.json({ title: data?.title ?? "" },{ status: Results.status });
      
     }
 
@@ -40,6 +40,6 @@ export async function POST(req: NextRequest)
       } 
    catch (err) 
    {
-    return NextResponse.json({ title: "Unexpected error" }, { status: 500 });
+    return NextResponse.json({ title: "" }, { status: 500 });
    }
 }

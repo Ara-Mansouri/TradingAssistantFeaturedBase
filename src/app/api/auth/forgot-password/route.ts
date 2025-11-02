@@ -23,10 +23,10 @@ export async function  POST (req: Request)
       }
       catch
       {
-        //No Body
+
       }
       return NextResponse.json(
-      {title : (data as any).title || "Forget Password Failed"},
+      {title : (data as any).title || ""},
       {status : res.status}
 
       );
@@ -38,7 +38,7 @@ export async function  POST (req: Request)
   }
   catch (error)
   {
-     return NextResponse.json({title : "Unexpected Error"} , {status:500});
+     return NextResponse.json({title : ""} , {status:500});
   }
  
 
