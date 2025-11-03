@@ -13,7 +13,9 @@ const intlMiddleware = createMiddleware({
   locales,
   defaultLocale,
   localeDetection: true,
-  localePrefix: "never",
+  localePrefix: {
+    mode: "never",
+  },
   localeCookie: {
     name: localeCookieName,
     sameSite: "lax",
@@ -29,8 +31,22 @@ function applyIntlCookies(target: NextResponse, source: NextResponse) {
   return target;
 }
 
+function applyIntlState(target: NextResponse, source: NextResponse) {
+  source.headers.forEach((value, key) => {
+    if (key === "x-middleware-rewrite" || key === "location" || key === "set-cookie") {
+      return;
+    }
+    target.headers.set(key, value);
+  });
+
+  return applyIntlCookies(target, source);
+}
+
 export async function middleware(req: NextRequest) {
   const intlResponse = intlMiddleware(req);
+
+  const withIntl = (response: NextResponse = NextResponse.next()) =>
+    applyIntlState(response, intlResponse);
 
   // if (
   //   intlResponse.headers.has("location") ||
@@ -48,7 +64,7 @@ export async function middleware(req: NextRequest) {
       pathname === "/"
     )
   ) {
-    return intlResponse;
+    return withIntl();
   }
 
   const accessToken = req.cookies.get("accessToken")?.value;
@@ -57,15 +73,15 @@ export async function middleware(req: NextRequest) {
   if (pathname.startsWith("/auth")) {
     if (accessToken && verifyAccessToken(accessToken)) {
       const redirectResponse = NextResponse.redirect(new URL("/dashboard", req.url));
-      return applyIntlCookies(redirectResponse, intlResponse);
+      return applyIntlState(redirectResponse, intlResponse);
     }
-    return intlResponse;
+    return withIntl();
   }
 
   if (pathname.startsWith("/dashboard")) {
     if (!accessToken && !refreshToken) {
       const redirectResponse = NextResponse.redirect(new URL("/auth/Login", req.url));
-      return applyIntlCookies(redirectResponse, intlResponse);
+      return applyIntlState(redirectResponse, intlResponse);
     }
   }
 
@@ -73,10 +89,10 @@ export async function middleware(req: NextRequest) {
     const refreshUrl = req.nextUrl.clone();
     refreshUrl.pathname = "/api/auth/refresh-token";
     const rewriteResponse = NextResponse.rewrite(refreshUrl);
-    return applyIntlCookies(rewriteResponse, intlResponse);
+    return applyIntlState(rewriteResponse, intlResponse);
   }
 
-  return intlResponse;
+  return withIntl();
 }
 
 export const config = {
