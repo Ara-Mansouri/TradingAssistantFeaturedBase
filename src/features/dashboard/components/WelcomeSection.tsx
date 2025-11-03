@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import LanguageSwitcher from "@/features/auth/components/LanguageSwitcher";
+import LanguageSwitcher from "@/features/common/LanguageSwitcher";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 
@@ -13,7 +13,7 @@ export default function WelcomeSection() {
   const handleLogout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST" }); 
-      router.replace(`/${locale}/auth/Login`); 
+      router.replace("/auth/Login"); 
     } catch (err) {
       console.error("Logout failed:", err);
     }
