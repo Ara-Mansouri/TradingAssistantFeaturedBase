@@ -15,13 +15,11 @@ export function useResetPassword() {
 
     onSuccess: () => {
      
-      router.replace(`/${locale}/auth/Login`);
+      router.replace("/auth/Login");
       clearEmail();
     },
 
-    // onError: (error: any) => {
-    //   console.error("Reset Password Error:", error);
-    // },
+
   });
 
   return {

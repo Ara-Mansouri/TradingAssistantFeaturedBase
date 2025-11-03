@@ -10,7 +10,7 @@ export default function ResetPasswordForm() {
  const t = useTranslations("auth.reset");
  const tErrors = useTranslations("errors");
  const generic = useTranslations("errors");
- const locale = useLocale();
+ //const locale = useLocale();
 
   const [verificationCode, setVerificationCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -130,7 +130,7 @@ export default function ResetPasswordForm() {
 
         <div className="text-center">
           <a 
-             href={`/${locale}/auth/Login`} 
+             href={"/auth/Login"} 
             className="text-red-400 hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline text-sm"
           >
             {t("backToLogin")}

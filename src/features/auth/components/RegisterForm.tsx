@@ -113,7 +113,7 @@ export default function RegisterForm() {
 
         <div className="flex justify-between items-center text-sm">
           <a
-             href={`/${locale}/auth/Login`} 
+             href={"/auth/Login"} 
             className="text-white hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
           >
              {t("loginLink")}

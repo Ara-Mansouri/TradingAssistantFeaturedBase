@@ -12,12 +12,9 @@ export function useLogin(){
     mutationFn :(payload : LoginPayload) => loginApi(payload, locale),
     onSuccess: () =>
       {
-       router.push(`/${locale}/dashboard`);
+       router.push("/dashboard");
              },
-  // onError :(err : any) =>
-  // {
-  //   console.error("Login failed", err?.message) // inja chetoori bayad handle beshe
-  // },
+
 
     });
     return mutation;

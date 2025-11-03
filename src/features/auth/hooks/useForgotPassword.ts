@@ -17,7 +17,7 @@ export function useForgotPassword() {
       setEmail(email);
 
       
-      router.push(`/${locale}/auth/reset-password`);
+      router.push("/auth/reset-password");
     },
 
     // onError: (error: any) => {

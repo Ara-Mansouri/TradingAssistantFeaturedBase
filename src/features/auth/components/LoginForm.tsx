@@ -7,7 +7,7 @@ import { useLocale } from "next-intl";
 export default function LoginForm() {
   const t = useTranslations("auth.login");
   const generic = useTranslations("errors");
-  const locale = useLocale();
+ // const locale = useLocale();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,13 +71,13 @@ export default function LoginForm() {
         )}
         <div className="flex flex-row items-center justify-between  sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
           <a 
-              href={`/${locale}/auth/register`} 
+              href={"/auth/register"} 
             className="text-white hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
           >
              {t("registerLink")}
           </a>
           <a 
-             href={`/${locale}/auth/forgot-password`} 
+             href={"/auth/forgot-password"} 
             className="text-white hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
           >
               {t("forgotPasswordLink")}

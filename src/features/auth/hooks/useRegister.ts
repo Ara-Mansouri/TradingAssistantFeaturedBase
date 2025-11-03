@@ -14,7 +14,7 @@ export function useRegister() {
 
     onSuccess: () => {
   
-      router.push(`/${locale}/auth/verify-email`);
+      router.push("/auth/verify-email");
     },
 
   });
