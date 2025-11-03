@@ -1,78 +1,72 @@
+// src/middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyAccessToken } from "@/lib/auth";
 import createMiddleware from "next-intl/middleware";
+import { verifyAccessToken } from "@/lib/auth";
 
+// ----- i18n setup -----
 const locales = ["en", "fa", "fr"];
 const defaultLocale = "en";
 
 const intlMiddleware = createMiddleware({
   locales,
   defaultLocale,
-  localeDetection: false,
+  localePrefix: { mode: "never" },
+  localeDetection: true,
+  localeCookie: {
+    name: "NEXT_LOCALE",
+    path: "/",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 180,
+  },
 });
 
+// ----- middleware function -----
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  console.log("🧩 Middleware path:", pathname);
 
-  
-if (
-  !(
-    pathname.startsWith("/auth") ||
-    pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/en") ||
-    pathname.startsWith("/fa") ||
-    pathname.startsWith("/fr") ||
-    pathname === "/"
-  )
-) {
-  return NextResponse.next();
-}
-  const hasLocale = locales.some(
-    (loc) => pathname.startsWith(`/${loc}/`) || pathname === `/${loc}`
-  );
+  // Always run i18n first to attach locale cookie
+  let res = intlMiddleware(req);
 
-  if (!hasLocale) {
-    
-    return intlMiddleware(req);
+  // ✅ Ensure we *always* return a valid Response from every branch.
+
+  // Pass through Next.js internals fast
+  if (pathname.startsWith("/_next") || pathname.startsWith("/api") || pathname === "/favicon.ico") {
+    return res;
   }
 
-  
   const accessToken = req.cookies.get("accessToken")?.value;
   const refreshToken = req.cookies.get("refreshToken")?.value;
 
-  
-  if (pathname.includes("/auth")) {
-    if (accessToken && verifyAccessToken(accessToken))
-     {
-      
-      const locale = pathname.split("/")[1] || defaultLocale;
-      return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url));
+  // ----- AUTH PAGES -----
+  if (pathname.startsWith("/auth")) {
+    if (accessToken && verifyAccessToken(accessToken)) {
+      // Already logged in → redirect to dashboard
+      return NextResponse.redirect(new URL("/dashboard", req.url));
     }
-    return NextResponse.next();
+    return res; // ✅ always return something
   }
 
-  // Dashboard Logic
-  if (pathname.includes("/dashboard")) {
+  // ----- DASHBOARD PAGES -----
+  if (pathname.startsWith("/dashboard")) {
     if (!accessToken && !refreshToken) {
-      const locale = pathname.split("/")[1] || defaultLocale;
-      return NextResponse.redirect(new URL(`/${locale}/auth/Login`, req.url));
+      return NextResponse.redirect(new URL("/auth/Login", req.url));
     }
   }
 
- // Refresh Token Logic
-  if ( !verifyAccessToken(accessToken) && refreshToken) {
+  // ----- REFRESH TOKEN -----
+  if (accessToken && !verifyAccessToken(accessToken) && refreshToken) {
     const refreshUrl = req.nextUrl.clone();
     refreshUrl.pathname = "/api/auth/refresh-token";
     return NextResponse.rewrite(refreshUrl);
   }
 
-  return NextResponse.next();
+  // ✅ Default: continue as normal
+  return res;
 }
 
+// ----- matcher -----
 export const config = {
-  matcher: [
-
-    "/((?!api|_next|favicon\\.ico).*)",
-  ],
+  matcher: ["/((?!_next|favicon\\.ico).*)"],
 };
