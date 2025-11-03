@@ -8,7 +8,7 @@ import { useLocale } from "next-intl";
 export default function WelcomeSection() {
   const t = useTranslations("Dashboard");
   const router = useRouter();
-  const locale = useLocale();
+
 
   const handleLogout = async () => {
     try {

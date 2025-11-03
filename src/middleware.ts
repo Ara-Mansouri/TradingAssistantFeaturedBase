@@ -4,7 +4,6 @@ import type { NextRequest } from "next/server";
 import { verifyAccessToken } from "@/lib/auth";
 
 
-const locales = ["en", "fa", "fr"];
 const defaultLocale = "en";
 
 export async function middleware(req: NextRequest) {
