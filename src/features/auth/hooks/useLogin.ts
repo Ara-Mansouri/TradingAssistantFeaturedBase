@@ -14,10 +14,10 @@ export function useLogin(){
       {
        router.push(`/${locale}/dashboard`);
              },
-  onError :(err : any) =>
-  {
-    console.error("Login failed", err?.message) // inja chetoori bayad handle beshe
-  },
+  // onError :(err : any) =>
+  // {
+  //   console.error("Login failed", err?.message) // inja chetoori bayad handle beshe
+  // },
 
     });
     return mutation;

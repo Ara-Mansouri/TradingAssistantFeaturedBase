@@ -8,15 +8,16 @@ import { useLocale } from "next-intl";
 
 export default function ResetPasswordForm() {
  const t = useTranslations("auth.reset");
-const tErrors = useTranslations("errors");
-const locale = useLocale();
+ const tErrors = useTranslations("errors");
+ const generic = useTranslations("errors");
+ const locale = useLocale();
 
   const [verificationCode, setVerificationCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-   const [localError, setLocalError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const {mutate: handleReset, isPending, isError, error } = useResetPassword();
- const { email } = useAuthContext();
+  const { email } = useAuthContext();
   const onSubmit = (e: React.FormEvent) => 
     {
     e.preventDefault();
@@ -47,6 +48,7 @@ const locale = useLocale();
           </label>
           <input
             type="text"
+            name="verificationCode"
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
             placeholder= {t("codePlaceholder")}
@@ -64,6 +66,7 @@ const locale = useLocale();
           </label>
           <input
             type="password"
+            name="newPasswordLabel"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder={t("newPasswordPlaceholder")}
@@ -81,6 +84,7 @@ const locale = useLocale();
           </label>
           <input
             type="password"
+            name="confirmPasswordLabel"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder={t("confirmPasswordPlaceholder")}
@@ -100,7 +104,7 @@ const locale = useLocale();
           {isError && !localError && (
           <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
             <p className="text-red-400 text-sm">
-              {error?.message ?? "Reset PassWord Failed"}
+              {error?.message === "UNEXPECTED_ERROR"? generic("generic"): error?.message}
             </p>
           </div>
         )}

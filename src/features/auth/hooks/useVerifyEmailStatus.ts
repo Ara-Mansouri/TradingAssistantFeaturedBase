@@ -11,10 +11,10 @@ export function useVerifyEmailStatus() {
       {
       // router.push("/dashboard");
              },
-  onError :(err : any) =>
-  {
-    console.error( err?.message) // inja chetoori bayad handle beshe
+  // onError :(err : any) =>
+  // {
+  //   console.error( err?.message) // inja chetoori bayad handle beshe
  
-  },
+  // },
   });
 }

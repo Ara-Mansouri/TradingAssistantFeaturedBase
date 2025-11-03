@@ -14,12 +14,9 @@ export function useRegister() {
 
     onSuccess: () => {
   
-      router.push(`/${locale}/auth/VerifyEmail`);
+      router.push(`/${locale}/auth/verify-email`);
     },
 
-    onError: (err: any) => {
-      console.error("Register failed", err?.message);
-    },
   });
 
   return mutation;

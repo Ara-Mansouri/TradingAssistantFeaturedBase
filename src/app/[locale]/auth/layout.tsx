@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <AuthProvider>
-      <main 
+      <main  
         className={`relative min-h-screen bg-black text-white flex items-center justify-center p-4 overflow-hidden 
           ${
           isRTL ? "text-right" : "text-left"

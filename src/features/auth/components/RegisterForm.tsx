@@ -12,6 +12,7 @@ export default function RegisterForm() {
   const { mutate: handleRegister, isPending, isError, error } = useRegister();
 
   const t = useTranslations("auth.register");
+  const generic = useTranslations("errors");
   const locale = useLocale();
 
 
@@ -38,6 +39,7 @@ export default function RegisterForm() {
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              placeholder={t("RnamePlaceHolder")}
               className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                        placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                        focus:border-red-500/50 transition-all duration-300
@@ -54,9 +56,10 @@ export default function RegisterForm() {
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
-                       placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
-                       focus:border-red-500/50 transition-all duration-300
+              placeholder={t("RLnamePlaceHolder")}
+               className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
+    placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
+    focus:border-red-500/50 transition-all duration-300
                        hover:bg-gray-50 hover:border-gray-400"
               // required
             />
@@ -68,9 +71,12 @@ export default function RegisterForm() {
              {t("emailLabel")}
           </label>
           <input
-            type="email"
+            type="text"
+            name="registername"
+            autoComplete="off"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder={t("RemailPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
@@ -85,8 +91,10 @@ export default function RegisterForm() {
           </label>
           <input
             type="password"
+            name="registeremail"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder={t("RpasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
@@ -98,7 +106,7 @@ export default function RegisterForm() {
         {isError && (
           <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
             <p className="text-red-400 text-sm">
-              {error?.message ?? "Registration failed. Please try again."}
+             {error?.message === "UNEXPECTED_ERROR"? generic("generic"): error?.message}
             </p>
           </div>
         )}

@@ -20,9 +20,9 @@ export function useForgotPassword() {
       router.push(`/${locale}/auth/reset-password`);
     },
 
-    onError: (error: any) => {
-      console.error("Forgot password error:", error);
-    },
+    // onError: (error: any) => {
+    //   console.error("Forgot password error:", error);
+    // },
   });
 
   return {

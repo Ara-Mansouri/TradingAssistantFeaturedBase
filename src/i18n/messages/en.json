@@ -17,7 +17,7 @@
       "logout": "Log out"
   },
   "errors": {
-    "generic": "Something went wrong. Please try again.",
+    "generic": "A server error has occurred",
     "loginFailed": "Unable to sign in",
     "registerFailed": "Unable to complete registration",
     "forgotPasswordFailed": "Unable to send reset link",
@@ -45,7 +45,11 @@
       "passwordLabel": "Password",
       "submit": "Register",
       "loading": "Registering...",
-      "loginLink": "Already have an account?"
+      "loginLink": "Already have an account?",
+      "RemailPlaceholder" : "Enter your email",
+      "RpasswordPlaceholder" : "Enter your password",
+      "RnamePlaceHolder" : " first name",
+      "RLnamePlaceHolder" : " last name"
     },
     "forgot": {
       "title": "Forgot password",

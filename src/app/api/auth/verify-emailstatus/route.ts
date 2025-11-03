@@ -3,19 +3,14 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));
-   const code = body.code;
-
-    //  if (!code) {
-    //   return NextResponse.json(
-    //     { title: "Verification code is required" },
-    //     { status: 400 },
-    //   );
-    // }
+    const code = body.code;
+    const localeCookie=  req.headers.get("accept-language")
+     const locale = localeCookie ? localeCookie : "en";
      const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/verify-email`,
       {
          method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" , "Accept-Language": locale },
         body: JSON.stringify({ code : code }),
       },
     );
@@ -27,7 +22,7 @@ export async function POST(req: Request) {
        const data = await res.json().catch(() => ({}));
      
         return NextResponse.json(
-        { title: (data as any)?.title ?? "Unexpected Error" },
+        { title: (data as any)?.title ?? "" },
         { status: res.status },
       );
        }
@@ -39,7 +34,7 @@ export async function POST(req: Request) {
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
     return NextResponse.json(
-      { title: "Unexpected Error" },
+      { title: "" },
       { status: 500 },
     );
   }

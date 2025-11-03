@@ -19,9 +19,9 @@ export function useResetPassword() {
       clearEmail();
     },
 
-    onError: (error: any) => {
-      console.error("Reset Password Error:", error);
-    },
+    // onError: (error: any) => {
+    //   console.error("Reset Password Error:", error);
+    // },
   });
 
   return {

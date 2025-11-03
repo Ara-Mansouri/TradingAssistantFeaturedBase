@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 export default function ForgotPasswordForm() {
  const t = useTranslations("auth.forgot");
+  const generic = useTranslations("errors");
   const [email, setEmail] = useState("");
   const { mutate, isPending, isError, error } = useForgotPassword();
 
@@ -29,7 +30,8 @@ export default function ForgotPasswordForm() {
             {t("emailLabel")}
           </label>
           <input
-            type="email"
+            type="text"
+            name="forgetpassemail"
             placeholder= {t("emailPlaceholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -44,7 +46,7 @@ export default function ForgotPasswordForm() {
         {isError && (
           <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
             <p className="text-red-400 text-sm">
-              {(error as Error)?.message || "Something went wrong"}
+              {error?.message === "UNEXPECTED_ERROR"? generic("generic"): error?.message}
             </p>
           </div>
         )}

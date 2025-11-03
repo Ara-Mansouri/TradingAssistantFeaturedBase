@@ -1,5 +1,5 @@
 
-
+import { handleApiError } from "@/utils/handleApiError";
 
 export  interface ResetPasswordPayload
  {
@@ -29,42 +29,33 @@ export async function loginApi(payload: LoginPayload , locale: string)
     body: JSON.stringify(payload),
   });
 
-  
-  let json: any = null;
-  try {
-    json = await res.json();
-  } catch {
-
-  }
-
   if (!res.ok) {
-    
-    const title = json?.title ?? "Login failed";// gharare i18n piyade sazi beshe chejoori ba vojud in ?
-   
-   
-    throw new Error(title);
+      const data = await res.json().catch(() => ({}));
+      const message = handleApiError(data);
+      throw new Error(message);
   }
 
  
   return { ok: true };
 }
 
-export async function forgotPasswordApi(email: string) // nemishe baraye darkhasta format headers ro config nevesht ehy tekrar nashe?
+export async function forgotPasswordApi(email: string) 
 {
   const res = await fetch("/api/auth/forgot-password",
   { method : "POST",
     headers :{"Content-Type": "application/json"},
-    body    : JSON.stringify({email}),//chera ba format payload mesl Login Ferestade Nemishe
+    body    : JSON.stringify({email}),
 
   });
 
   if(!res.ok)
   {
-    const data = await res.json().catch(() => ({}));//age error dad data nabud kkhali bar gardun
-    throw new Error(data?.title ||"Failed To Sent Reset Link");
+      const data = await res.json().catch(() => ({}));
+      const message = handleApiError(data);
+      throw new Error(message);
 
   }
-  return {ok : true};//chera khod Result Ro Bar NemiGardunim
+  return {ok : true};
 }
 
 export async function resetPasswordApi(payload: ResetPasswordPayload)
@@ -81,22 +72,11 @@ if(res.status == 204)
   }
   if(!res.ok)
   {
-    let data: any;
-  try {
-     data = await res.json();
-    } 
-catch {
-  data = await res.text(); // fallback if it’s not JSON
-}
-
-const message =
-  (typeof data === "string"
-    ? data
-    : data?.title || data?.detail || JSON.stringify(data)) ||
-  "Reset Password Failed.";
-
-throw new Error(message);
-  }
+      const data = await res.json().catch(() => ({}));
+      const message = handleApiError(data);
+      throw new Error(message);
+    }
+    return { ok: true };
   }
 
 export async function registerApi(payload: RegisterPayload)
@@ -106,19 +86,12 @@ export async function registerApi(payload: RegisterPayload)
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-let json: any = null;
-  try {
-    json = await res.json();
-  } catch {
-
-  }
 
   if (!res.ok) {
     
-    const title = json?.title ?? "";
-   
-   
-    throw new Error(title);
+      const data = await res.json().catch(() => ({}));
+      const message = handleApiError(data);
+      throw new Error(message);
   }
 
  
@@ -126,21 +99,22 @@ let json: any = null;
 
   }
 
-export async function verifyemailstatusApi(code: string) // nemishe baraye darkhasta format headers ro config nevesht ehy tekrar nashe?
+export async function verifyemailstatusApi(code: string) 
 {
  
   const res = await fetch("/api/auth/verify-emailstatus",
   { method : "POST",
     headers :{"Content-Type": "application/json"},
-    body    : JSON.stringify({code}),//chera ba format payload mesl Login Ferestade Nemishe
+    body    : JSON.stringify({code}),
 
   });
 
   if(!res.ok)
   {
-    const data = await res.json().catch(() => ({}));//age error dad data nabud kkhali bar gardun
-    throw new Error(data?.title ||"");
+      const data = await res.json().catch(() => ({}));
+      const message = handleApiError(data);
+      throw new Error(message);
 
   }
-  return {ok : true};//chera khod Result Ro Bar NemiGardunim
+  return {ok : true};
 }

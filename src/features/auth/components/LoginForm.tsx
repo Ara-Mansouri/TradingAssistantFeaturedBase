@@ -6,6 +6,7 @@ import { useLocale } from "next-intl";
 
 export default function LoginForm() {
   const t = useTranslations("auth.login");
+  const generic = useTranslations("errors");
   const locale = useLocale();
 
   const [email, setEmail] = useState("");
@@ -32,7 +33,8 @@ export default function LoginForm() {
             {t("emailLabel")}
           </label>
           <input
-            type="email"
+            type="text"
+            name="loginemail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t("emailPlaceholder")}
@@ -49,6 +51,7 @@ export default function LoginForm() {
           </label>
           <input
             type="password"
+            name="loginpassword"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder={t("passwordPlaceholder")}
@@ -62,7 +65,7 @@ export default function LoginForm() {
         {isError && (
           <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
             <p className="text-red-400 text-sm">
-              {error?.message ?? "Login failed. Please try again."}
+                   {error?.message === "UNEXPECTED_ERROR"? generic("generic"): error?.message}
             </p>
           </div>
         )}
