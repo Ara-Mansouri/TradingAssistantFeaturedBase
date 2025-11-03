@@ -39,7 +39,7 @@ export default function ResetPasswordForm() {
         </p>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6">
+      <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6" noValidate>
 
 
         <div className="space-y-2">

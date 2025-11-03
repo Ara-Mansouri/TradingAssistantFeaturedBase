@@ -24,7 +24,7 @@ export default function ForgotPasswordForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6" noValidate>
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
             {t("emailLabel")}
