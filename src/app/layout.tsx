@@ -1,4 +1,3 @@
-
 import "./globals.css";
 import Providers from "@/lib/providers";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -8,20 +7,22 @@ import { headers } from "next/headers";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
-export const metadata = {
-  title: "Trading Assistant",
-  description: "AI-powered trading assistant",
-};
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-
+export async function generateMetadata() {
   const locale = (await headers()).get("x-next-intl-locale") || "en";
-
-
   const messages = (await import(`../i18n/messages/${locale}.json`)).default;
+  const title = messages.metadata?.title || "Trading Assistant";
+  const description = messages.metadata?.description || "AI-powered trading assistant";
 
-  const dir = locale === "fa" ? "rtl" : "ltr";
+  return {
+    title,
+    description,
+  };
+}
 
+export default async function RootLayout({children,}: {  children: React.ReactNode;}) {
+  const locale = (await headers()).get("x-next-intl-locale") || "en";
+  const messages = (await import(`../i18n/messages/${locale}.json`)).default;
   return (
     <html lang={locale} >
       <body
