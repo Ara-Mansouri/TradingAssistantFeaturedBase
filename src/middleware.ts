@@ -8,7 +8,7 @@ const defaultLocale = "en";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  console.log("🌐 Middleware:", pathname);
+
 
 
   const cookieLocale = req.cookies.get("NEXT_LOCALE")?.value || defaultLocale;
