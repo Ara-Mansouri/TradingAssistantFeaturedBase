@@ -82,7 +82,8 @@
       "verifyingDescription": "Please wait while we confirm your account.",
       "successTitle": "Email verified successfully!",
       "successDescription": "You’ll be redirected to the login page shortly.",
-      "errorTitle": "Verification failed."
+      "errorTitle": "Verification failed.",
+       "backToLogin": "Back to sign in"
     }
   }
 }

@@ -82,7 +82,8 @@
       "verifyingDescription": "Veuillez patienter pendant la confirmation de votre compte.",
       "successTitle": "E-mail vérifié avec succès !",
       "successDescription": "Vous serez redirigé vers la page de connexion sous peu.",
-      "errorTitle": "Échec de la vérification."
+      "errorTitle": "Échec de la vérification.",
+      "backToLogin": "Retour à la connexion"
     }
   }
 }
