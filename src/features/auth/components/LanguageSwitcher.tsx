@@ -1,17 +1,18 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import type { AppLocale } from "@/i18n/config";
+import { localeCookieMaxAge, localeCookieName } from "@/i18n/config";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
-  const pathname = usePathname();
   const currentLocale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const locales = [
+  const languageOptions: Array<{ code: AppLocale; label: string; countryCode: string }> = [
     { code: "en", label: "English", countryCode: "gb" },
     { code: "fa", label: "فارسی", countryCode: "ir" },
     { code: "fr", label: "Français", countryCode: "fr" },
@@ -29,16 +30,16 @@ export default function LanguageSwitcher() {
   }, []);
 
   // 🔹 تغییر زبان با تغییر مسیر
-  const handleChangeLocale = (newLocale: string) => {
-    const segments = pathname.split("/");
-    segments[1] = newLocale;
-    const newPath = segments.join("/");
-    router.push(newPath);
+  const handleChangeLocale = (newLocale: AppLocale) => {
+    const secure = window.location.protocol === "https:" ? "; Secure" : "";
+    document.cookie = `${localeCookieName}=${newLocale}; path=/; max-age=${localeCookieMaxAge}; SameSite=Lax${secure}`;
+    router.refresh();
     setIsOpen(false);
   };
 
 
-  const activeLocale = locales.find((l) => l.code === currentLocale) ?? locales[0];
+  const activeLocale =
+    languageOptions.find((option) => option.code === currentLocale) ?? languageOptions[0];
 
   return (
     <div ref={dropdownRef} className="absolute top-4 right-4 z-50">
@@ -64,18 +65,18 @@ export default function LanguageSwitcher() {
             className="absolute right-0 mt-2 w-28 bg-gray-950 border border-gray-700 rounded-lg 
                        shadow-lg overflow-hidden backdrop-blur-md animate-fade-in"
           >
-            {locales
-              .filter((loc) => loc.code !== activeLocale.code)
-              .map((loc) => (
+            {languageOptions
+              .filter((option) => option.code !== activeLocale.code)
+              .map((option) => (
                 <button
-                  key={loc.code}
-                  onClick={() => handleChangeLocale(loc.code)}
-                  className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm 
-                             text-gray-300 hover:bg-red-700/20 hover:text-white 
+                  key={option.code}
+                  onClick={() => handleChangeLocale(option.code)}
+                  className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm
+                             text-gray-300 hover:bg-red-700/20 hover:text-white
                              transition-all duration-150"
                 >
-                  <span className={`fi fi-${loc.countryCode}  mr-1`}></span>
-                  {loc.label}
+                  <span className={`fi fi-${option.countryCode}  mr-1`}></span>
+                  {option.label}
                 </button>
               ))}
           </div>

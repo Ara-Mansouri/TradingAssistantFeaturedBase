@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRegister } from "../hooks/useRegister";
 import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
+
 
 export default function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -13,7 +13,7 @@ export default function RegisterForm() {
 
   const t = useTranslations("auth.register");
   const generic = useTranslations("errors");
-  const locale = useLocale();
+
 
 
   const onSubmit = (e: React.FormEvent) => {
@@ -113,7 +113,7 @@ export default function RegisterForm() {
 
         <div className="flex justify-between items-center text-sm">
           <a
-             href={`/${locale}/auth/Login`} 
+             href="/auth/Login"
             className="text-white hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
           >
              {t("loginLink")}

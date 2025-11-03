@@ -12,7 +12,7 @@ export function useLogin(){
     mutationFn :(payload : LoginPayload) => loginApi(payload, locale),
     onSuccess: () =>
       {
-       router.push(`/${locale}/dashboard`);
+       router.push("/dashboard");
              },
   // onError :(err : any) =>
   // {

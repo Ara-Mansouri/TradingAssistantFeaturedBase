@@ -3,11 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { forgotPasswordApi } from "../services/auth.api";
 import { useAuthContext } from "@/context/AuthContext";
-import { useLocale } from "next-intl"; 
 
 export function useForgotPassword() {
   const router = useRouter();
-  const locale = useLocale(); 
   const { setEmail } = useAuthContext();
 
   const mutation = useMutation({
@@ -17,7 +15,7 @@ export function useForgotPassword() {
       setEmail(email);
 
       
-      router.push(`/${locale}/auth/reset-password`);
+      router.push("/auth/reset-password");
     },
 
     // onError: (error: any) => {

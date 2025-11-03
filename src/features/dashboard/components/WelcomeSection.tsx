@@ -3,17 +3,15 @@
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/features/auth/components/LanguageSwitcher";
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
 
 export default function WelcomeSection() {
   const t = useTranslations("Dashboard");
   const router = useRouter();
-  const locale = useLocale();
 
   const handleLogout = async () => {
     try {
       await fetch("/api/auth/logout", { method: "POST" }); 
-      router.replace(`/${locale}/auth/Login`); 
+      router.replace("/auth/Login");
     } catch (err) {
       console.error("Logout failed:", err);
     }
@@ -39,7 +37,7 @@ export default function WelcomeSection() {
         >
           {t("logout")}
         </button>
-      </div>
+          </div>
     </section>
   );
 }

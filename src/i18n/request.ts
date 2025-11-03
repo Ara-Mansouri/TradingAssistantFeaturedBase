@@ -1,18 +1,21 @@
 import { getRequestConfig } from "next-intl/server";
+import { AppLocale, defaultLocale, locales } from "./config";
 
 export default getRequestConfig(async ({ locale }) => {
-
-  const currentLocale = locale ?? "en";
+  const normalizedLocale: AppLocale =
+    locale && locales.includes(locale as AppLocale)
+      ? (locale as AppLocale)
+      : defaultLocale;
 
   try {
     return {
-      locale: currentLocale,
-      messages: (await import(`./messages/${currentLocale}.json`)).default
+      locale: normalizedLocale,
+      messages: (await import(`./messages/${normalizedLocale}.json`)).default,
     };
   } catch {
     return {
-      locale: "en",
-      messages: (await import(`./messages/en.json`)).default
+      locale: defaultLocale,
+      messages: (await import(`./messages/${defaultLocale}.json`)).default,
     };
   }
 });

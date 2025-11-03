@@ -1,22 +1,36 @@
 import { NextResponse } from "next/server";
 import { setAuthCookies } from "@/lib/cookies";
+import { AppLocale, defaultLocale, localeCookieName, locales } from "@/i18n/config";
+
+function resolveLocale(cookieHeader: string | null): AppLocale {
+  if (!cookieHeader) {
+    return defaultLocale;
+  }
+
+  const cookies = cookieHeader.split(";").map((cookie) => cookie.trim());
+  const localeCookie = cookies
+    .find((cookie) => cookie.startsWith(`${localeCookieName}=`))
+    ?.split("=")[1];
+
+  if (!localeCookie) {
+    return defaultLocale;
+  }
+
+  const decodedLocale = decodeURIComponent(localeCookie);
+  return locales.includes(decodedLocale as AppLocale)
+    ? (decodedLocale as AppLocale)
+    : defaultLocale;
+}
 
 export async function GET(req: Request) {
+  const cookieHeader = req.headers.get("cookie");
+  const locale = resolveLocale(cookieHeader);
+
   try {
-  
-    const url = new URL(req.url);
-    const pathname = url.pathname;
-
-
-    const pathSegments = pathname.split("/").filter(Boolean);
-    const locale = ["fa", "fr", "en"].includes(pathSegments[0])
-      ? pathSegments[0]
-      : "en"; 
-
-    const cookies = req.headers.get("cookie") || "";
-    let refreshToken = cookies
-      .split("; ")
-      .find((c) => c.startsWith("refreshToken="))
+    let refreshToken = cookieHeader
+      ?.split(";")
+      .map((cookie) => cookie.trim())
+      .find((cookie) => cookie.startsWith("refreshToken="))
       ?.split("=")[1];
 
     if (refreshToken) {
@@ -24,11 +38,9 @@ export async function GET(req: Request) {
     }
 
     if (!refreshToken) {
-    
-      return NextResponse.redirect(new URL(`/${locale}/auth/Login`, req.url));
+      return NextResponse.redirect(new URL("/auth/Login", req.url));
     }
 
- 
     const result = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/refresh-token`,
       {
@@ -38,27 +50,18 @@ export async function GET(req: Request) {
       }
     );
 
-
     if (!result.ok) {
-      return NextResponse.redirect(new URL(`/${locale}/auth/Login`, req.url));
+      return NextResponse.redirect(new URL("/auth/Login", req.url));
     }
-
 
     const data = await result.json();
 
-    const res = NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url));
+    const res = NextResponse.redirect(new URL("/dashboard", req.url));
     setAuthCookies(res, data.accessToken, data.refreshToken);
+    res.headers.set("Content-Language", locale);
 
     return res;
   } catch (err) {
-
-    const url = new URL(req.url);
-    const pathname = url.pathname;
-    const pathSegments = pathname.split("/").filter(Boolean);
-    const locale = ["fa", "fr", "en"].includes(pathSegments[0])
-      ? pathSegments[0]
-      : "en";
-
-    return NextResponse.redirect(new URL(`/${locale}/auth/Login`, req.url));
+    return NextResponse.redirect(new URL("/auth/Login", req.url));
   }
 }

@@ -3,11 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { resetPasswordApi, ResetPasswordPayload } from "../services/auth.api";
 import { useAuthContext } from "@/context/AuthContext";
-import { useLocale } from "next-intl"; 
 
 export function useResetPassword() {
   const router = useRouter();
-  const locale = useLocale(); 
   const { clearEmail } = useAuthContext();
 
   const mutation = useMutation({
@@ -15,7 +13,7 @@ export function useResetPassword() {
 
     onSuccess: () => {
      
-      router.replace(`/${locale}/auth/Login`);
+      router.replace("/auth/Login");
       clearEmail();
     },
 
