@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const dir = locale === "fa" ? "rtl" : "ltr";
 
   return (
-    <html lang={locale} dir={dir}>
+    <html lang={locale} >
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0b0b] text-white`}
       >
