@@ -1,10 +1,9 @@
 @import "tailwindcss";
 @import "flag-icons/css/flag-icons.min.css";
 
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b0b0b;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,13 +11,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -50,7 +42,8 @@ body {
 
 /* Smooth transitions for all interactive elements */
 * {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform,
+    filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
