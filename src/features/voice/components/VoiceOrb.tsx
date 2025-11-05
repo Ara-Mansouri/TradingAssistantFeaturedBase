@@ -12,8 +12,6 @@ function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
 
-// ورودی: دو رنگ هگز بدون #
-// خروجی: rgba string
 function mixHex(hexA: string, hexB: string, t: number, alpha = 1) {
   const a = hexA.replace("#", "");
   const b = hexB.replace("#", "");
@@ -34,11 +32,12 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrb
   const rafRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
 
-  // رنگ‌های پایه
-  const blue = "#3b82f6";    // blue-500
-  const emerald = "#10b981"; // برای recording سبز (در صورت نیاز)
-  const purple = "#8b5cf6";  // بنفش (violet-ish)
-  const magenta = "#d946ef"; // بنفش روشن‌تر برای هایلایت
+  // 🎨 رنگ‌ها
+  const blue = "#2563eb";      // آبی اصلی
+  const indigo = "#4338ca";    // آبی تیره / نیلی
+  const violet = "#7c3aed";    // بنفش نئونی
+  const neonBlue = "#38bdf8";  // آبی درخشان
+  const activeAccent = "#a855f7"; // بنفش روشن‌تر (درخشان)
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -61,45 +60,36 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrb
       if (!running) return;
       if (!startTimeRef.current) startTimeRef.current = t;
       const elapsed = (t - startTimeRef.current) / 1000;
-
-      // میزان ترنزیشن بین آبی و بنفش (0..1). وقتی recording، بیشتر به سمت بنفش میره
-      const colorT = isRecording ? (0.6 + 0.4 * (0.5 + 0.5 * Math.sin(elapsed * 1.8))) : 0.15;
-
-      // رنگ‌های پویا
-      const coreColor = mixHex(blue, purple, colorT, 0.95);     // هسته
-      const edgeColor = mixHex(blue, magenta, colorT, 0.95);   // لبه
-      const rippleColor = mixHex(blue, purple, colorT, 1);     // موج‌ها (alpha دستوری داریم پایین)
-      const glowColor = mixHex(blue, purple, colorT, 0.9);
-
       ctx.clearRect(0, 0, size, size);
 
-      // background glow (هسته‌ی بزرگ)
-      const gradient = ctx.createRadialGradient(
-      centerX,
-      centerY,
-     size * 0.9,
-     centerX, 
-     centerY,
-      size * 0.6
-    );
-      // برای هسته از coreColor با alpha بیشتر استفاده می‌کنیم
-      gradient.addColorStop(0, coreColor);
-      gradient.addColorStop(0.4,
-         mixHex(blue, purple, colorT, 0.75));
+      // ✨ تغییر رنگ پویا با تمرکز بر بنفش
+      const colorT = isRecording
+        ? 0.7 + 0.3 * Math.sin(elapsed * 1.5)
+        : 0.4 + 0.2 * Math.sin(elapsed * 0.8);
+
+      // 🎨 رنگ‌های ترکیبی
+      const baseColor = mixHex(violet, blue, colorT, 0.9);
+      const glowColor = mixHex(violet, neonBlue, colorT, 0.8);
+      const edgeColor = mixHex(violet, activeAccent, colorT, 1);
+      const rippleColor = mixHex(violet, indigo, colorT, 1);
+
+      // 🔮 پس‌زمینه ملایم بنفش
+      const gradient = ctx.createRadialGradient(centerX, centerY, size * 0.25, centerX, centerY, size * 0.7);
+      gradient.addColorStop(0, mixHex(violet, indigo, colorT, 0.08));
       gradient.addColorStop(1, "rgba(0,0,0,0)");
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
       ctx.fillStyle = gradient;
       ctx.beginPath();
-      ctx.arc(centerX, centerY, size * 0.44, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, size * 0.45, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
 
-      // living edge wobble
+      // 🔵 لبه زنده
       const baseRadius = size * 0.36;
-      const wobbleAmp = isRecording ? size * 0.02 : size * 0.015;
-      const wobbleSpeed = isRecording ? 5.2 : 4.2;
-      const segments = 90;
+      const wobbleAmp = isRecording ? size * 0.035 : size * 0.015;
+      const wobbleSpeed = isRecording ? 3.6 : 2.0;
+      const segments = 100;
 
       ctx.save();
       ctx.translate(centerX, centerY);
@@ -117,53 +107,56 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrb
       }
       ctx.closePath();
 
-      // stroke با ترکیب بنفش و آبی، و کمی highlight از magenta
+      // 💡 Outer bright ring
       ctx.lineWidth = isRecording ? 3 : 2;
       ctx.shadowColor = glowColor;
-      ctx.shadowBlur = isRecording ? 18 : 10;
-      // use a two-layer stroke: inner bright, outer dim
-      ctx.strokeStyle = mixHex(blue, magenta, colorT, 0.95);
+      ctx.shadowBlur = isRecording ? 25 : 15;
+      ctx.strokeStyle = mixHex(violet, neonBlue, colorT, 0.95);
       ctx.stroke();
 
-      // inner thin bright stroke
+      // 💫 Inner stroke (soft violet core)
       ctx.beginPath();
       for (let i = 0; i <= segments; i++) {
         const theta = (i / segments) * Math.PI * 2;
         const noise =
-          Math.sin(theta * 3 + elapsed * wobbleSpeed) * 0.45 +
-          Math.sin(theta * 5 - elapsed * wobbleSpeed * 0.65) * 0.45;
-        const r = baseRadius - 4 + noise * (wobbleAmp * 0.6);
+          Math.sin(theta * 4 + elapsed * wobbleSpeed) * 0.5 +
+          Math.sin(theta * 6 - elapsed * wobbleSpeed * 0.5) * 0.5;
+        const r = baseRadius - 3 + noise * (wobbleAmp * 0.6);
         const x = Math.cos(theta) * r;
         const y = Math.sin(theta) * r;
         if (i === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
       ctx.closePath();
-      ctx.strokeStyle = mixHex(magenta, blue, colorT, 0.95);
-      ctx.lineWidth = 2.8;
+      ctx.strokeStyle = mixHex(activeAccent, neonBlue, colorT, 0.8);
+      ctx.lineWidth = 1.8;
       ctx.stroke();
 
       ctx.restore();
 
-      
-      const rippleCount = 2;
-      for (let i = 0; i < rippleCount; i++) {
-        const phase = (elapsed * (isRecording ? 0.4 : 0.6) + i * 0.22) % 1;
-        const r = baseRadius + phase * size * (isRecording ? 0.22 : 0.16);
-       const alpha = 1 - phase;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
-        ctx.strokeStyle = mixHex(blue, purple, colorT, alpha * (isRecording ? 0.9 : 0.6));
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
-      }
-      
-      // subtle purple overlay (soft film) for extra tint
+      // 🌊 موج‌های هم‌مرکز
+    //   const rippleCount = 3;
+    //   for (let i = 0; i < rippleCount; i++) {
+    //     const phase = (elapsed * (isRecording ? 0.45 : 0.3) + i * 0.25) % 1;
+    //     const r = baseRadius + phase * size * (isRecording ? 0.22 : 0.16);
+    //     const alpha = 1 - phase;
+    //     ctx.beginPath();
+    //     ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+    //     ctx.strokeStyle = mixHex(violet, indigo, colorT, alpha * (isRecording ? 0.8 : 0.4));
+    //     ctx.lineWidth = 1.1;
+    //     ctx.stroke();
+    //   }
+
+      // 🌐 Outer ring glow (لبه‌ی روشن و نئونی)
       ctx.save();
+      const ring = ctx.createRadialGradient(centerX, centerY, size * 0.38, centerX, centerY, size * 0.48);
+      ring.addColorStop(0, "rgba(0,0,0,0)");
+      ring.addColorStop(0.7, mixHex(violet, neonBlue, colorT, 0.4));
+      ring.addColorStop(1, mixHex(neonBlue, violet, colorT, 0.95));
       ctx.globalCompositeOperation = "screen";
-      ctx.fillStyle = mixHex(purple, magenta, colorT, isRecording ? 0.0 : 0.04);
+      ctx.fillStyle = ring;
       ctx.beginPath();
-      ctx.arc(centerX, centerY, size * 0.44, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, size * 0.46, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
 
@@ -183,18 +176,19 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrb
       aria-pressed={isRecording}
       aria-label={isRecording ? "Stop recording" : "Start recording"}
       onClick={onToggle}
-      className={`group relative inline-flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
-        isRecording ? "focus-visible:ring-violet-400" : "focus-visible:ring-blue-400"
-      }`}
+      className={`group relative inline-flex items-center justify-center rounded-full 
+        focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black
+        ${isRecording ? "focus-visible:ring-violet-400" : "focus-visible:ring-blue-400"}`}
       style={{ width: size, height: size }}
     >
       <div
         className={`absolute inset-0 rounded-full transition-colors duration-300 ${
-          isRecording ? "bg-violet-500/10" : "bg-gradient-to-br from-blue-900/10 to-violet-900/10"
+          isRecording
+            ? "bg-gradient-to-br from-violet-800/20 to-indigo-800/10"
+            : "bg-gradient-to-br from-indigo-900/20 to-violet-900/10"
         }`}
       />
       <canvas ref={canvasRef} className="relative rounded-full" />
- 
     </button>
   );
 }
