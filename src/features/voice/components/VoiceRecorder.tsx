@@ -8,7 +8,7 @@ export default function VoiceRecorder() {
   const isRecording = status.startsWith("Recording");
 
   return (
-<div className="relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center bg-black text-white">
+<div className="relative flex flex-col items-center justify-center  bg-cover bg-center bg-black text-white">
 
       <h2 className="text-2xl font-bold mb-6">Trading Assistent</h2>
 
@@ -17,7 +17,7 @@ export default function VoiceRecorder() {
       <VoiceOrb
         isRecording={isRecording}
         onToggle={isRecording ? stopRecording : startRecording}
-        size={250}
+        size={260}
       />
 
       <p className="mt-3 text-sm text-gray-400">

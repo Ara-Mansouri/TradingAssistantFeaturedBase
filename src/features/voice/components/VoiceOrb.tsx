@@ -87,8 +87,8 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrb
 
       // 🔵 لبه زنده
       const baseRadius = size * 0.36;
-      const wobbleAmp = isRecording ? size * 0.035 : size * 0.015;
-      const wobbleSpeed = isRecording ? 3.6 : 2.0;
+      const wobbleAmp = isRecording ? size * 0.035 : size * 0.025;
+      const wobbleSpeed = isRecording ? 3.6 : 2.5;
       const segments = 100;
 
       ctx.save();
@@ -134,18 +134,18 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrb
 
       ctx.restore();
 
-      // 🌊 موج‌های هم‌مرکز
-    //   const rippleCount = 3;
-    //   for (let i = 0; i < rippleCount; i++) {
-    //     const phase = (elapsed * (isRecording ? 0.45 : 0.3) + i * 0.25) % 1;
-    //     const r = baseRadius + phase * size * (isRecording ? 0.22 : 0.16);
-    //     const alpha = 1 - phase;
-    //     ctx.beginPath();
-    //     ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
-    //     ctx.strokeStyle = mixHex(violet, indigo, colorT, alpha * (isRecording ? 0.8 : 0.4));
-    //     ctx.lineWidth = 1.1;
-    //     ctx.stroke();
-    //   }
+      //🌊 موج‌های هم‌مرکز
+      // const rippleCount = 3;
+      // for (let i = 0; i < rippleCount; i++) {
+      //   const phase = (elapsed * (isRecording ? 0.25 : 0.3) + i * 0.25) % 1;
+      //   const r = baseRadius + phase * size * (isRecording ? 0.22 : 0.16);
+      //   const alpha = 1 - phase;
+      //   ctx.beginPath();
+      //   ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+      //   ctx.strokeStyle = mixHex(violet, indigo, colorT, alpha * (isRecording ? 0.8 : 0.4));
+      //   ctx.lineWidth = 1.1;
+      //   ctx.stroke();
+      // }
 
       // 🌐 Outer ring glow (لبه‌ی روشن و نئونی)
       ctx.save();
@@ -181,13 +181,14 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrb
         ${isRecording ? "focus-visible:ring-violet-400" : "focus-visible:ring-blue-400"}`}
       style={{ width: size, height: size }}
     >
-      <div
+      
+      {/* <div
         className={`absolute inset-0 rounded-full transition-colors duration-300 ${
           isRecording
             ? "bg-gradient-to-br from-violet-800/20 to-indigo-800/10"
             : "bg-gradient-to-br from-indigo-900/20 to-violet-900/10"
         }`}
-      />
+      /> */}
       <canvas ref={canvasRef} className="relative rounded-full" />
     </button>
   );
