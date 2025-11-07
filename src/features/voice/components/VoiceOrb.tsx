@@ -6,6 +6,7 @@ type VoiceOrbProps = {
   isRecording: boolean;
   onToggle: () => void;
   size?: number; // px
+  volume?: number; 
 };
 
 function lerp(a: number, b: number, t: number) {
@@ -27,10 +28,12 @@ function mixHex(hexA: string, hexB: string, t: number, alpha = 1) {
   return `rgba(${r},${g},${bcol},${alpha})`;
 }
 
-export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrbProps) {
+export default function VoiceOrb({ isRecording, onToggle, size = 144 ,  volume = 0}: VoiceOrbProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
+const pulse = 1 + volume * 0.6;
+const scale = Math.min(pulse, 1.2);
 
   // 🎨 رنگ‌ها
   const blue = "#2563eb";      // آبی اصلی
@@ -85,9 +88,12 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrb
       ctx.fill();
       ctx.restore();
 
+      const micPulse = volume * size * 0.1; // مقدار پالس با صدا
       // 🔵 لبه زنده
-      const baseRadius = size * 0.36;
-      const wobbleAmp = isRecording ? size * 0.035 : size * 0.025;
+
+      const dynamicRadius = size * 0.36 + micPulse * 0.5;
+      const baseRadius = Math.min(dynamicRadius, size *0.5);
+      const wobbleAmp = (isRecording ? size * 0.035 : size * 0.025)+ micPulse * 0.7;
       const wobbleSpeed = isRecording ? 3.6 : 2.5;
       const segments = 100;
 
@@ -169,7 +175,7 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrb
       running = false;
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [isRecording, size]);
+  }, [isRecording, size, volume]);
 
   return (
     <button
@@ -189,7 +195,16 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 }: VoiceOrb
             : "bg-gradient-to-br from-indigo-900/20 to-violet-900/10"
         }`}
       /> */}
-      <canvas ref={canvasRef} className="relative rounded-full" />
+
+      
+   <canvas
+  ref={canvasRef}
+  className="relative rounded-full"
+  style={{
+    transform: `scale(${scale})`,
+    transition: "transform 0.05s linear",
+  }}
+/>
     </button>
   );
 }

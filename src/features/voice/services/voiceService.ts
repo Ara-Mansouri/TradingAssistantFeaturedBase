@@ -2,8 +2,8 @@
 import { createVoiceHubConnection } from "./voiceHubClient";
 import * as signalR from "@microsoft/signalr";
 
-const SESSION_ID = "session-demo";  
-const USERNAME = "tester";         
+const SESSION_ID = "room1";  
+const USERNAME = "User1";         
 
 export class VoiceService {
   private connection: signalR.HubConnection;
@@ -14,83 +14,83 @@ export class VoiceService {
   constructor() {
     this.connection = createVoiceHubConnection();
 
-    // ✅ مدیریت reconnect شدن
+   
     this.connection.onreconnecting(() => {
-      console.warn("🔄 Reconnecting...");
+      console.warn(" Reconnecting...");
     });
 
     this.connection.onreconnected(async () => {
-      console.warn("✅ Reconnected, joining session again…");
+      console.warn(" Reconnected, joining session again…");
       await this.joinSession();
     });
   }
 
-  // ✅ اتصال + ثبت event listener ها
+ 
   async connect(
     onTextResponse: (text: string) => void,
     onStatusChange: (status: string) => void
   ) {
-    // ✅ 1) eventهایی که از سمت سرور می‌آیند
+    
 
     this.connection.on("Connected", (id: any) => {
-      console.log("✅ Server says connected:", id);
+      console.log(" Server says connected:", id);
     });
 
     this.connection.on("JoinedSession", (sessionId: string) => {
-      console.log("✅ JoinedSession:", sessionId);
+      console.log(" JoinedSession:", sessionId);
       onStatusChange("Joined session");
     });
 
     this.connection.on("SessionParticipants", (list: any[]) => {
-      console.log("👥 Participants:", list);
+      console.log("Participants:", list);
     });
 
     this.connection.on("UserJoined", (user: any) => {
-      console.log("➕ UserJoined:", user);
+      console.log(" UserJoined:", user);
     });
 
     this.connection.on("UserLeft", (user: any) => {
-      console.log("➖ UserLeft:", user);
+      console.log(" UserLeft:", user);
     });
 
     this.connection.on("RecordingStarted", (data: any) => {
-      console.log("🎙 RecordingStarted:", data);
+      console.log(" RecordingStarted:", data);
       onStatusChange(`Recording started by ${data.startedBy}`);
     });
 
     this.connection.on("AudioChunkReceived", (data: any) => {
-      console.log("🔊 AudioChunkReceived", data);
+      console.log(" AudioChunkReceived", data);
     });
 
     this.connection.on("RecordingStopped", (data: any) => {
-      console.log("🛑 RecordingStopped:", data);
+      console.log(" RecordingStopped:", data);
       onTextResponse(data?.text ?? "No response");
       onStatusChange("Stopped");
     });
 
-    // ✅ 2) شروع اتصال
+   
     await this.connection.start();
     onStatusChange("Connected");
 
-    // ✅ 3) Join کردن سشن
+   
     await this.joinSession();
   }
 
-  // ✅ join کردن session
+  
   private async joinSession() {
     if (this.connection.state !== signalR.HubConnectionState.Connected) return;
 
     await this.connection.invoke("JoinAudioSession", SESSION_ID, USERNAME);
 
     this.joined = true;
-    console.log(`✅ Joined session as ${USERNAME}`);
+    console.log(` Joined session as ${USERNAME}`);
   }
 
-  // ✅ شروع ضبط
+  
   async startRecording(onStatusChange: (s: string) => void) {
     if (!this.joined) await this.joinSession();
 
-    // اعلام به سرور
+  
 
  try 
  {
@@ -105,6 +105,7 @@ export class VoiceService {
       if (event.data.size > 0) {
         const buf = await event.data.arrayBuffer();
         const base64 = this.arrayBufferToBase64(buf);
+this.playLocalAudio(base64);
 
         await this.connection.invoke("StreamAudioChunk", SESSION_ID, {
           Data: base64,
@@ -124,26 +125,57 @@ export class VoiceService {
   }
   }
 
-  // ✅ پایان ضبط
+
   async stopRecording(onStatusChange: (s: string) => void) {
     if (!this.recorder) return;
 
-    // توقف ضبط مرورگر
+   
     this.recorder.stop();
     this.recorder.stream.getTracks().forEach((t) => t.stop());
     this.recorder = null;
     console.log("sessionid while stop recording is : ", SESSION_ID)
-    // اعلام به سرور
+    
     await this.connection.invoke("StopRecording", SESSION_ID);
     onStatusChange("Stopping…");
   }
 
-  private arrayBufferToBase64(buffer: ArrayBuffer) {
-    return btoa(String.fromCharCode(...new Uint8Array(buffer)));
-  }
+  // private arrayBufferToBase64(buffer: ArrayBuffer) {
+  //   return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+  // }
+       private arrayBufferToBase64(buffer : ArrayBuffer) {
+            const bytes = new Uint8Array(buffer);
+            let binary = '';
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        }
 
   async disconnect() {
     await this.connection.stop();
   }
+private playLocalAudio(base64: string) {
+  try {
+    const audioBytes = this.base64ToArrayBuffer(base64);
+   
+   const audioBlob = new Blob([audioBytes], { type: "audio/webm; codecs=opus" });
+
+    const audioUrl = URL.createObjectURL(audioBlob);
+
+    const audio = new Audio(audioUrl);
+    audio.play().catch(err => console.log("Autoplay blocked:", err));
+  } catch (e) {
+    console.error("Local audio error:", e);
+  }
+}
+private base64ToArrayBuffer(base64: string) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
   
 }

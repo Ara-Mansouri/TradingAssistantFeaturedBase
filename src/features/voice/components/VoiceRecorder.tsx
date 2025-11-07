@@ -1,12 +1,14 @@
 "use client";
 import { useVoiceHub } from "../hooks/useVoiceHub";
+import { useMicVolume } from "../hooks/useMicVolume";
 import VoiceOrb from "./VoiceOrb";
 
 export default function VoiceRecorder() {
   const { status, response, startRecording, stopRecording } = useVoiceHub();
 
-  const isRecording = status.startsWith("Recording");
 
+  const isRecording = status.startsWith("Recording");
+   const volume = useMicVolume(isRecording);
   return (
 <div className="relative flex flex-col items-center justify-center  bg-cover bg-center bg-black text-white">
 
@@ -16,6 +18,7 @@ export default function VoiceRecorder() {
 
       <VoiceOrb
         isRecording={isRecording}
+         volume={volume}
         onToggle={isRecording ? stopRecording : startRecording}
         size={260}
       />
