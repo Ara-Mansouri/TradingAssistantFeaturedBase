@@ -12,7 +12,7 @@ export default function VoiceRecorder() {
   return (
 <div className="relative flex flex-col items-center justify-center  bg-cover bg-center bg-black text-white">
 
-      <h2 className="text-2xl font-bold mb-6">Trading Assistent</h2>
+      {/* <h2 className="text-2xl font-bold mb-6">Trading Assistent</h2> */}
 
       <p className="text-gray-400 mb-4">{status}</p>
 

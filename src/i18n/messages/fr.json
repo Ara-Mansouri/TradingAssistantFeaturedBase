@@ -13,7 +13,7 @@
     }
   },
   "Dashboard": {
-       "welcome": "bienvenu!",
+       "welcome": "Bienvenue dans Trading Assistant !",
         "logout": "Se déconnecter"
   },
   "errors": {

@@ -17,8 +17,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         }
         `}
       >
-      
+      <div className="absolute top-4 right-4 z-50">
        <LanguageSwitcher />
+      </div>
 
         <section
           className="relative w-full max-w-5xl rounded-3xl overflow-hidden bg-black shadow-2xl"
