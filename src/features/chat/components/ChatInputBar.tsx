@@ -9,7 +9,7 @@ export default function ChatInputBar() {
   const locale = useLocale();
   const t = useTranslations("Dashboard");
   const goToWave = () => {
-    router.push("/voice");
+    router.push("/dashboard/voice");
   };
 
   const [text, setText] = useState("");
@@ -29,7 +29,21 @@ export default function ChatInputBar() {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center bg-black/80 backdrop-blur-md z-40" dir={locale === "fa" ? "rtl" : "ltr"}>
 
-   
+<div
+  aria-hidden
+  className="
+    pointer-events-none absolute -z-10
+    top-1/3 left-1/2 -translate-x-1/2
+    w-[200%] h-52
+    bg-gradient-to-r from-red-800/25 via-red-600/15 to-transparent
+    blur-3xl opacity-70
+    rotate-[-25deg]
+
+    sm:w-[250%] sm:h-64
+    md:w-[300%] md:h-72 md:rotate-[-30deg] md:top-1/4
+  "
+/>
+
       <h1 className="text-center text-2xl text-white font-medium mb-10 tracking-wider">
         {text}
       </h1>

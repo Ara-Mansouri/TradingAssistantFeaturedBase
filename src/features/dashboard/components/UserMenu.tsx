@@ -31,8 +31,6 @@ export default function UserMenu() {
 
   return (
     <div  ref={menuRef}>
-      
-      
       <button
         onClick={() => setOpen(!open)}
         className="p-2 rounded-md hover:bg-gray-800 transition"
@@ -53,8 +51,8 @@ export default function UserMenu() {
         >
           <button
             onClick={handleLogout}
-            className="w-full text-left px-0 py-0 rounded-md text-gray-200
-                       hover:bg-red-700/40 hover:text-white transition"
+            className="w-full text-left px-1 py-1  rounded-md text-gray-200
+                       hover:bg-red-700/20 hover:text-white transition"
           >
             {t("logout")}
           </button>

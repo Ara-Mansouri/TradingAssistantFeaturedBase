@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import WelcomeSection from "@/features/dashboard/components/WelcomeSection";
 import VoiceRecorder from "@/features/voice/components/VoiceRecorder";
 
 export default function WelcomePage() {

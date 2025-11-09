@@ -16,13 +16,14 @@ export function useVoiceHub() {
     });
 
     return () => {
-      svc.disconnect();
+      svc.disconnect().catch(() => {});
     };
   }, []);
 
   return {
     status,
     response,
+    setResponse, 
     startRecording: () => svcRef.current?.startRecording(setStatus),
     stopRecording: () => svcRef.current?.stopRecording(setStatus),
   };
