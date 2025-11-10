@@ -5,7 +5,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   async rewrites() {
-    if (process.env.NODE_ENV === "development") {
+    
       return [
         {
           source: "/api/:path*",
@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
           destination: "https://trading.liara.run/audioHub/:path*",
         },
       ];
-    }
+    
     
     return [];
   },
