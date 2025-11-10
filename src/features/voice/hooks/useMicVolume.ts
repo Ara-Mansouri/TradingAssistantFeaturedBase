@@ -20,7 +20,7 @@ export function useMicVolume(isRecording: boolean)
       ctx = new AudioContext();
       const src = ctx.createMediaStreamSource(stream);
       analyser = ctx.createAnalyser();
-      analyser.fftSize = 256; 
+      analyser.fftSize = 64; 
       const data = new Uint8Array(analyser.frequencyBinCount);
       src.connect(analyser);
       const tick = () => 
