@@ -27,47 +27,55 @@ export default function ChatInputBar() {
   }, [fullText]);
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center bg-black/80 backdrop-blur-md z-40" dir={locale === "fa" ? "rtl" : "ltr"}>
+    <div className="w-full h-full flex flex-col items-center justify-center z-40 px-4" dir={locale === "fa" ? "rtl" : "ltr"}>
 
+      <div className="text-center mb-8 sm:mb-12">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl text-white font-bold mb-2 tracking-tight">
 <div
   aria-hidden
   className="
     pointer-events-none absolute -z-10
-    top-1/3 left-1/2 -translate-x-1/2
-    w-[200%] h-52
-    bg-gradient-to-r from-red-800/25 via-red-600/15 to-transparent
-    blur-3xl opacity-70
-    rotate-[-25deg]
+    left-1/2 -translate-x-1/2
+    top-[45%]
+    w-full             
+    max-w-[45rem]      
+    h-[6rem]          
 
-    sm:w-[250%] sm:h-64
-    md:w-[300%] md:h-72 md:rotate-[-30deg] md:top-1/4
+
+    rounded-full
+    bg-gradient-to-r from-red-800/25 via-red-600/15 to-transparent
+    blur-[50px] opacity-100
+    rotate-[-24deg]
+
+    md:top-[22%]
+    md:max-w-[55rem]  
+    md:h-[12rem]
+    md:rotate-[-26deg]
   "
 />
 
-      <h1 className="text-center text-2xl text-white font-medium mb-10 tracking-wider">
+       
         {text}
-      </h1>
-
-      <div
-        className="
-          w-full px-4 py-6
-          fixed bottom-0 left-0
-          md:static md:px-0
-        "
-      >
+          <span className="inline-block w-0.5 h-6 sm:h-8 bg-white ml-1.5 animate-pulse" />
+        </h1>
+      </div>
+      <div className="w-full max-w-3xl mx-auto">
         <div
           className="
-            max-w-3xl mx-auto flex items-center gap-3 p-2 rounded-4xl
-            bg-[#1E1E1E] border border-[#3f3d3d]
-            shadow-[0_0_30px_rgba(255,255,255,0.08)]
+            w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-2xl sm:rounded-3xl
+            bg-white/5 backdrop-blur-md border border-white/10
+            shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_rgba(185,28,28,0.2)]
+            transition-all duration-300 hover:border-red-500/30
           "
         >
           <input
             type="text"
-            placeholder="…"
-            className="flex-1 bg-transparent outline-none text-gray-300 placeholder-gray-500 ps-4"
+            placeholder="..."
+            className="flex-1 bg-transparent outline-none text-white placeholder-gray-400 
+                     px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base
+                     focus:placeholder-gray-500"
           />
-          <button  
+  <button  
            className="w-10 h-10 flex items-center justify-center rounded-full transition-all hover:bg-gray-800 hover:shadow-lg"
           >
           <svg width="22" 
@@ -80,22 +88,33 @@ export default function ChatInputBar() {
          </button>
           <button
             onClick={goToWave}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700 transition-all shadow-lg"
+className="
+  w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center 
+  rounded-xl sm:rounded-2xl bg-[#771313]
+  
+  hover:from-[#7c0909] hover:via-[#4a0303]
+  border border-[#5c0505]/40
+  hover:shadow-red-900/40
+  transition-all duration-300
+  transform hover:scale-105 active:scale-95
+  group
+"
+            aria-label="Voice input"
           >
             <svg
-              width="22"
-              height="22"
+              width="21"
+              height="21"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2.2"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="text-white"
+              className="text-white group-hover:text-red-100 transition-colors"
             >
-              <rect x="6" y="8" width="2" height="8" rx="1" fill="white" fillOpacity="0.95" />
-              <rect x="11" y="6" width="2" height="12" rx="1" fill="white" fillOpacity="0.95" />
-              <rect x="16" y="8" width="2" height="8" rx="1" fill="white" fillOpacity="0.95" />
+              <rect x="6" y="8" width="2" height="8" rx="1" />
+              <rect x="11" y="6" width="2" height="12" rx="1" />
+              <rect x="16" y="8" width="2" height="8" rx="1" />
             </svg>
           </button>
 
