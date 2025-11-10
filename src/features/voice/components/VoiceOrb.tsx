@@ -28,14 +28,15 @@ function mixHex(hexA: string, hexB: string, t: number, alpha = 1) {
   return `rgba(${r},${g},${bcol},${alpha})`;
 }
 
-export default function VoiceOrb({ isRecording, onToggle, size = 144 ,  volume = 0}: VoiceOrbProps) {
+export default function VoiceOrb({ isRecording, onToggle, size = 144 ,  volume = 0}: VoiceOrbProps) 
+{
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
-const pulse = 1 + volume * 0.6;
-const scale = Math.min(pulse, 1.2);
+  const pulse = 1 + volume * 0.6;
+  const scale = Math.min(pulse, 1.1);
 
-  // 🎨 رنگ‌ها
+  //  رنگ‌ها
   const blue = "#2563eb";      // آبی اصلی
   const indigo = "#4338ca";    // آبی تیره / نیلی
   const violet = "#7c3aed";    // بنفش نئونی
@@ -65,18 +66,18 @@ const scale = Math.min(pulse, 1.2);
       const elapsed = (t - startTimeRef.current) / 1000;
       ctx.clearRect(0, 0, size, size);
 
-      // ✨ تغییر رنگ پویا با تمرکز بر بنفش
+      // تغییر رنگ پویا با تمرکز بر بنفش
       const colorT = isRecording
         ? 0.7 + 0.3 * Math.sin(elapsed * 1.5)
         : 0.4 + 0.2 * Math.sin(elapsed * 0.8);
 
-      // 🎨 رنگ‌های ترکیبی
+      // رنگ‌های ترکیبی
       const baseColor = mixHex(violet, blue, colorT, 0.9);
       const glowColor = mixHex(violet, neonBlue, colorT, 0.8);
       const edgeColor = mixHex(violet, activeAccent, colorT, 1);
       const rippleColor = mixHex(violet, indigo, colorT, 1);
 
-      // 🔮 پس‌زمینه ملایم بنفش
+      //  پس‌زمینه ملایم بنفش
       const gradient = ctx.createRadialGradient(centerX, centerY, size * 0.25, centerX, centerY, size * 0.7);
       gradient.addColorStop(0, mixHex(violet, indigo, colorT, 0.08));
       gradient.addColorStop(1, "rgba(0,0,0,0)");
@@ -89,11 +90,11 @@ const scale = Math.min(pulse, 1.2);
       ctx.restore();
 
       const micPulse = volume * size * 0.1; // مقدار پالس با صدا
-      // 🔵 لبه زنده
+      //  لبه زنده
 
       const dynamicRadius = size * 0.36 + micPulse * 0.5;
       const baseRadius = Math.min(dynamicRadius, size *0.5);
-      const wobbleAmp = (isRecording ? size * 0.035 : size * 0.025)+ micPulse * 0.7;
+      const wobbleAmp = (isRecording ? size * 0.035 : size * 0.025)+ micPulse * 0.3;
       const wobbleSpeed = isRecording ? 3.6 : 2.5;
       const segments = 100;
 
@@ -113,14 +114,14 @@ const scale = Math.min(pulse, 1.2);
       }
       ctx.closePath();
 
-      // 💡 Outer bright ring
+      //  Outer bright ring
       ctx.lineWidth = isRecording ? 3 : 2;
       ctx.shadowColor = glowColor;
       ctx.shadowBlur = isRecording ? 25 : 15;
       ctx.strokeStyle = mixHex(violet, neonBlue, colorT, 0.95);
       ctx.stroke();
 
-      // 💫 Inner stroke (soft violet core)
+      //  Inner stroke (soft violet core)
       ctx.beginPath();
       for (let i = 0; i <= segments; i++) {
         const theta = (i / segments) * Math.PI * 2;
@@ -140,7 +141,7 @@ const scale = Math.min(pulse, 1.2);
 
       ctx.restore();
 
-      //🌊 موج‌های هم‌مرکز
+      // موج‌های هم‌مرکز
       // const rippleCount = 3;
       // for (let i = 0; i < rippleCount; i++) {
       //   const phase = (elapsed * (isRecording ? 0.25 : 0.3) + i * 0.25) % 1;
@@ -153,7 +154,7 @@ const scale = Math.min(pulse, 1.2);
       //   ctx.stroke();
       // }
 
-      // 🌐 Outer ring glow (لبه‌ی روشن و نئونی)
+      //  Outer ring glow (لبه‌ی روشن و نئونی)
       ctx.save();
       const ring = ctx.createRadialGradient(centerX, centerY, size * 0.38, centerX, centerY, size * 0.48);
       ring.addColorStop(0, "rgba(0,0,0,0)");
