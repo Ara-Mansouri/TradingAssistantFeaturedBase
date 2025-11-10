@@ -26,5 +26,6 @@ export function useVoiceHub() {
     setResponse, 
     startRecording: () => svcRef.current?.startRecording(setStatus),
     stopRecording: () => svcRef.current?.stopRecording(setStatus),
+    leaveSession: () => svcRef.current?.leaveSession()
   };
 }

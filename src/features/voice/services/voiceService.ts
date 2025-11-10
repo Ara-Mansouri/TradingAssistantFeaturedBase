@@ -112,7 +112,7 @@ export class VoiceService {
          {
         const buf = await event.data.arrayBuffer();
         const base64 = this.arrayBufferToBase64(buf);
-        this.playLocalAudio(base64);
+        //this.playLocalAudio(base64);
         await this.connection.invoke("StreamAudioChunk", SESSION_ID, 
           {
           Data: base64,
@@ -144,6 +144,31 @@ export class VoiceService {
     await this.connection.invoke("StopRecording", SESSION_ID);
     onStatusChange("Stopping…");
   }
+  async leaveSession() {
+  try {
+    console.log("Leaving session…");
+
+    // if (this.recorder) {
+    //   this.recorder.stop();
+    //   this.recorder.stream.getTracks().forEach((t) => t.stop());
+    //   this.recorder = null;
+    // }
+
+    
+    if (this.joined) {
+      await this.connection.invoke("LeaveAudioSession", SESSION_ID);
+      this.joined = false;
+      console.log("Left audio session");
+    }
+
+    await this.connection.stop();
+    console.log("Disconnected from hub");
+  }
+  catch (err) {
+    console.error("Failed to leave session:", err);
+  }
+}
+
 
   private arrayBufferToBase64(buffer : ArrayBuffer) 
   {

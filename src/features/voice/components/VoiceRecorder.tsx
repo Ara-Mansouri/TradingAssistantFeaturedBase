@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import VoiceOrb from "./VoiceOrb";
 
 export default function VoiceRecorder() {
-  const { status, response,setResponse,startRecording, stopRecording } = useVoiceHub();
+  const { status, response,setResponse,startRecording, stopRecording , leaveSession } = useVoiceHub();
 const router = useRouter();
 
   const isRecording = status.startsWith("Recording");
@@ -31,11 +31,13 @@ const router = useRouter();
         </div>
       )}
         <button
-      onClick={() => 
-       { 
-          if (isRecording) stopRecording(); 
-          setResponse(null);              
-         router.push("/dashboard");       
+       onClick={async () => 
+        {
+         if (isRecording) await stopRecording();
+         await leaveSession();  
+        setResponse(null);
+        router.push("/dashboard");
+            
        }}
 
       className="
