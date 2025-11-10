@@ -39,7 +39,7 @@ export default function ChatInputBar() {
     top-[45%]
     w-full             
     max-w-[45rem]      
-    h-[6rem]          
+    h-[5rem]          
 
 
     rounded-full
