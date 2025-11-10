@@ -4,13 +4,20 @@ import { VoiceService } from "../services/voiceService";
 export function useVoiceHub() {
   const [status, setStatus] = useState("Disconnected");
   const [response, setResponse] = useState<string | null>(null);
+   const [connected, setConnected] = useState(false);
+  const [sessionJoined, setSessionJoined] = useState(false);
   const svcRef = useRef<VoiceService | null>(null);
 
   useEffect(() => {
     const svc = new VoiceService();
     svcRef.current = svc;
 
-    svc.connect(setResponse, setStatus).catch((err) => {
+    svc.connect(
+      setResponse,
+      setStatus,
+      setConnected,       
+      setSessionJoined 
+      ).catch((err) => {
       console.error("Hub connect failed:", err);
       setStatus("Failed");
     });
@@ -26,5 +33,7 @@ export function useVoiceHub() {
     setResponse, 
     startRecording: () => svcRef.current?.startRecording(setStatus),
     stopRecording: () => svcRef.current?.stopRecording(setStatus),
+    connected,
+    sessionJoined,
   };
 }

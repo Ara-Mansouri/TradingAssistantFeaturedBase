@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import VoiceOrb from "./VoiceOrb";
 
 export default function VoiceRecorder() {
-  const { status, response,setResponse,startRecording, stopRecording } = useVoiceHub();
+  const { status, response,setResponse,startRecording, stopRecording ,connected, sessionJoined  } = useVoiceHub();
 const router = useRouter();
 
   const isRecording = status.startsWith("Recording");
    const volume = useMicVolume(isRecording);
+   const canUseOrb = connected && sessionJoined;
   return (
 <div className="relative flex flex-col items-center justify-center  bg-cover bg-center bg-black text-white">
       <p className="text-gray-400 mb-4">{status}</p>
@@ -19,6 +20,7 @@ const router = useRouter();
          volume={volume}
         onToggle={isRecording ? stopRecording : startRecording}
         size={260}
+        disabled={!canUseOrb}  
       />
 
       <p className="mt-3 text-sm text-gray-400">
