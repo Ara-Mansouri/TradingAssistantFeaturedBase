@@ -28,13 +28,7 @@ export class VoiceService {
   }
 
  
-  async connect(onTextResponse: (
-    text: string) => void,
-    onStatusChange: (status: string) => void,
-    setConnected: (c: boolean) => void,
-    setSessionJoined: (j: boolean) => void
-
-  ) 
+  async connect(onTextResponse: (text: string) => void, onStatusChange: (status: string) => void) 
   {
     this.connection.on("Connected", (id: any) => 
     {
@@ -45,7 +39,6 @@ export class VoiceService {
     {
       console.log(" JoinedSession:", sessionId);
       onStatusChange("Joined session");
-      setSessionJoined(true);
     });
 
     this.connection.on("SessionParticipants", (list: any[]) => 
@@ -82,7 +75,6 @@ export class VoiceService {
     });
 
     await this.connection.start();
-    setConnected(true);
     onStatusChange("Connected");
 
    
