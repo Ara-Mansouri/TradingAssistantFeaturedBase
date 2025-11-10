@@ -7,10 +7,10 @@ const nextConfig: NextConfig = {
   async rewrites() {
     
       return [
-        {
-          source: "/api/:path*",
-          destination: "https://trading.liara.run/api/:path*",
-        },
+        // {
+        //   source: "/api/:path*",
+        //   destination: "https://trading.liara.run/api/:path*",
+        // },
 
        
         {
