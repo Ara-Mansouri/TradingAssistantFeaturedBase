@@ -39,7 +39,7 @@ export default function ChatInputBar() {
     top-[45%]
     w-full             
     max-w-[45rem]      
-    h-[6rem]          
+    h-[7rem]          
 
 
     rounded-full
@@ -49,7 +49,8 @@ export default function ChatInputBar() {
 
     md:top-[22%]
     md:max-w-[55rem]  
-    md:h-[12rem]
+    md:h-[15rem]
+    md:opacity-60
     md:rotate-[-26deg]
   "
 />
