@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import VoiceRecorder from "@/features/voice/components/VoiceRecorder";
 import LanguageSwitcher from "@/features/common/LanguageSwitcher";
 import UserMenu from "@/features/dashboard/components/UserMenu";
 import ChatInputBar from "@/features/chat/components/ChatInputBar";

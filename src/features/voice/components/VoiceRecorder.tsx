@@ -26,8 +26,7 @@ const router = useRouter();
       </p>
 
       {response && (
-        <div className="mt-6 bg-gray-800 p-4 rounded-lg w-[400px] text-center">
-          <h3 className="text-lg font-semibold mb-2">AI Response</h3>
+        <div className="mt-6 bg-gray-800 p-4 rounded-lg w-[400px] text-center  overflow-y-auto max-h-[200px] break-word ">
           <p className="text-sm text-gray-200">{response}</p>
         </div>
       )}

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import VoiceRecorder from "@/features/voice/components/VoiceRecorder";
 
-export default function WelcomePage() {
+export default function VociePage() {
   useEffect(() => {
     
     window.history.pushState(null, "", window.location.href);
