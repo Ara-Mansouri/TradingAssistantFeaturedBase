@@ -91,7 +91,7 @@ export default function ChatInputBar() {
             onClick={goToWave}
 className="
   w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center 
-  rounded-xl sm:rounded-2xl bg-[#771313]
+  rounded-full sm:rounded-full bg-[#771313]
   
   hover:from-[#7c0909] hover:via-[#4a0303]
   border border-[#5c0505]/40
