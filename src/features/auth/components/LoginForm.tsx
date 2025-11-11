@@ -7,7 +7,7 @@ import { useLocale } from "next-intl";
 export default function LoginForm() {
   const t = useTranslations("auth.login");
   const generic = useTranslations("errors");
- // const locale = useLocale();
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +16,7 @@ export default function LoginForm() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleLogin({ email, password });
+    handleLogin({ email: email.trim().toLowerCase(), password });
   };
 
   return (
