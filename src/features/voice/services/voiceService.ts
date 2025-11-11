@@ -28,17 +28,36 @@ export class VoiceService {
   }
 
  
-  async connect(onTextResponse: (text: string) => void, onStatusChange: (status: string) => void) 
+  async connect(onTextResponse: (text: string) => void, onStatusChange: (status: string) => void , onSessionReady: (ready: boolean) => void ) 
   {
     this.connection.on("Connected", (id: any) => 
     {
       console.log(" Server says connected:", id);
     });
 
+  this.connection.on("Connected", (id: any) => 
+    {
+      onStatusChange(`Connected: ${id}`);
+    });
+
+
+    this.connection.onreconnecting(() =>
+    {
+      onStatusChange("Reconnecting…");
+      onSessionReady(false);   
+    });
+
+    this.connection.onreconnected(async () => 
+    {
+      onStatusChange("Reconnected!");
+      await this.joinSession();
+
+    });
     this.connection.on("JoinedSession", (sessionId: string) => 
     {
       console.log(" JoinedSession:", sessionId);
       onStatusChange("Joined session");
+      onSessionReady(true); 
     });
 
     this.connection.on("SessionParticipants", (list: any[]) => 

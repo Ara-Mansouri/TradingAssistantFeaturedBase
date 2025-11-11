@@ -7,6 +7,8 @@ type VoiceOrbProps = {
   onToggle: () => void;
   size?: number; // px
   volume?: number; 
+  disabled: boolean;
+
 };
 
 function lerp(a: number, b: number, t: number) {
@@ -28,7 +30,7 @@ function mixHex(hexA: string, hexB: string, t: number, alpha = 1) {
   return `rgba(${r},${g},${bcol},${alpha})`;
 }
 
-export default function VoiceOrb({ isRecording, onToggle, size = 144 ,  volume = 0}: VoiceOrbProps) 
+export default function VoiceOrb({ isRecording, onToggle, size = 144 ,  volume = 0 , disabled = true}: VoiceOrbProps) 
 {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -182,11 +184,12 @@ export default function VoiceOrb({ isRecording, onToggle, size = 144 ,  volume =
     <button
       aria-pressed={isRecording}
       aria-label={isRecording ? "Stop recording" : "Start recording"}
-      onClick={onToggle}
+      onClick={disabled ? undefined : onToggle}
+      
       className={`group relative inline-flex items-center justify-center rounded-full 
         focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-black
         ${isRecording ? "focus-visible:ring-violet-400" : "focus-visible:ring-blue-400"}`}
-      style={{ width: size, height: size }}
+      style={{ width: size, height: size , opacity: disabled ? 0.4 : 1,}}
     >
       
       {/* <div

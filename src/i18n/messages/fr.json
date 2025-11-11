@@ -14,7 +14,9 @@
   },
   "Dashboard": {
        "welcome": "Bienvenue dans Trading Assistant !",
-        "logout": "Se déconnecter"
+        "logout": "Se déconnecter",
+        "start" : "Commencer à parler",
+        "stop"  : "Arrêter de parler"
   },
   "errors": {
     "generic": "Une erreur est survenue sur le serveur",

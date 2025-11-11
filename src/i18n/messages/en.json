@@ -14,7 +14,9 @@
   },
   "Dashboard": {
     "welcome": "Welcome to Trading Assistant!",
-      "logout": "Log out" 
+    "logout": "Log out" ,
+    "start" : "Tap to Start",
+    "stop"  : "Tap to Stop"
   },
   "errors": {
     "generic": "A server error has occurred",

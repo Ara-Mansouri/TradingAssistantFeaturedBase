@@ -3,11 +3,12 @@ import { useVoiceHub } from "../hooks/useVoiceHub";
 import { useMicVolume } from "../hooks/useMicVolume";
 import { useRouter } from "next/navigation";
 import VoiceOrb from "./VoiceOrb";
+import { useTranslations } from "next-intl";
 
 export default function VoiceRecorder() {
-  const { status, response,setResponse,startRecording, stopRecording , leaveSession } = useVoiceHub();
+  const { status, response,setResponse,sessionReady,startRecording, stopRecording , leaveSession } = useVoiceHub();
 const router = useRouter();
-
+ const t = useTranslations("Dashboard");
   const isRecording = status.startsWith("Recording");
    const volume = useMicVolume(isRecording);
   return (
@@ -18,11 +19,12 @@ const router = useRouter();
         isRecording={isRecording}
          volume={volume}
         onToggle={isRecording ? stopRecording : startRecording}
+        disabled={!sessionReady}
         size={260}
       />
 
       <p className="mt-3 text-sm text-gray-400">
-        {isRecording ? "Tap to stop" : "Tap to speak"}
+        {isRecording ? t("stop") : t("start")}
       </p>
 
       {response && (
