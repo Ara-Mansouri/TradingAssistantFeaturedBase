@@ -35,7 +35,10 @@ const router = useRouter();
         <button
        onClick={async () => 
         {
-         if (isRecording) await stopRecording();
+         if (isRecording) 
+         {
+          await stopRecording();
+         }
          await leaveSession();  
         setResponse(null);
         router.push("/dashboard");
