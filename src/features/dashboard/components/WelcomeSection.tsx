@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/features/common/LanguageSwitcher";
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+
 
 export default function WelcomeSection() {
   const t = useTranslations("Dashboard");
@@ -20,16 +20,6 @@ export default function WelcomeSection() {
   };
 
   return (
-    <section
-      className="relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center text-white"
-      style={{ backgroundImage: "url('/images/welcome-bg.png')" }}
-    >
-      <LanguageSwitcher />
-
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-
-      <div className="relative z-10 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6">{t("welcome")}</h1>
 
         <button
           onClick={handleLogout}
@@ -39,7 +29,6 @@ export default function WelcomeSection() {
         >
           {t("logout")}
         </button>
-      </div>
-    </section>
+
   );
 }

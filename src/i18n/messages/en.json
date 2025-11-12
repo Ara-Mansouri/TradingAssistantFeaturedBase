@@ -13,8 +13,10 @@
     }
   },
   "Dashboard": {
-    "welcome": "Welcome!",
-      "logout": "Log out"
+    "welcome": "Welcome to Trading Assistant!",
+    "logout": "Log out" ,
+    "start" : "Tap to Start",
+    "stop"  : "Tap to Stop"
   },
   "errors": {
     "generic": "A server error has occurred",

@@ -18,7 +18,7 @@ export default function RegisterForm() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-     handleRegister({ email, password ,firstName,lastName});
+     handleRegister({ email: email.trim().toLowerCase(), password ,firstName,lastName});
   };
 
   return (

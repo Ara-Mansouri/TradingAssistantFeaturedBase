@@ -26,7 +26,7 @@ export default function ResetPasswordForm() {
       return;
     }
     setLocalError(null);
-    handleReset({ email, verificationCode, newPassword }); 
+    handleReset({ email: email.trim().toLowerCase(), verificationCode, newPassword }); 
   };
   return (
     <div className="w-full px-4 sm:px-0 animate-fade-in">

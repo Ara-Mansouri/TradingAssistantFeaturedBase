@@ -11,7 +11,8 @@ export default function ForgotPasswordForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutate(email);
+    const safeEmail = email.trim().toLowerCase();  
+    mutate(safeEmail);
   };
   return (
     <div className="w-full px-4 sm:px-0 animate-fade-in">
