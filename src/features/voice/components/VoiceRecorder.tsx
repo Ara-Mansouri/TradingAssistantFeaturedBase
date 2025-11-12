@@ -13,7 +13,7 @@ const router = useRouter();
    const volume = useMicVolume(isRecording);
   return (
 <div className="relative flex flex-col items-center justify-center  bg-cover bg-center bg-black text-white">
-      <p className="text-gray-400 mb-4">{status}</p>
+      {/* <p className="text-gray-400 mb-4">{status}</p> */}
 
       <VoiceOrb
         isRecording={isRecording}
