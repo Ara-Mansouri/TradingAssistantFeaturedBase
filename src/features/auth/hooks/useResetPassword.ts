@@ -5,7 +5,13 @@ import { resetPasswordApi, ResetPasswordPayload } from "../services/auth.api";
 import { useAuthContext } from "@/context/AuthContext";
 import { useLocale } from "next-intl"; 
 
-export function useResetPassword() {
+interface UseResetPasswordOptions 
+{
+  onError?: (err: any) => void;
+}
+
+
+export function useResetPassword(options?: UseResetPasswordOptions) {
   const router = useRouter();
   const locale = useLocale(); 
   const { clearEmail } = useAuthContext();
@@ -18,14 +24,15 @@ export function useResetPassword() {
       router.replace("/auth/Login");
       clearEmail();
     },
+      onError: (err) => {
+      if (options?.onError) options.onError(err); 
+    },
 
 
   });
 
   return {
     mutate: mutation.mutate,
-    isPending: mutation.isPending,
-    isError: mutation.isError,
-    error: mutation.error,
+    isPending: mutation.isPending
   };
 }

@@ -1,17 +1,43 @@
-"use client";
-import { useState } from "react";
+ "use client";
 import { useForgotPassword } from "../hooks/useForgotPassword";
 import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { forgetpasswordSchema } from "@/validation/forgotpassword.schema";
+import { z } from "zod";
+import ErrorBox from "./ErrorBox";
+
+type forgetpasswordFormData = z.infer<typeof forgetpasswordSchema>;
 
 export default function ForgotPasswordForm() {
+     const {
+        register,
+        handleSubmit,
+        setError,
+        clearErrors,
+        formState: { errors },
+      } = useForm<forgetpasswordFormData>({
+        resolver: zodResolver(forgetpasswordSchema),
+        mode: "onSubmit",
+        reValidateMode: "onSubmit",
+      });
  const t = useTranslations("auth.forgot");
-  const generic = useTranslations("errors");
-  const [email, setEmail] = useState("");
-  const { mutate, isPending, isError, error } = useForgotPassword();
+ const tErr = useTranslations("errors");
+const { mutate, isPending } = useForgotPassword({
+    onError: (err: any) => {
+      setError("server", {
+        type: "server",
+        message:
+          err?.message === "UNEXPECTED_ERROR"
+            ? tErr("generic")
+            : err?.message ?? tErr("generic"),
+      });
+    },
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const safeEmail = email.trim().toLowerCase();  
+  const onsubmit = (data: forgetpasswordFormData) => {
+    clearErrors();
+    const safeEmail = data.email.trim().toLowerCase();  
     mutate(safeEmail);
   };
   return (
@@ -25,17 +51,15 @@ export default function ForgotPasswordForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6" noValidate>
+      <form onSubmit={handleSubmit(onsubmit)} className="space-y-4 sm:space-y-6" noValidate>
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
             {t("emailLabel")}
           </label>
           <input
             type="text"
-            name="forgetpassemail"
             placeholder= {t("emailPlaceholder")}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
@@ -44,13 +68,7 @@ export default function ForgotPasswordForm() {
           />
         </div>
 
-        {isError && (
-          <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
-            <p className="text-red-400 text-sm">
-              {error?.message === "UNEXPECTED_ERROR"? generic("generic"): error?.message}
-            </p>
-          </div>
-        )}
+               <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
         <button
           type="submit"
           disabled={isPending}

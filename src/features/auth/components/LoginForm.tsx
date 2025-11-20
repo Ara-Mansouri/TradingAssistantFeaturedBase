@@ -5,8 +5,8 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validation/login.schema";
-import { translateFieldError } from "@/utils/validationErrors";
 import { z } from "zod";
+import ErrorBox from "./ErrorBox";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -87,27 +87,7 @@ export default function LoginForm() {
                      hover:bg-gray-50 hover:border-gray-400"
           />
         </div>
-        {(errors.email || errors.password || errors.server) && (
-          <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in space-y-1">
-            {errors.email && (
-              <p className="text-red-400 text-sm">
-                {translateFieldError("email",errors.email.message as string, tErr, t)}
-              </p>
-            )}
-
-            {errors.password && (
-              <p className="text-red-400 text-sm">
-                {translateFieldError("password",errors.password.message as string, tErr, t)}
-              </p>
-            )}
-
-            {errors.server && (
-              <p className="text-red-400 text-sm">
-                {errors.server.message as string}
-              </p>
-            )}
-          </div>
-        )}
+          <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
         <div className="flex flex-row items-center justify-between  sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
           <a 
               href={"/auth/register"} 

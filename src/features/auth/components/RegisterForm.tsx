@@ -1,26 +1,17 @@
 "use client";
-import { useState } from "react";
+
 import { useRegister } from "../hooks/useRegister";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
-
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/validation/register.schema";
-import { translateFieldError } from "@/utils/validationErrors";
 import { z } from "zod";
+import ErrorBox from "./ErrorBox";
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
-
-
-
 export default function RegisterForm() {
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
    const {
       register,
       handleSubmit,
@@ -75,7 +66,6 @@ export default function RegisterForm() {
                        placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                        focus:border-red-500/50 transition-all duration-300
                        hover:bg-gray-50 hover:border-gray-400"
-              // required
             />
           </div>
 
@@ -87,8 +77,8 @@ export default function RegisterForm() {
                 {...register("lastName")}
               placeholder={t("RLnamePlaceHolder")}
                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
-    placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
-    focus:border-red-500/50 transition-all duration-300
+           placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
+           focus:border-red-500/50 transition-all duration-300
                        hover:bg-gray-50 hover:border-gray-400"
               
             />
@@ -108,7 +98,6 @@ export default function RegisterForm() {
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            //required
           />
         </div>
 
@@ -127,44 +116,7 @@ export default function RegisterForm() {
             required
           />
         </div>
-
-        {(errors.email || errors.password || errors.server || errors.firstName || errors.lastName) && (
-          <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in space-y-1">
-
-            {errors.firstName && (
-              <p className="text-red-400 text-sm">
-                {translateFieldError("firstName",errors.firstName.message as string, tErr, t)}
-              </p>
-            )}
-
-            {errors.lastName && (
-              <p className="text-red-400 text-sm">
-                {translateFieldError("lastName",errors.lastName.message as string, tErr, t)}
-              </p>
-            )}
-
-            {errors.email && (
-              <p className="text-red-400 text-sm">
-                {translateFieldError("email",errors.email.message as string, tErr, t)}
-              </p>
-            )}
-
-            {errors.password && (
-              <p className="text-red-400 text-sm">
-                {translateFieldError("password",errors.password.message as string, tErr, t)}
-              </p>
-            )}
-
-    
-
-            {errors.server && (
-              <p className="text-red-400 text-sm">
-                {errors.server.message as string}
-              </p>
-            )}
-          </div>
-        )}
-
+        <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
         <div className="flex justify-between items-center text-sm">
           <a
              href={"/auth/Login"} 
