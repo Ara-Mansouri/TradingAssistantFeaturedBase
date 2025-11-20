@@ -69,12 +69,12 @@ export default function ResetPasswordForm() {
           <input
             type="text"
             {...register("code")}
+            autoComplete="one-time-code"
             placeholder= {t("codePlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            // required
           />
         </div>
 
@@ -85,12 +85,12 @@ export default function ResetPasswordForm() {
           <input
             type="password"
           {...register("newPassword")}
+          autoComplete="newPassword"
             placeholder={t("newPasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            // required
           />
         </div>
 
@@ -101,12 +101,12 @@ export default function ResetPasswordForm() {
           <input
             type="password"
            {...register("confirmPassword")}
+            autoComplete="confirmPassword"
             placeholder={t("confirmPasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            // required
           />
         </div>
         <ErrorBox errors={errors} tErr={tErr} tLabels={t} />

@@ -23,7 +23,7 @@ export default function ForgotPasswordForm() {
       });
  const t = useTranslations("auth.forgot");
  const tErr = useTranslations("errors");
-const { mutate, isPending } = useForgotPassword({
+ const { mutate, isPending } = useForgotPassword({
     onError: (err: any) => {
       setError("server", {
         type: "server",
@@ -60,11 +60,11 @@ const { mutate, isPending } = useForgotPassword({
             type="text"
             placeholder= {t("emailPlaceholder")}
             {...register("email")}
+            autoComplete="forgetemail"
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            // required
           />
         </div>
 

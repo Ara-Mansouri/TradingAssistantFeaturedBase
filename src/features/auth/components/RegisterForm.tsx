@@ -60,6 +60,7 @@ export default function RegisterForm() {
                 {t("firstNameLabel")}
             </label>
             <input
+              autoComplete="registerfname"
               {...register("firstName")}
               placeholder={t("RnamePlaceHolder")}
               className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
@@ -74,7 +75,8 @@ export default function RegisterForm() {
               {t("lastNameLabel")}
             </label>
             <input
-                {...register("lastName")}
+              autoComplete="registerlname"
+              {...register("lastName")}
               placeholder={t("RLnamePlaceHolder")}
                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
            placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
@@ -91,7 +93,7 @@ export default function RegisterForm() {
           </label>
           <input
             type="text"
-            autoComplete="off"
+            autoComplete="registeremail"
             {...register("email")}
             placeholder={t("RemailPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black

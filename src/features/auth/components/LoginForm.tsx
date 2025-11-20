@@ -65,6 +65,7 @@ export default function LoginForm() {
           <input
             type="text"
             {...register("email")}
+            autoComplete="loginemail"
             placeholder={t("emailPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
@@ -80,6 +81,7 @@ export default function LoginForm() {
           <input
             type="password"
             {...register("password")}
+            autoComplete="loginpassword"
             placeholder={t("passwordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
