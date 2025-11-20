@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { registerApi, RegisterPayload } from "../services/auth.api";
 import { useLocale } from "next-intl"; 
 
-export function useRegister() {
+
+interface UseRegisterOptions 
+{
+  onError?: (err: any) => void;
+}
+export function useRegister(options?: UseRegisterOptions)
+ {
   const router = useRouter();
   const locale = useLocale();
 
@@ -15,6 +21,9 @@ export function useRegister() {
     onSuccess: () => {
   
       router.push("/auth/verify-email");
+    },
+    onError: (err) => {
+      if (options?.onError) options.onError(err); 
     },
 
   });

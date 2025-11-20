@@ -5,18 +5,23 @@ import { useRouter } from "next/navigation";
 import { loginApi , LoginPayload } from "../services/auth.api";
 import { useLocale } from "next-intl";
 
-export function useLogin(){
-  const router = useRouter()
+interface UseLoginOptions {
+  onError?: (err: any) => void;
+}
+
+export function useLogin(options?: UseLoginOptions) {
+  const router = useRouter();
   const locale = useLocale();
-  const mutation = useMutation({
-    mutationFn :(payload : LoginPayload) => loginApi(payload, locale),
-    onSuccess: () =>
-      {
-       router.push("/dashboard");
-             },
 
+  return useMutation({
+    mutationFn: (payload: LoginPayload) => loginApi(payload, locale),
 
-    });
-    return mutation;
-    
-  }
+    onSuccess: () => {
+      router.push("/dashboard");
+    },
+
+    onError: (err) => {
+      if (options?.onError) options.onError(err); 
+    },
+  });
+}

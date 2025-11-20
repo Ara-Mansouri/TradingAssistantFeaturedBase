@@ -20,12 +20,9 @@
   },
   "errors": {
     "generic": "خطایی در سمت سرور رخ داده است",
-    "loginFailed": "ورود ناموفق بود",
-    "registerFailed": "ثبت‌نام تکمیل نشد",
-    "forgotPasswordFailed": "ارسال لینک بازیابی انجام نشد",
-    "resetPasswordFailed": "تغییر رمز عبور انجام نشد",
-    "verifyEmailFailed": "اعتبارسنجی ایمیل انجام نشد",
-    "unmatchPassword"  : "رمزهای عبور مطابقت ندارند. لطفاً دوباره امتحان کنید."
+    "unmatchPassword"  : "رمزهای عبور مطابقت ندارند. لطفاً دوباره امتحان کنید.",
+    "required": "پر کردن فیلد {field} الزامی است",
+   "invalidEmail": "فرمت ایمیل معتبر نیست"
   },
   "auth": {
     "login": {

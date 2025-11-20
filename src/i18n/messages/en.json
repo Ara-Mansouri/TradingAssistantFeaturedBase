@@ -20,12 +20,9 @@
   },
   "errors": {
     "generic": "A server error has occurred",
-    "loginFailed": "Unable to sign in",
-    "registerFailed": "Unable to complete registration",
-    "forgotPasswordFailed": "Unable to send reset link",
-    "resetPasswordFailed": "Unable to reset password",
-    "verifyEmailFailed": "Unable to verify email status",
-    "unmatchPassword"  : "Passwords do not match. Please try again."
+    "unmatchPassword"  : "Passwords do not match. Please try again.",
+    "required": "{field} is required",
+    "invalidEmail": "Please enter a valid email address"
   },
   "auth": {
     "login": {
