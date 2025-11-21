@@ -2,7 +2,6 @@
 
 import { useRegister } from "../hooks/useRegister";
 import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/validation/register.schema";
@@ -25,19 +24,19 @@ export default function RegisterForm() {
     });
   const { mutate: handleRegister, isPending } = useRegister({
     onError: (err: any) => {
-      setError("server", {
-        type: "server",
-        message:
+    setError("server", {
+    type: "server",
+     message:
           err?.message === "UNEXPECTED_ERROR"
             ? tErr("generic")
-            : err?.message ?? tErr("generic"),
-      });
+            : err?.message ?? tErr("generic"),                          
+  })
     },
   });
 
   const t = useTranslations("auth.register");
   const tErr = useTranslations("errors");
-  const locale = useLocale();
+
 
 
   const onSubmit = (data: RegisterFormData) => {
