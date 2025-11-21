@@ -4,7 +4,7 @@ import { useLogin } from "../hooks/useLogin";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/validation/login.schema";
+import { loginSchema } from "../validation/login.schema";
 import { z } from "zod";
 import ErrorBox from "./ErrorBox";
 
