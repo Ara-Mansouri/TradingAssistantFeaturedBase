@@ -1,18 +1,18 @@
-export function translateFieldError(field: string, message: string, tErr: any, tLabels: any) 
+import { errorMap } from "./errorMap";
+
+export function translateFieldError(field: string,message: string,tErr: any,tLabels: any) 
 {
-  if (message === "required")
-    {
+  if (message === "required") 
+  {
     return tErr("required", { field: tLabels(`${field}Label`) });
-    }
+  }
 
-  if (message === "invalidEmail")
-    {
-    return tErr("invalidEmail");
-    }
+  const translationKey = errorMap[message];
 
-  if(message === "unmatchPassword")   
-    {
-       return tErr("unmatchPassword");
-    } 
+  if (translationKey) 
+  {
+    return tErr(translationKey);
+  }
+
   return tErr("generic");
 }
