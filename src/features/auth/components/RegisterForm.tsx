@@ -1,24 +1,47 @@
 "use client";
-import { useState } from "react";
+
 import { useRegister } from "../hooks/useRegister";
 import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerSchema } from "@/validation/register.schema";
+import { z } from "zod";
+import ErrorBox from "./ErrorBox";
+
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 export default function RegisterForm() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { mutate: handleRegister, isPending, isError, error } = useRegister();
+   const {
+      register,
+      handleSubmit,
+      setError,
+      clearErrors,
+      formState: { errors },
+    } = useForm<RegisterFormData>({
+      resolver: zodResolver(registerSchema),
+      mode: "onSubmit",
+      reValidateMode: "onSubmit",
+    });
+  const { mutate: handleRegister, isPending } = useRegister({
+    onError: (err: any) => {
+    setError("server", {
+    type: "server",
+     message:
+          err?.message === "UNEXPECTED_ERROR"
+            ? tErr("generic")
+            : err?.message ?? tErr("generic"),                          
+  })
+    },
+  });
 
   const t = useTranslations("auth.register");
-  const generic = useTranslations("errors");
-  const locale = useLocale();
+  const tErr = useTranslations("errors");
 
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-     handleRegister({ email: email.trim().toLowerCase(), password ,firstName,lastName});
+
+  const onSubmit = (data: RegisterFormData) => {
+    clearErrors();
+     handleRegister({ email: data.email.trim().toLowerCase(), password:data.password ,firstName : data.firstName,lastName :data.lastName});
   };
 
   return (
@@ -29,22 +52,20 @@ export default function RegisterForm() {
         </h1>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6" noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
         <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-200">
                 {t("firstNameLabel")}
             </label>
             <input
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              autoComplete="registerfname"
+              {...register("firstName")}
               placeholder={t("RnamePlaceHolder")}
               className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                        placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                        focus:border-red-500/50 transition-all duration-300
                        hover:bg-gray-50 hover:border-gray-400"
-              // required
             />
           </div>
 
@@ -53,15 +74,14 @@ export default function RegisterForm() {
               {t("lastNameLabel")}
             </label>
             <input
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              autoComplete="registerlname"
+              {...register("lastName")}
               placeholder={t("RLnamePlaceHolder")}
                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
-    placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
-    focus:border-red-500/50 transition-all duration-300
+           placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
+           focus:border-red-500/50 transition-all duration-300
                        hover:bg-gray-50 hover:border-gray-400"
-              // required
+              
             />
           </div>
         </div>
@@ -72,16 +92,13 @@ export default function RegisterForm() {
           </label>
           <input
             type="text"
-            name="registername"
-            autoComplete="off"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="registeremail"
+            {...register("email")}
             placeholder={t("RemailPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            //required
           />
         </div>
 
@@ -91,9 +108,7 @@ export default function RegisterForm() {
           </label>
           <input
             type="password"
-            name="registeremail"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register("password")}
             placeholder={t("RpasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
@@ -102,15 +117,7 @@ export default function RegisterForm() {
             required
           />
         </div>
-
-        {isError && (
-          <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
-            <p className="text-red-400 text-sm">
-             {error?.message === "UNEXPECTED_ERROR"? generic("generic"): error?.message}
-            </p>
-          </div>
-        )}
-
+        <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
         <div className="flex justify-between items-center text-sm">
           <a
              href={"/auth/Login"} 

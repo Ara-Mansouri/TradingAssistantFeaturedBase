@@ -1,22 +1,51 @@
 "use client";
-import { useState } from "react";
+
 import { useLogin } from "../hooks/useLogin";
 import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "@/validation/login.schema";
+import { z } from "zod";
+import ErrorBox from "./ErrorBox";
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
   const t = useTranslations("auth.login");
-  const generic = useTranslations("errors");
+  const tErr = useTranslations("errors");
 
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+  });
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { mutate: handleLogin, isPending } = useLogin({
+    onError: (err: any) => {
+      setError("server", {
+        type: "server",
+        message:
+          err?.message === "UNEXPECTED_ERROR"
+            ? tErr("generic")
+            : err?.message ?? tErr("generic"),
+      });
+    },
+  });
 
-  const { mutate: handleLogin, isPending, isError, error } = useLogin();
+  const onSubmit = (data: LoginFormData) => 
+  {
+    clearErrors(); 
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    handleLogin({ email: email.trim().toLowerCase(), password });
+    handleLogin({
+      email: data.email.trim().toLowerCase(),
+      password: data.password,
+    });
   };
 
   return (
@@ -27,16 +56,16 @@ export default function LoginForm() {
         </h1>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6" noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
             {t("emailLabel")}
           </label>
+
           <input
             type="text"
-            name="loginemail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email")}
+            autoComplete="loginemail"
             placeholder={t("emailPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
@@ -51,9 +80,8 @@ export default function LoginForm() {
           </label>
           <input
             type="password"
-            name="loginpassword"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register("password")}
+            autoComplete="loginpassword"
             placeholder={t("passwordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
@@ -61,14 +89,7 @@ export default function LoginForm() {
                      hover:bg-gray-50 hover:border-gray-400"
           />
         </div>
-        
-        {isError && (
-          <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
-            <p className="text-red-400 text-sm">
-                   {error?.message === "UNEXPECTED_ERROR"? generic("generic"): error?.message}
-            </p>
-          </div>
-        )}
+          <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
         <div className="flex flex-row items-center justify-between  sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
           <a 
               href={"/auth/register"} 

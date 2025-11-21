@@ -4,29 +4,50 @@ import {useState } from "react";
 import { useAuthContext  } from "@/context/AuthContext";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { resetpasswordSchema } from "@/validation/resetpassword.schema.";
+import { z } from "zod";
+import ErrorBox from "./ErrorBox";
 
-
+type resetpasswordFormData = z.infer<typeof resetpasswordSchema>;
 export default function ResetPasswordForm() {
  const t = useTranslations("auth.reset");
- const tErrors = useTranslations("errors");
- const generic = useTranslations("errors");
+ const tErr = useTranslations("errors");
+
  //const locale = useLocale();
 
-  const [verificationCode, setVerificationCode] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [localError, setLocalError] = useState<string | null>(null);
-  const {mutate: handleReset, isPending, isError, error } = useResetPassword();
+  const {mutate: handleReset, isPending } = useResetPassword({
+    onError: (err: any) => {
+      setError("server", {
+        type: "server",
+        message:
+          err?.message === "UNEXPECTED_ERROR"
+            ? tErr("generic")
+            : err?.message ?? tErr("generic"),
+      });
+    },
+  });
+  
+     const {
+        register,
+        handleSubmit,
+        setError,
+        clearErrors,
+        formState: { errors },
+      } = useForm<resetpasswordFormData>({
+        resolver: zodResolver(resetpasswordSchema),
+        mode: "onSubmit",
+        reValidateMode: "onSubmit",
+      });
+    
+  
   const { email } = useAuthContext();
-  const onSubmit = (e: React.FormEvent) => 
+  const onSubmit = (data: resetpasswordFormData) => 
     {
-    e.preventDefault();
-      if (newPassword !== confirmPassword) {
-        setLocalError(tErrors("unmatchPassword")); 
-      return;
-    }
-    setLocalError(null);
-    handleReset({ email: email.trim().toLowerCase(), verificationCode, newPassword }); 
+
+    clearErrors();
+    handleReset({ email: email.trim().toLowerCase(), verificationCode :data.code, newPassword : data.newPassword}); 
   };
   return (
     <div className="w-full px-4 sm:px-0 animate-fade-in">
@@ -39,7 +60,7 @@ export default function ResetPasswordForm() {
         </p>
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6" noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
 
 
         <div className="space-y-2">
@@ -48,15 +69,13 @@ export default function ResetPasswordForm() {
           </label>
           <input
             type="text"
-            name="verificationCode"
-            value={verificationCode}
-            onChange={(e) => setVerificationCode(e.target.value)}
+            {...register("code")}
+            autoComplete="one-time-code"
             placeholder= {t("codePlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            // required
           />
         </div>
 
@@ -66,15 +85,13 @@ export default function ResetPasswordForm() {
           </label>
           <input
             type="password"
-            name="newPasswordLabel"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+          {...register("newPassword")}
+          autoComplete="newPassword"
             placeholder={t("newPasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            // required
           />
         </div>
 
@@ -84,30 +101,16 @@ export default function ResetPasswordForm() {
           </label>
           <input
             type="password"
-            name="confirmPasswordLabel"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+           {...register("confirmPassword")}
+            autoComplete="confirmPassword"
             placeholder={t("confirmPasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
                      hover:bg-gray-50 hover:border-gray-400"
-            // required
           />
         </div>
-           {localError && (
-          <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
-            <p className="text-red-400 text-sm">{localError}</p>
-          </div>
-        )}
-
-          {isError && !localError && (
-          <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/30 animate-fade-in">
-            <p className="text-red-400 text-sm">
-              {error?.message === "UNEXPECTED_ERROR"? generic("generic"): error?.message}
-            </p>
-          </div>
-        )}
+        <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
 
         <button
           type="submit"

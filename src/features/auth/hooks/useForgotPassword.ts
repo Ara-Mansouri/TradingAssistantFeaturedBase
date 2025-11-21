@@ -5,7 +5,11 @@ import { forgotPasswordApi } from "../services/auth.api";
 import { useAuthContext } from "@/context/AuthContext";
 import { useLocale } from "next-intl"; 
 
-export function useForgotPassword() {
+interface UseForgetPasswordOptions 
+{
+  onError?: (err: any) => void;
+}
+export function useForgotPassword(options?: UseForgetPasswordOptions) {
   const router = useRouter();
   const locale = useLocale(); 
   const { setEmail } = useAuthContext();
@@ -19,16 +23,13 @@ export function useForgotPassword() {
       
       router.push("/auth/reset-password");
     },
-
-    // onError: (error: any) => {
-    //   console.error("Forgot password error:", error);
-    // },
+ onError: (err) => {
+      if (options?.onError) options.onError(err); 
+    },
   });
 
   return {
     mutate: mutation.mutate,
-    isPending: mutation.isPending,
-    isError: mutation.isError,
-    error: mutation.error,
+    isPending: mutation.isPending
   };
 }

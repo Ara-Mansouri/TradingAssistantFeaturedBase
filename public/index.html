@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-time Audio Recorder</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .control-panel { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .button { padding: 10px 15px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .button-primary { background: #007bff; color: white; }
+        .button-danger { background: #dc3545; color: white; }
+        .button-success { background: #28a745; color: white; }
+        .button:disabled { background: #6c757d; cursor: not-allowed; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .status-recording { background: #f8d7da; border: 1px solid #f5c6cb; }
+        .status-connected { background: #d1ecf1; border: 1px solid #bee5eb; }
+        .participants { margin: 15px 0; }
+        .participant { display: inline-block; padding: 5px 10px; margin: 2px; background: #e9ecef; border-radius: 3px; }
+        audio { width: 100%; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 Real-time Audio Recorder</h1>
+        
+        <!-- Connection Status -->
+        <div id="connectionStatus" class="status">
+            Disconnected
+        </div>
+
+        <!-- Session Management -->
+        <div class="control-panel">
+            <h3>Session Management</h3>
+            <input type="text" id="userName" placeholder="Your Name" value="User1">
+            <input type="text" id="sessionId" placeholder="Session ID" value="room1">
+            <button class="button button-primary" onclick="joinSession()">Join Session</button>
+            <button class="button button-danger" onclick="leaveSession()" disabled>Leave Session</button>
+        </div>
+
+        <!-- Participants -->
+        <div class="participants">
+            <h4>Participants:</h4>
+            <div id="participantsList"></div>
+        </div>
+
+        <!-- Recording Controls -->
+        <div class="control-panel">
+            <h3>Recording Controls</h3>
+            <button class="button button-success" id="startRecording" onclick="startRecording()" disabled>Start Recording</button>
+            <button class="button button-danger" id="stopRecording" onclick="stopRecording()" disabled>Stop Recording</button>
+            <button class="button" id="playRecording" onclick="playRecording()" disabled>Play Last Recording</button>
+        </div>
+
+        <!-- Audio Playback -->
+        <div>
+            <h3>Live Audio Playback</h3>
+            <audio id="liveAudio" controls></audio>
+        </div>
+
+        <!-- Status Log -->
+        <div>
+            <h3>Activity Log</h3>
+            <div id="log" style="height: 200px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
+    <script>
+        let connection;
+        let mediaRecorder;
+        let audioChunks = [];
+        let currentSessionId = '';
+        let isRecording = false;
+        let sequenceNumber = 0;
+
+        // Initialize SignalR connection
+        function initializeConnection() {
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl("/audioHub")
+                .withAutomaticReconnect()
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+
+            // Connection events
+            connection.on("Connected", (connectionId) => {
+                updateStatus(`Connected: ${connectionId}`, 'status-connected');
+                logActivity('Connected to server');
+            });
+
+            connection.onreconnecting(() => {
+                updateStatus('Reconnecting...', 'status-recording');
+            });
+
+            connection.onreconnected(() => {
+                updateStatus('Reconnected!', 'status-connected');
+            });
+
+            // Session events
+            connection.on("JoinedSession", (sessionId) => {
+                currentSessionId = sessionId;
+                updateStatus(`Joined session: ${sessionId}`, 'status-connected');
+                logActivity(`Joined session: ${sessionId}`);
+                document.getElementById('startRecording').disabled = false;
+            });
+
+            connection.on("SessionParticipants", (participants) => {
+                updateParticipants(participants);
+            });
+
+            connection.on("UserJoined", (user) => {
+                logActivity(`User joined: ${user.UserName}`);
+                addParticipant(user);
+            });
+
+            connection.on("UserLeft", (user) => {
+                logActivity(`User left: ${user.UserId}`);
+                removeParticipant(user.UserId);
+            });
+
+            // Recording events
+            connection.on("RecordingStarted", (data) => {
+                isRecording = true;
+                updateStatus(`Recording started by ${data.startedBy}`, 'status-recording');
+                logActivity('Recording started');
+                document.getElementById('stopRecording').disabled = false;
+                document.getElementById('startRecording').disabled = true;
+            });
+
+            connection.on("AudioChunkReceived", (data) => {
+                // Play received audio chunk in real-time
+                playAudioChunk(data.Chunk.Data);
+                logActivity(`Received audio from ${data.SenderId}`);
+            });
+
+            connection.on("RecordingStopped", (data) => {
+                isRecording = false;
+                updateStatus('Recording stopped', 'status-connected');
+                logActivity(`Recording saved: ${data.recordingUrl}`);
+                logActivity(`content: ${data.text}`);
+                const audioElement = document.getElementById('liveAudio');
+                audioElement.src = '/audioHub/'.concat(data.recordingUrl);
+                audioElement.play().catch(e => console.log('Auto-play prevented:', e));
+                document.getElementById('stopRecording').disabled = true;
+                document.getElementById('startRecording').disabled = false;
+                document.getElementById('playRecording').disabled = false;
+            });
+
+            // Start connection
+            connection.start().catch(err => {
+                console.error('Connection failed:', err);
+                updateStatus('Connection failed', 'status-recording');
+            });
+        }
+
+        // Session management
+        async function joinSession() {
+            const userName = document.getElementById('userName').value;
+            const sessionId = document.getElementById('sessionId').value;
+            
+            if (!userName || !sessionId) {
+                alert('Please enter your name and session ID');
+                return;
+            }
+
+            try {
+                await connection.invoke("JoinAudioSession", sessionId, userName);
+            } catch (err) {
+                console.error('Join failed:', err);
+            }
+        }
+
+        async function leaveSession() {
+            if (currentSessionId) {
+                await connection.invoke("LeaveAudioSession", currentSessionId);
+                currentSessionId = '';
+                document.getElementById('startRecording').disabled = true;
+                document.getElementById('stopRecording').disabled = true;
+                updateStatus('Left session', 'status-connected');
+            }
+        }
+
+        // Recording functions
+        async function startRecording() {
+            if (!currentSessionId) {
+                alert('Please join a session first');
+                return;
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        channelCount: 2,
+                        sampleRate: 44100,
+                        sampleSize: 1411,
+                        echoCancellation: true,
+                        noiseSuppression: true
+                    } 
+                });
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'audio/webm;codecs=opus'
+                });
+
+                mediaRecorder.ondataavailable = async (event) => {
+                    if (event.data.size > 0) {
+                        const arrayBuffer = await event.data.arrayBuffer();
+                        const base64 = arrayBufferToBase64(arrayBuffer);
+                        
+                        await connection.invoke("StreamAudioChunk", currentSessionId, {
+                            Data: base64,
+                            Timestamp: Date.now(),
+                            Sequence: sequenceNumber++,
+                            ChunkType: "audio"
+                        });
+                    }
+                };
+
+                // Start recording and send chunks every 500ms for low latency
+                mediaRecorder.start(500);
+                
+                // Notify server recording has started
+                await connection.invoke("StartRecording", currentSessionId);
+
+            } catch (err) {
+                console.error('Recording failed:', err);
+                alert('Microphone access denied or unavailable');
+            }
+        }
+
+        async function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+
+                logActivity(`Recorded audio has sent`);
+
+                
+                await connection.invoke("StopRecording", currentSessionId);
+            }
+        }
+
+        // Audio playback
+        function playAudioChunk(base64Data) {
+            try {
+                const audioData = base64ToArrayBuffer(base64Data);
+                const audioBlob = new Blob([audioData], { type: 'audio/webm' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                
+                const audioElement = document.getElementById('liveAudio');
+                audioElement.src = audioUrl;
+                audioElement.play().catch(e => console.log('Auto-play prevented:', e));
+            } catch (err) {
+                console.error('Playback error:', err);
+            }
+        }
+
+        async function playRecording() {
+            // This would fetch the last recorded file from the server
+            // Implementation depends on your file serving setup
+        }
+
+        // Utility functions
+        function arrayBufferToBase64(buffer) {
+            const bytes = new Uint8Array(buffer);
+            let binary = '';
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        }
+
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function updateStatus(message, className) {
+            const status = document.getElementById('connectionStatus');
+            status.textContent = message;
+            status.className = `status ${className}`;
+        }
+
+        function logActivity(message) {
+            const log = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            log.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function updateParticipants(participants) {
+            const list = document.getElementById('participantsList');
+            list.innerHTML = '';
+            participants.forEach(p => addParticipant(p));
+        }
+
+        function addParticipant(user) {
+            const list = document.getElementById('participantsList');
+            const div = document.createElement('div');
+            div.className = 'participant';
+            div.id = `participant-${user.ConnectionId || user.UserId}`;
+            div.textContent = user.UserName || user.ConnectionId;
+            list.appendChild(div);
+        }
+
+        function removeParticipant(connectionId) {
+            const element = document.getElementById(`participant-${connectionId}`);
+            if (element) {
+                element.remove();
+            }
+        }
+
+        // Initialize when page loads
+        window.onload = initializeConnection;
+    </script>
+</body>
+</html>

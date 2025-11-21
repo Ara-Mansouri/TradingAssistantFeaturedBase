@@ -21,11 +21,11 @@ export interface RegisterPayload
   lastName : string ;
 }
 
-export async function loginApi(payload: LoginPayload , locale: string) 
+export async function loginApi(payload: LoginPayload) 
 {
   const res = await fetch("/api/auth/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" ,  "Accept-Language": locale,  },
+    headers: { "Content-Type": "application/json"},
     body: JSON.stringify(payload),
   });
 
