@@ -45,6 +45,7 @@ export default function ResetPasswordForm() {
   const { email } = useAuthContext();
   const onSubmit = (data: resetpasswordFormData) => 
     {
+
     clearErrors();
     handleReset({ email: email.trim().toLowerCase(), verificationCode :data.code, newPassword : data.newPassword}); 
   };

@@ -10,5 +10,9 @@ export function translateFieldError(field: string, message: string, tErr: any, t
     return tErr("invalidEmail");
     }
 
+  if(message === "unmatchPassword")   
+    {
+       return tErr("unmatchPassword");
+    } 
   return tErr("generic");
 }

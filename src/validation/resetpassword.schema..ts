@@ -14,8 +14,19 @@ export const resetpasswordSchema = z.object({
     .min(1, { message: "required" }),
 
   server: z.string().optional(),
-}) .refine((data) => data.newPassword === data.confirmPassword,
-   {
-    message: "unmatchPassword",
-    path: ["confirmPassword"], 
-  });;
+}) .superRefine((data, ctx) => 
+  {
+    if (!data.newPassword || !data.confirmPassword) 
+    {
+      return;
+    }
+
+    if (data.newPassword !== data.confirmPassword)
+    {
+      ctx.addIssue({
+        code: "custom",
+        message: "unmatchPassword",
+        path: ["confirmPassword"],
+      });
+    }
+  });

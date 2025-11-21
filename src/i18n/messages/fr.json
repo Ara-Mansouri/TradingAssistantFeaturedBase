@@ -18,15 +18,12 @@
         "start" : "Commencer à parler",
         "stop"  : "Arrêter de parler"
   },
-  "errors": {
-    "generic": "Une erreur est survenue sur le serveur",
-    "loginFailed": "Impossible de vous connecter",
-    "registerFailed": "Impossible de finaliser l’inscription",
-    "forgotPasswordFailed": "Impossible d’envoyer le lien de réinitialisation",
-    "resetPasswordFailed": "Impossible de réinitialiser le mot de passe",
-    "verifyEmailFailed": "Impossible de vérifier l’état de l’email",
-    "unmatchPassword"  : "Les mots de passe ne correspondent pas. Veuillez réessayer."
-  },
+"errors": {
+  "generic": "Une erreur s'est produite sur le serveur",
+  "unmatchPassword": "Les mots de passe ne correspondent pas. Veuillez réessayer.",
+  "required": "{field} est obligatoire",
+  "invalidEmail": "Veuillez saisir une adresse e-mail valide"
+ },
   "auth": {
     "login": {
       "title": "Connexion",
