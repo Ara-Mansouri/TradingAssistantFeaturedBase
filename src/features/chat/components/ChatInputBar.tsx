@@ -3,13 +3,15 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
+import { useConversation } from "@/features/conversation/context/useConversation";
 
 export default function ChatInputBar() {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("Dashboard");
+  const { setMode } = useConversation();
   const goToWave = () => {
-    router.push("/dashboard/voice");
+     setMode("voice");
   };
 
   const [text, setText] = useState("");

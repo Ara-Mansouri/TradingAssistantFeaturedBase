@@ -4,13 +4,15 @@ import { useMicVolume } from "../hooks/useMicVolume";
 import { useRouter } from "next/navigation";
 import VoiceOrb from "./VoiceOrb";
 import { useTranslations } from "next-intl";
+import { useConversation } from "@/features/conversation/context/useConversation";
 
 export default function VoiceRecorder() {
   const { status, response,setResponse,sessionReady,startRecording, stopRecording , leaveSession } = useVoiceHub();
-const router = useRouter();
- const t = useTranslations("Dashboard");
+  const { setMode } = useConversation();
+  const router = useRouter();
+  const t = useTranslations("Dashboard");
   const isRecording = status.startsWith("Recording");
-   const volume = useMicVolume(isRecording);
+  const volume = useMicVolume(isRecording);
   return (
 <div className="relative flex flex-col items-center justify-center  bg-cover bg-center bg-black text-white">
       {/* <p className="text-gray-400 mb-4">{status}</p> */}
@@ -41,7 +43,7 @@ const router = useRouter();
          }
          await leaveSession();  
         setResponse(null);
-        router.push("/dashboard");
+       setMode("chat");
             
        }}
 
