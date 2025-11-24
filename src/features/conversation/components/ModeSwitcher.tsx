@@ -6,57 +6,78 @@ export default function ModeSwitcher() {
   const { mode, setMode } = useConversation();
 
   return (
-    <div className="w-full flex justify-center mt-4">
-      <div className="
-        flex items-center bg-[#1d1d1d]/70 border border-[#3b3b3b] 
-        px-3 py-2 rounded-full gap-3 shadow-lg backdrop-blur-md
-      ">
+    <div className="flex items-center bg-[#1d1d1d]/70 border border-[#3b3b3b] px-2 py-1.5 rounded-full gap-1 shadow-lg backdrop-blur-md">
 
-        <button
-          onClick={() => setMode("voice")}
+      <button
+        onClick={() => setMode("chat")}
+        className={`
+          flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200
+          ${mode === "chat"
+            ? "bg-[#771313]/60 text-white border border-[#771313]/80 shadow-md shadow-[#771313]/20"
+            : "text-gray-300 hover:text-white hover:bg-gray-800/50"}
+        `}
+        aria-label="Chat Mode"
+      >
+        <span
           className={`
-            flex items-center gap-2 px-3 py-1 rounded-full transition-all
+            w-2.5 h-2.5 rounded-full transition-all
+            ${mode === "chat"
+              ? "bg-[#771313] shadow-[0_0_8px_rgba(119,19,19,0.6)]"
+              : "bg-gray-400"}
+          `}
+        />
+        <span className="text-xs sm:text-sm font-medium whitespace-nowrap">Chat</span>
+      </button>
+
+
+      <div className="w-px h-4 bg-gray-500/50"></div>
+
+
+      <button
+        onClick={() => setMode("voice")}
+        className={`
+          flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200
+          ${mode === "voice"
+            ? "bg-[#771313]/60 text-white border border-[#771313]/80 shadow-md shadow-[#771313]/20"
+            : "text-gray-300 hover:text-white hover:bg-gray-800/50"}
+        `}
+        aria-label="Voice Mode"
+      >
+        <span
+          className={`
+            w-2.5 h-2.5 rounded-full transition-all
             ${mode === "voice"
-              ? "bg-[#2b2b2b] text-blue-400 border border-blue-500/60 shadow-md"
-              : "text-gray-300 hover:text-white"}
+              ? "bg-[#771313] shadow-[0_0_8px_rgba(119,19,19,0.6)]"
+              : "bg-gray-400"}
           `}
-        >
-          <span
-            className={`
-              w-3.5 h-3.5 rounded-full border 
-              ${mode === "voice"
-                ? "border-blue-400 bg-blue-500/40"
-                : "border-gray-400"}
-            `}
-          />
-          <span className="text-sm font-medium">Voice Mode</span>
-        </button>
+        />
+        <span className="text-xs sm:text-sm font-medium whitespace-nowrap">Voice</span>
+      </button>
 
-        {/* Divider */}
-        <div className="w-px h-5 bg-gray-500/50"></div>
+      {/* Divider */}
+      <div className="w-px h-4 bg-gray-500/50"></div>
 
-        {/* Voice + Text */}
-        <button
-          onClick={() => setMode("voice+text")}
+      {/* Voice + Text Mode */}
+      <button
+        onClick={() => setMode("voice+text")}
+        className={`
+          flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200
+          ${mode === "voice+text"
+            ? "bg-[#771313]/60 text-white border border-[#771313]/80 shadow-md shadow-[#771313]/20"
+            : "text-gray-300 hover:text-white hover:bg-gray-800/50"}
+        `}
+        aria-label="Voice + Text Mode"
+      >
+        <span
           className={`
-            flex items-center gap-2 px-3 py-1 rounded-full transition-all
+            w-2.5 h-2.5 rounded-full transition-all
             ${mode === "voice+text"
-              ? "bg-[#2b2b2b] text-blue-400 border border-blue-500/60 shadow-md"
-              : "text-gray-300 hover:text-white"}
+              ? "bg-[#771313] shadow-[0_0_8px_rgba(119,19,19,0.6)]"
+              : "bg-gray-400"}
           `}
-        >
-          <span
-            className={`
-              w-3.5 h-3.5 rounded-full border 
-              ${mode === "voice+text"
-                ? "border-blue-400 bg-blue-500/40"
-                : "border-gray-400"}
-            `}
-          />
-          <span className="text-sm font-medium">Voice + Text</span>
-        </button>
-
-      </div>
+        />
+        <span className="text-xs sm:text-sm font-medium whitespace-nowrap">Voice + Text</span>
+      </button>
     </div>
   );
 }
