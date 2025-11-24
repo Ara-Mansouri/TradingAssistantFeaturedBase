@@ -61,9 +61,9 @@ export default function ConversationShell()
   if (mode === "voice") {
     return (
       <div className="h-full flex items-center justify-center">
-        <OrbContainer size="large">
+       
           <VoiceRecorder showText={false} />
-        </OrbContainer>
+       
       </div>
     );
   }
@@ -73,9 +73,9 @@ export default function ConversationShell()
     <ResponsiveGrid
       leftPanel={
         <div className="h-full flex items-center justify-center md:py-0 py-4">
-          <OrbContainer size="large">
+        
             <VoiceRecorder showText={true} />
-          </OrbContainer>
+         
         </div>
       }
       rightPanel={

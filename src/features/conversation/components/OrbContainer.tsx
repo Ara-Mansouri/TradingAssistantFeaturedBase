@@ -7,11 +7,7 @@ interface OrbContainerProps {
   size?: "small" | "large";
 }
 
-/**
- * Container for the Voice Orb
- * - Mobile: Small size, fixed at bottom
- * - Desktop: Large size, in left panel
- */
+
 export default function OrbContainer({ children, size = "large" }: OrbContainerProps) {
   const isSmall = size === "small";
 

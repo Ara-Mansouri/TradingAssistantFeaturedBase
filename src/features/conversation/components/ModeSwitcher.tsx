@@ -51,7 +51,7 @@ export default function ModeSwitcher() {
               : "bg-gray-400"}
           `}
         />
-        <span className="text-xs sm:text-sm font-medium whitespace-nowrap">Voice</span>
+        <span className="text-xs sm:text-sm font-medium whitespace-nowrap">Talk</span>
       </button>
 
       {/* Divider */}
@@ -76,7 +76,7 @@ export default function ModeSwitcher() {
               : "bg-gray-400"}
           `}
         />
-        <span className="text-xs sm:text-sm font-medium whitespace-nowrap">Voice + Text</span>
+        <span className="text-xs sm:text-sm font-medium whitespace-nowrap">Talk & Text</span>
       </button>
     </div>
   );
