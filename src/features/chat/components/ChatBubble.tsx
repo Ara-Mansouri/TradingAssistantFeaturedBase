@@ -25,7 +25,7 @@ export default function ChatBubble({ message }: ChatBubbleProps)
 
   return (
     <div
-      className={`flex  mb-4 animate-fade-in
+      className={`flex  mb-4 
      ${
         isUser ? "justify-end" : "justify-start"
       }`}
