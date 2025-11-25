@@ -19,11 +19,10 @@ export interface MockVoiceApi {
   reset: () => void;
 }
 
-// Mock AI responses for trading assistant
+
 const MOCK_AI_RESPONSES = 
   "Based on current macroeconomic indicators, liquidity cycles, and historical halving events, the probability of Bitcoin reaching $100,000 in the next market cycle is significant. However, ETF inflows, miner capitulation phases, and global risk sentiment will remain the primary drivers influencing whether this target is reached sustainably.";
 
-// Mock transcription examples
 const MOCK_TRANSCRIPTIONS = 
 "What is your full analysis of whether Bitcoin can reach $100,000 in the next market cycle, considering macroeconomic trends, liquidity flows, ETF demand, miner selling pressure, and historical halving patterns?";
 
