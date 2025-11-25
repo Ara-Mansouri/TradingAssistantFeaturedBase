@@ -7,13 +7,9 @@ interface ChatContainerProps {
   className?: string;
 }
 
-/**
- * Container for chat messages
- * - Handles scrolling independently
- * - Mobile: Full width, scrollable
- * - Desktop: Right panel, scrollable
- */
-export default function ChatContainer({ children, className = "" }: ChatContainerProps) {
+
+export default function ChatContainer({ children, className = "" }: ChatContainerProps) 
+{
   return (
     <div
       className={`

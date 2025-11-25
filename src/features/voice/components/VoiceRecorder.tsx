@@ -53,7 +53,8 @@ export default function VoiceRecorder({ showText = false }: VoiceRecorderProps)
     setProcessedTranscriptionId(transcriptionId);
 
     // Add user message (transcription)
-    const userMessage: ChatMessage = {
+    const userMessage: ChatMessage = 
+    {
       id: `user-${Date.now()}`,
       role: "user",
       content: mockApi.mockFinalTranscription,
@@ -112,38 +113,6 @@ export default function VoiceRecorder({ showText = false }: VoiceRecorderProps)
         {isRecording ? t("stop") || "Stop" : t("start") || "Start"}
       </p>
 
-   
-      {showText && mockApi.mockPartialTranscriptionStream && (
-        <div className="mt-4 bg-gray-800/50 p-3 rounded-lg max-w-md text-center">
-          <p className="text-xs text-gray-400 mb-1">Transcribing...</p>
-          <p className="text-sm text-gray-200">{mockApi.mockPartialTranscriptionStream}</p>
-        </div>
-      )}
-      {/* {!showText && (
-        <button
-          onClick={handleClose}
-          className="
-            absolute left-1/2 -bottom-15 -translate-x-1/2 
-            w-10 h-10 rounded-full
-            bg-gray-700/60 backdrop-blur-md
-            flex items-center justify-center
-            hover:bg-gray-600/70 transition-all
-            shadow-lg
-            mt-4
-          "
-          aria-label="Close voice mode"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" className="text-white">
-            <path
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 6l12 12M18 6L6 18"
-            />
-          </svg>
-        </button>
-      )} */}
     </div>
   );
 }
