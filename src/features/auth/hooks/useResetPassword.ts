@@ -2,7 +2,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { resetPasswordApi, ResetPasswordPayload } from "../services/auth.api";
-import { useAuthContext } from "@/context/AuthContext";
+import { useAuthContext } from "@/features/auth/context/AuthContext";
 import { useLocale } from "next-intl"; 
 
 interface UseResetPasswordOptions 

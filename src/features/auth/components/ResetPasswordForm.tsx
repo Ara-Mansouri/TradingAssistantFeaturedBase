@@ -1,7 +1,7 @@
 "use client";
 import { useResetPassword } from "../hooks/useResetPassword";
 import {useState } from "react";
-import { useAuthContext  } from "@/context/AuthContext";
+import { useAuthContext  } from "@/features/auth/context/AuthContext";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { useForm } from "react-hook-form";

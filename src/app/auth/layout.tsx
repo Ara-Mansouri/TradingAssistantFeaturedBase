@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale } from "next-intl";
-import { AuthProvider } from "@/context/AuthContext";
+import { AuthProvider } from "@/features/auth/context/AuthContext";
 import LanguageSwitcher from "@/features/common/LanguageSwitcher";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
