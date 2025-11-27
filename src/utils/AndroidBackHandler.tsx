@@ -14,7 +14,7 @@ export default function AndroidBackHandler() {
     {
       handler = await App.addListener("backButton", ({ canGoBack }) => 
         {
-            alert("BACK FIRED");
+
         if (!canGoBack) 
         {
           App.exitApp();
