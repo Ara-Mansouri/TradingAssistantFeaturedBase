@@ -6,12 +6,8 @@ const config: CapacitorConfig = {
   webDir: 'out',
   server: {
   url: "https://trading-assistant-featured-base-d5e.vercel.app", 
-  cleartext: false,      
-      allowNavigation: [
-    "trading-assistant-featured-base-d5e.vercel.app"
-  ]        
+  cleartext: false,              
   },
-
 };
 
 export default config;
