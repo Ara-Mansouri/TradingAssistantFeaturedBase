@@ -3,6 +3,7 @@ import Providers from "@/lib/providers";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { headers } from "next/headers";
+import AndroidBackHandler from "@/utils/AndroidBackHandler"
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -30,6 +31,7 @@ export default async function RootLayout({children,}: {  children: React.ReactNo
       >
         <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>
+               <AndroidBackHandler />
             {children}
           </NextIntlClientProvider>
         </Providers>
