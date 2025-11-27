@@ -43,6 +43,10 @@ export async function middleware(req: NextRequest) {
     return NextResponse.rewrite(refreshUrl);
   }
 
+   if (!verifyAccessToken(accessToken) && !refreshToken && !pathname.startsWith("/auth")) 
+  {
+    return NextResponse.redirect(new URL("/auth/Login", req.url));
+  }
 
   return res;
 }
