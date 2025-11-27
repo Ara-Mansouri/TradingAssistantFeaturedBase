@@ -10,17 +10,20 @@ export default function AndroidBackHandler() {
   useEffect(() => {
     let handler: any;
 
-    const setup = async () => {
-      handler = await App.addListener("backButton", ({ canGoBack }) => {
-        if (!canGoBack) {
-          // اگر صفحه‌ای برای برگشت نیست، اپ را ببند
+    const setup = async () => 
+    {
+      handler = await App.addListener("backButton", ({ canGoBack }) => 
+        {
+            alert("BACK FIRED");
+        if (!canGoBack) 
+        {
           App.exitApp();
           return;
         }
 
         
         router.back();
-      });
+       });
     };
 
     setup();
