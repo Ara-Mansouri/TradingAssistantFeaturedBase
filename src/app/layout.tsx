@@ -25,9 +25,9 @@ export default async function RootLayout({children,}: {  children: React.ReactNo
   const locale = (await headers()).get("x-next-intl-locale") || "en";
   const messages = (await import(`../i18n/messages/${locale}.json`)).default;
   return (
-    <html lang={locale} className="overflow-hidden " >
+    <html lang={locale} >
       <body 
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0b0b] text-white overflow-hidden h-screen `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0b0b] text-white h-screen `}
       >
         <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>

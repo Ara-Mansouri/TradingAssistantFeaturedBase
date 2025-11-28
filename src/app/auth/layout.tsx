@@ -32,7 +32,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               <img
                 src="/images/login-bg.png"
                 alt="Trading Assistant"
-                className="w-full h-99 lg:h-full object-cover object-center"
+                className="w-full h-full lg:h-full object-contain object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent lg:bg-gradient-to-r lg:from-black/0 lg:via-black/0 lg:to-black/45" />
             </div>
