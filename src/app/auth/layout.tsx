@@ -30,7 +30,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             {/*  Image Section */}
             <div className="relative overflow-hidden order-1 lg:order-1 ">
               <img
-                src="/images/login-bg.png"
+                src="/images/login-bg.jpg"
                 alt="Trading Assistant"
                 className="w-full h-74 lg:h-full object-cover object-center"
                 style={{ transform: "translateZ(0)" }}
