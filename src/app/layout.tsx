@@ -1,3 +1,4 @@
+"use client"
 import "./globals.css";
 import Providers from "@/lib/providers";
 import { Geist, Geist_Mono } from "next/font/google";
