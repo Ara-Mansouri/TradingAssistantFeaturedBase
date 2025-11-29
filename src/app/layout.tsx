@@ -26,10 +26,9 @@ export default async function RootLayout({children,}: {  children: React.ReactNo
   const messages = (await import(`../i18n/messages/${locale}.json`)).default;
   return (
     <html lang={locale} >
-       <head>
-        {/* Prefetch the login background */}
+       {/* <head>
         <link rel="prefetch" href="/images/login-bg.jpg" as="image" />
-      </head>
+      </head> */}
       <body 
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0b0b] text-white h-screen `}
       >
