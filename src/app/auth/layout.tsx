@@ -3,6 +3,7 @@
 import { useLocale } from "next-intl";
 import { AuthProvider } from "@/features/auth/context/AuthContext";
 import LanguageSwitcher from "@/features/common/LanguageSwitcher";
+import Image from "next/image";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const locale = useLocale();
@@ -29,11 +30,12 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px] gap-0">
             {/*  Image Section */}
             <div className="relative overflow-hidden order-1 lg:order-1 ">
-              <img
+              <Image
                 src="/images/login-bg.jpg"
                 alt="Trading Assistant"
                 className="w-full h-74 lg:h-full object-cover object-center"
-                style={{ transform: "translateZ(0)" }}
+                priority
+                unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent lg:bg-gradient-to-r lg:from-black/0 lg:via-black/0 lg:to-black/45" />
             </div>
