@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 interface LocaleOption {
-  code: "en" | "fa" | "fr";
+  code: "en" | "fa";
   label: string;
   countryCode: string;
 }
@@ -12,7 +12,7 @@ interface LocaleOption {
 const locales: LocaleOption[] = [
   { code: "en", label: "English", countryCode: "gb" },
   { code: "fa", label: "فارسی", countryCode: "ir" },
-  { code: "fr", label: "Français", countryCode: "fr" },
+  //{ code: "fr", label: "Français", countryCode: "fr" },
 ];
 
 export default function LanguageSwitcher() {
@@ -22,12 +22,12 @@ export default function LanguageSwitcher() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
  
-  const [currentLocale, setCurrentLocale] = useState<"en" | "fa" | "fr">("en");
+  const [currentLocale, setCurrentLocale] = useState<"en" | "fa" >("en");
 
   useEffect(() => {
     const match = document.cookie.match(/NEXT_LOCALE=([^;]+)/);
-    if (match && ["en", "fa", "fr"].includes(match[1])) {
-      setCurrentLocale(match[1] as "en" | "fa" | "fr");
+    if (match && ["en", "fa"].includes(match[1])) {
+      setCurrentLocale(match[1] as "en" | "fa" );
     }
   }, []);
 
@@ -43,7 +43,7 @@ export default function LanguageSwitcher() {
   }, []);
 
 
-  const changeLocale = async (code: "en" | "fa" | "fr") => {
+  const changeLocale = async (code: "en" | "fa") => {
     await fetch("/api/locale", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
