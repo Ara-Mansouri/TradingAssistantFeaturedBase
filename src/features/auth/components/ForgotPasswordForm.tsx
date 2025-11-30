@@ -6,24 +6,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { forgetpasswordSchema } from "../validation/forgotpassword.schema";
 import { z } from "zod";
 import ErrorBox from "./ErrorBox";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 type forgetpasswordFormData = z.infer<typeof forgetpasswordSchema>;
 
 export default function ForgotPasswordForm() {
-     const {
-        register,
-        handleSubmit,
-        setError,
-        clearErrors,
-        formState: { errors },
-      } = useForm<forgetpasswordFormData>({
-        resolver: zodResolver(forgetpasswordSchema),
-        mode: "onSubmit",
-        reValidateMode: "onSubmit",
-      });
- const t = useTranslations("auth.forgot");
- const tErr = useTranslations("errors");
- const { mutate, isPending } = useForgotPassword({
+  const pathname = usePathname();
+  const t = useTranslations("auth.forgot");
+  const tErr = useTranslations("errors");
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    reset,
+    formState: { errors },
+  } = useForm<forgetpasswordFormData>({
+    resolver: zodResolver(forgetpasswordSchema),
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+  });
+
+  const { mutate, isPending } = useForgotPassword({
     onError: (err: any) => {
       setError("server", {
         type: "server",
@@ -34,6 +40,11 @@ export default function ForgotPasswordForm() {
       });
     },
   });
+
+  useEffect(() => {
+    reset();
+    clearErrors();
+  }, [pathname, reset, clearErrors]);
 
   const onsubmit = (data: forgetpasswordFormData) => {
     clearErrors();
@@ -51,7 +62,7 @@ export default function ForgotPasswordForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onsubmit)} className="space-y-4 sm:space-y-6" noValidate>
+      <form key={pathname} onSubmit={handleSubmit(onsubmit)} className="space-y-4 sm:space-y-6" noValidate>
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
             {t("emailLabel")}

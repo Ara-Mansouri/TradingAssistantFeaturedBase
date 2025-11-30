@@ -1,21 +1,34 @@
 "use client";
 import { useResetPassword } from "../hooks/useResetPassword";
-import {useState } from "react";
 import { useAuthContext  } from "@/features/auth/context/AuthContext";
 import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { resetpasswordSchema } from "../validation/resetpassword.schema.";
 import { z } from "zod";
 import ErrorBox from "./ErrorBox";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import Link from "next/link";
 
 type resetpasswordFormData = z.infer<typeof resetpasswordSchema>;
 export default function ResetPasswordForm() {
- const t = useTranslations("auth.reset");
- const tErr = useTranslations("errors");
+  const pathname = usePathname();
+  const t = useTranslations("auth.reset");
+  const tErr = useTranslations("errors");
 
- //const locale = useLocale();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    reset,
+    formState: { errors },
+  } = useForm<resetpasswordFormData>({
+    resolver: zodResolver(resetpasswordSchema),
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+  });
 
   const {mutate: handleReset, isPending } = useResetPassword({
     onError: (err: any) => {
@@ -28,18 +41,11 @@ export default function ResetPasswordForm() {
       });
     },
   });
-  
-     const {
-        register,
-        handleSubmit,
-        setError,
-        clearErrors,
-        formState: { errors },
-      } = useForm<resetpasswordFormData>({
-        resolver: zodResolver(resetpasswordSchema),
-        mode: "onSubmit",
-        reValidateMode: "onSubmit",
-      });
+
+  useEffect(() => {
+    reset();
+    clearErrors();
+  }, [pathname, reset, clearErrors]);
     
   
   const { email } = useAuthContext();
@@ -60,7 +66,7 @@ export default function ResetPasswordForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
+      <form key={pathname} onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
 
 
         <div className="space-y-2">
@@ -132,12 +138,12 @@ export default function ResetPasswordForm() {
         </button>
 
         <div className="text-center">
-          <a 
-             href={"/auth/Login"} 
+          <Link 
+            href="/auth/Login"
             className="text-red-400 hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline text-sm"
           >
             {t("backToLogin")}
-          </a>
+          </Link>
         </div>
       </form>
     </div>

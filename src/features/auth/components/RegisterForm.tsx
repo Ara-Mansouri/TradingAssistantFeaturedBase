@@ -7,35 +7,47 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "../validation/register.schema";
 import { z } from "zod";
 import ErrorBox from "./ErrorBox";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 export default function RegisterForm() {
-   const {
-      register,
-      handleSubmit,
-      setError,
-      clearErrors,
-      formState: { errors },
-    } = useForm<RegisterFormData>({
-      resolver: zodResolver(registerSchema),
-      mode: "onSubmit",
-      reValidateMode: "onSubmit",
-    });
+  const pathname = usePathname();
+  const t = useTranslations("auth.register");
+  const tErr = useTranslations("errors");
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    reset,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+  });
+
   const { mutate: handleRegister, isPending } = useRegister({
     onError: (err: any) => {
-    setError("server", {
-    type: "server",
-     message:
+      setError("server", {
+        type: "server",
+        message:
           err?.message === "UNEXPECTED_ERROR"
             ? tErr("generic")
-            : err?.message ?? tErr("generic"),                          
-  })
+            : err?.message ?? tErr("generic"),
+      });
     },
   });
 
-  const t = useTranslations("auth.register");
-  const tErr = useTranslations("errors");
+
+  useEffect(() => {
+    reset();
+    clearErrors();
+  }, [pathname, reset, clearErrors]);
 
 
 
@@ -52,7 +64,7 @@ export default function RegisterForm() {
         </h1>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
+      <form key={pathname} onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
         <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-200">
@@ -119,12 +131,12 @@ export default function RegisterForm() {
         </div>
         <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
         <div className="flex justify-between items-center text-sm">
-          <a
-             href={"/auth/Login"} 
+          <Link
+            href="/auth/Login"
             className="text-white hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
           >
-             {t("loginLink")}
-          </a>
+            {t("loginLink")}
+          </Link>
         </div>
 
         <button

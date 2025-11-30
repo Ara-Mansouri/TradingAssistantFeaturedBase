@@ -7,24 +7,35 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../validation/login.schema";
 import { z } from "zod";
 import ErrorBox from "./ErrorBox";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
+  const pathname = usePathname();
   const t = useTranslations("auth.login");
   const tErr = useTranslations("errors");
 
   const {
     register,
-    handleSubmit,
     setError,
     clearErrors,
+    reset,
+    trigger,
+    getValues,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: "onSubmit",
-    reValidateMode: "onSubmit",
   });
+
+
+  useEffect(() => {
+    reset();
+    clearErrors();
+  }, [pathname, reset, clearErrors]);
 
   const { mutate: handleLogin, isPending } = useLogin({
     onError: (err: any) => {
@@ -38,9 +49,16 @@ export default function LoginForm() {
     },
   });
 
-  const onSubmit = (data: LoginFormData) => 
-  {
-    clearErrors(); 
+  // Manual submit handler
+  const onSubmit = async () => {
+    clearErrors();
+
+    // Run validation manually
+    const isValid = await trigger();
+
+    if (!isValid) return;
+
+    const data = getValues();
 
     handleLogin({
       email: data.email.trim().toLowerCase(),
@@ -56,7 +74,8 @@ export default function LoginForm() {
         </h1>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
+      {/* --- INPUTS WITHOUT <FORM> --- */}
+      <div key={pathname} className="space-y-4 sm:space-y-6">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
             {t("emailLabel")}
@@ -78,6 +97,7 @@ export default function LoginForm() {
           <label className="block text-sm font-medium text-gray-200">
             {t("passwordLabel")}
           </label>
+
           <input
             type="password"
             {...register("password")}
@@ -89,26 +109,27 @@ export default function LoginForm() {
                      hover:bg-gray-50 hover:border-gray-400"
           />
         </div>
-          <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
-        <div className="flex flex-row items-center justify-between  sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
-          <a 
-              href={"/auth/register"} 
+
+        <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
+
+        <div className="flex flex-row items-center justify-between gap-3 text-sm">
+          <Link
+            href="/auth/register"
             className="text-white hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
           >
-             {t("registerLink")}
-          </a>
-          <a 
-             href={"/auth/forgot-password"} 
+            {t("registerLink")}
+          </Link>
+
+          <Link
+            href="/auth/forgot-password"
             className="text-white hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline"
           >
-              {t("forgotPasswordLink")}
-          </a>
+            {t("forgotPasswordLink")}
+          </Link>
         </div>
 
-        
-
         <button
-          type="submit"
+          onClick={onSubmit}
           disabled={isPending}
           className="w-full py-3 px-4 rounded-xl font-semibold text-white
                    bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900
@@ -125,8 +146,7 @@ export default function LoginForm() {
             t("submit")
           )}
         </button>
-        
-      </form>
+      </div>
     </div>
   );
 }
