@@ -1,4 +1,5 @@
- "use client";
+"use client";
+
 import { useForgotPassword } from "../hooks/useForgotPassword";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
@@ -6,24 +7,31 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { forgetpasswordSchema } from "../validation/forgotpassword.schema";
 import { z } from "zod";
 import ErrorBox from "./ErrorBox";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 type forgetpasswordFormData = z.infer<typeof forgetpasswordSchema>;
 
 export default function ForgotPasswordForm() {
-     const {
-        register,
-        handleSubmit,
-        setError,
-        clearErrors,
-        formState: { errors },
-      } = useForm<forgetpasswordFormData>({
-        resolver: zodResolver(forgetpasswordSchema),
-        mode: "onSubmit",
-        reValidateMode: "onSubmit",
-      });
- const t = useTranslations("auth.forgot");
- const tErr = useTranslations("errors");
- const { mutate, isPending } = useForgotPassword({
+  const pathname = usePathname();
+  const t = useTranslations("auth.forgot");
+  const tErr = useTranslations("errors");
+
+  const {
+    register,
+    setError,
+    clearErrors,
+    reset,
+    trigger,
+    getValues,
+    formState: { errors },
+  } = useForm<forgetpasswordFormData>({
+    resolver: zodResolver(forgetpasswordSchema),
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+  });
+
+  const { mutate, isPending } = useForgotPassword({
     onError: (err: any) => {
       setError("server", {
         type: "server",
@@ -35,30 +43,42 @@ export default function ForgotPasswordForm() {
     },
   });
 
-  const onsubmit = (data: forgetpasswordFormData) => {
+  useEffect(() => {
+    reset();
     clearErrors();
-    const safeEmail = data.email.trim().toLowerCase();  
+  }, [pathname, reset, clearErrors]);
+
+  const onSubmit = async () => {
+    clearErrors();
+
+    const valid = await trigger();
+    if (!valid) return;
+
+    const data = getValues();
+    const safeEmail = data.email.trim().toLowerCase();
     mutate(safeEmail);
   };
+
   return (
     <div className="w-full px-4 sm:px-0 animate-fade-in">
       <div className="text-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-white">
-         {t("title")}
+          {t("title")}
         </h1>
         <p className="text-gray-400 text-sm lg:text-base">
           {t("description")}
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onsubmit)} className="space-y-4 sm:space-y-6" noValidate>
+      <div key={pathname} className="space-y-4 sm:space-y-6">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
             {t("emailLabel")}
           </label>
+
           <input
             type="text"
-            placeholder= {t("emailPlaceholder")}
+            placeholder={t("emailPlaceholder")}
             {...register("email")}
             autoComplete="forgetemail"
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
@@ -68,9 +88,10 @@ export default function ForgotPasswordForm() {
           />
         </div>
 
-               <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
+        <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
+
         <button
-          type="submit"
+          onClick={onSubmit}
           disabled={isPending}
           className="w-full py-3 px-4 rounded-xl font-semibold text-white
                    bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900
@@ -81,14 +102,13 @@ export default function ForgotPasswordForm() {
           {isPending ? (
             <div className="flex items-center justify-center gap-2">
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-             {t("loading")}
+              {t("loading")}
             </div>
           ) : (
-                t("submit")
+            t("submit")
           )}
         </button>
-
-      </form>
+      </div>
     </div>
   );
 }

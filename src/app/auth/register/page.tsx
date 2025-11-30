@@ -1,5 +1,9 @@
+"use client";
+
 import RegisterForm from "@/features/auth/components/RegisterForm";
 
-export default function LoginPage() {
+export const dynamic = 'force-dynamic';
+
+export default function RegisterPage() {
   return <RegisterForm />;
 }

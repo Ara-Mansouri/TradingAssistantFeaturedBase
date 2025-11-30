@@ -4,11 +4,12 @@ import { useLocale } from "next-intl";
 import { AuthProvider } from "@/features/auth/context/AuthContext";
 import LanguageSwitcher from "@/features/common/LanguageSwitcher";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const locale = useLocale();
   const isRTL = locale === "fa";
-
+  const pathname = usePathname();
   return (
     <AuthProvider>
       <main  
@@ -29,20 +30,26 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
            
           <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px] gap-0">
             {/*  Image Section */}
-            <div className="relative overflow-hidden order-1 lg:order-1 ">
+            <div className="relative h-80 lg:h-full overflow-hidden order-1 lg:order-1 ">
               <Image
+                priority
                 src="/images/login-bg.jpg"
                 alt="Trading Assistant"
                 className="w-full h-74 lg:h-full object-cover object-center"
-                priority
-                unoptimized
+                width={1200}
+                height={800}
+                loading={"eager"}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent lg:bg-gradient-to-r lg:from-black/0 lg:via-black/0 lg:to-black/45" />
             </div>
 
             {/*  Form Section */}
             <div className="relative order-2 lg:order-2 flex items-center justify-center p-6 lg:p-12 bg-gradient-to-br from-black via-red-900/18 to-black overflow-hidden">
-              <div className="w-full max-w-md"   dir={isRTL ? "rtl" : "ltr"}    >{children}</div>
+              <div key={pathname}
+               className="w-full max-w-md"
+               dir={isRTL ? "rtl" : "ltr"}>
+                {children}
+              </div>
             </div>
           </div>
 
