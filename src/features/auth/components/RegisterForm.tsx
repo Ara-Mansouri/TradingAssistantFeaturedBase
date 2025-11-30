@@ -20,10 +20,11 @@ export default function RegisterForm() {
 
   const {
     register,
-    handleSubmit,
     setError,
     clearErrors,
     reset,
+    trigger,
+    getValues,
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -43,17 +44,25 @@ export default function RegisterForm() {
     },
   });
 
-
   useEffect(() => {
     reset();
     clearErrors();
   }, [pathname, reset, clearErrors]);
 
-
-
-  const onSubmit = (data: RegisterFormData) => {
+  const onSubmit = async () => {
     clearErrors();
-     handleRegister({ email: data.email.trim().toLowerCase(), password:data.password ,firstName : data.firstName,lastName :data.lastName});
+
+    const valid = await trigger();
+    if (!valid) return;
+
+    const data = getValues();
+
+    handleRegister({
+      email: data.email.trim().toLowerCase(),
+      password: data.password,
+      firstName: data.firstName,
+      lastName: data.lastName,
+    });
   };
 
   return (
@@ -64,11 +73,11 @@ export default function RegisterForm() {
         </h1>
       </div>
 
-      <form key={pathname} onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
+      <div key={pathname} className="space-y-4 sm:space-y-6">
         <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-200">
-                {t("firstNameLabel")}
+              {t("firstNameLabel")}
             </label>
             <input
               autoComplete="registerfname"
@@ -89,18 +98,17 @@ export default function RegisterForm() {
               autoComplete="registerlname"
               {...register("lastName")}
               placeholder={t("RLnamePlaceHolder")}
-               className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
-           placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
-           focus:border-red-500/50 transition-all duration-300
+              className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
+                       placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
+                       focus:border-red-500/50 transition-all duration-300
                        hover:bg-gray-50 hover:border-gray-400"
-              
             />
           </div>
         </div>
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-             {t("emailLabel")}
+            {t("emailLabel")}
           </label>
           <input
             type="text"
@@ -116,20 +124,22 @@ export default function RegisterForm() {
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-         {t("passwordLabel")}
+            {t("passwordLabel")}
           </label>
           <input
             type="password"
             {...register("password")}
             placeholder={t("RpasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
-                     placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
-                     focus:border-red-500/50 transition-all duration-300
-                     hover:bg-gray-50 hover:border-gray-400"
+                       placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
+                       focus:border-red-500/50 transition-all duration-300
+                       hover:bg-gray-50 hover:border-gray-400"
             required
           />
         </div>
+
         <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
+
         <div className="flex justify-between items-center text-sm">
           <Link
             href="/auth/Login"
@@ -140,7 +150,7 @@ export default function RegisterForm() {
         </div>
 
         <button
-          type="submit"
+          onClick={onSubmit}
           disabled={isPending}
           className="w-full py-3 px-4 rounded-xl font-semibold text-white
                    bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900
@@ -151,13 +161,13 @@ export default function RegisterForm() {
           {isPending ? (
             <div className="flex items-center justify-center gap-2">
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-               {t("loading")}
+              {t("loading")}
             </div>
           ) : (
             t("submit")
           )}
         </button>
-      </form>
+      </div>
     </div>
   );
 }
