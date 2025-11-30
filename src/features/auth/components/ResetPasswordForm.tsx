@@ -1,6 +1,7 @@
 "use client";
+
 import { useResetPassword } from "../hooks/useResetPassword";
-import { useAuthContext  } from "@/features/auth/context/AuthContext";
+import { useAuthContext } from "@/features/auth/context/AuthContext";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +13,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 
 type resetpasswordFormData = z.infer<typeof resetpasswordSchema>;
+
 export default function ResetPasswordForm() {
   const pathname = usePathname();
   const t = useTranslations("auth.reset");
@@ -19,10 +21,11 @@ export default function ResetPasswordForm() {
 
   const {
     register,
-    handleSubmit,
     setError,
     clearErrors,
     reset,
+    trigger,
+    getValues,
     formState: { errors },
   } = useForm<resetpasswordFormData>({
     resolver: zodResolver(resetpasswordSchema),
@@ -30,7 +33,7 @@ export default function ResetPasswordForm() {
     reValidateMode: "onSubmit",
   });
 
-  const {mutate: handleReset, isPending } = useResetPassword({
+  const { mutate: handleReset, isPending } = useResetPassword({
     onError: (err: any) => {
       setError("server", {
         type: "server",
@@ -46,38 +49,43 @@ export default function ResetPasswordForm() {
     reset();
     clearErrors();
   }, [pathname, reset, clearErrors]);
-    
-  
-  const { email } = useAuthContext();
-  const onSubmit = (data: resetpasswordFormData) => 
-    {
 
+  const { email } = useAuthContext();
+
+  const onSubmit = async () => {
     clearErrors();
-    handleReset({ email: email.trim().toLowerCase(), verificationCode :data.code, newPassword : data.newPassword}); 
+
+    const valid = await trigger();
+    if (!valid) return;
+
+    const data = getValues();
+
+    handleReset({
+      email: email.trim().toLowerCase(),
+      verificationCode: data.code,
+      newPassword: data.newPassword,
+    });
   };
+
   return (
     <div className="w-full px-4 sm:px-0 animate-fade-in">
       <div className="text-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-white">
-         {t("title")}
+          {t("title")}
         </h1>
-        <p className="text-gray-400 text-sm lg:text-base">
-           {t("description")}
-        </p>
+        <p className="text-gray-400 text-sm lg:text-base">{t("description")}</p>
       </div>
 
-      <form key={pathname} onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" noValidate>
-
-
+      <div key={pathname} className="space-y-4 sm:space-y-6">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-              {t("codeLabel")}
+            {t("codeLabel")}
           </label>
           <input
             type="text"
             {...register("code")}
             autoComplete="one-time-code"
-            placeholder= {t("codePlaceholder")}
+            placeholder={t("codePlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
                      focus:border-red-500/50 transition-all duration-300
@@ -91,8 +99,8 @@ export default function ResetPasswordForm() {
           </label>
           <input
             type="password"
-          {...register("newPassword")}
-          autoComplete="newPassword"
+            {...register("newPassword")}
+            autoComplete="newPassword"
             placeholder={t("newPasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
                      placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
@@ -103,11 +111,11 @@ export default function ResetPasswordForm() {
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">
-           {t("confirmPasswordLabel")}
+            {t("confirmPasswordLabel")}
           </label>
           <input
             type="password"
-           {...register("confirmPassword")}
+            {...register("confirmPassword")}
             autoComplete="confirmPassword"
             placeholder={t("confirmPasswordPlaceholder")}
             className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
@@ -116,10 +124,11 @@ export default function ResetPasswordForm() {
                      hover:bg-gray-50 hover:border-gray-400"
           />
         </div>
+
         <ErrorBox errors={errors} tErr={tErr} tLabels={t} />
 
         <button
-          type="submit"
+          onClick={onSubmit}
           disabled={isPending}
           className="w-full py-3 px-4 rounded-xl font-semibold text-white
                    bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900
@@ -130,22 +139,22 @@ export default function ResetPasswordForm() {
           {isPending ? (
             <div className="flex items-center justify-center gap-2">
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-               {t("loading")}
+              {t("loading")}
             </div>
           ) : (
-             t("submit")
+            t("submit")
           )}
         </button>
 
         <div className="text-center">
-          <Link 
+          <Link
             href="/auth/Login"
             className="text-red-400 hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline text-sm"
           >
             {t("backToLogin")}
           </Link>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
