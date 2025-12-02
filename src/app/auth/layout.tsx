@@ -26,7 +26,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div
           className="absolute inset-0 bg-cover bg-center opacity-40"
           style={{
-            backgroundImage: `url('/images/cloudy-bg.PNG')`,
+            backgroundImage: `url('/images/cloudy-bg.png')`,
             filter: "blur(12px)",
           }}
         />
