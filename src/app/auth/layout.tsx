@@ -3,70 +3,49 @@
 import { useLocale } from "next-intl";
 import { AuthProvider } from "@/features/auth/context/AuthContext";
 import LanguageSwitcher from "@/features/common/LanguageSwitcher";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const locale = useLocale();
   const isRTL = locale === "fa";
-  const pathname = usePathname();
+
   return (
     <AuthProvider>
-      <main  
-        className={`relative min-h-screen bg-black text-white flex items-center justify-center p-4 overflow-hidden 
-          ${
-          isRTL ? "text-right" : "text-left"
-        }
+      <main
+        className={`
+          relative min-h-screen flex items-center justify-center p-6 overflow-hidden
+          bg-gradient-to-br from-[#2d1b3d] via-[#3b2350] to-[#1f142d]
+          text-white ${isRTL ? "text-right" : "text-left"}
         `}
       >
-      <div className="absolute top-4 right-4 z-50">
-       <LanguageSwitcher />
-      </div>
+        {/* Language Switcher */}
+        <div className="absolute top-4 right-4 z-50">
+          <LanguageSwitcher />
+        </div>
 
-        <section
-          className="relative w-full max-w-5xl rounded-3xl overflow-hidden bg-black shadow-2xl"
-          
+        {/* Cloudy Dreamy Background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-40"
+          style={{
+            backgroundImage: `url('/images/cloudy-bg.PNG')`,
+            filter: "blur(12px)",
+          }}
+        />
+
+        {/* Centered Glass Form */}
+        <div
+          className="
+            relative z-10 w-full max-w-md p-8 rounded-3xl backdrop-blur-2xl
+            bg-white/10 border border-white/20 shadow-2xl
+          "
+          dir={isRTL ? "rtl" : "ltr"}
         >
-           
-          <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px] gap-0">
-            {/*  Image Section */}
-            <div className="relative h-80 lg:h-full overflow-hidden order-1 lg:order-1 ">
-              <Image
-                priority
-                src="/images/login-bg.jpg"
-                alt="Trading Assistant"
-                className="w-full h-74 lg:h-full object-cover object-center"
-                width={1200}
-                height={800}
-                loading={"eager"}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent lg:bg-gradient-to-r lg:from-black/0 lg:via-black/0 lg:to-black/45" />
-            </div>
+          {children}
+        </div>
 
-            {/*  Form Section */}
-            <div className="relative order-2 lg:order-2 flex items-center justify-center p-6 lg:p-12 bg-gradient-to-br from-black via-red-900/18 to-black overflow-hidden">
-              <div key={pathname}
-               className="w-full max-w-md"
-               dir={isRTL ? "rtl" : "ltr"}>
-                {children}
-              </div>
-            </div>
-          </div>
-
-          {/*  Background Effects */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-red-600/12 via-red-600/8 to-red-600/12 blur-3xl"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full -z-10 bg-gradient-radial from-red-600/8 via-red-600/3 to-transparent"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-transparent via-red-500/5 to-transparent"
-          />
-        </section>
+        {/* Glows */}
+        <div className="pointer-events-none absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-purple-700/30 rounded-full blur-[120px]" />
+        <div className="pointer-events-none absolute -top-20 right-0 w-[400px] h-[400px] bg-pink-600/20 rounded-full blur-[120px]" />
+        <div className="pointer-events-none absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-purple-500/25 rounded-full blur-[100px]" />
       </main>
     </AuthProvider>
   );

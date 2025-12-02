@@ -63,9 +63,9 @@ export default function LanguageSwitcher() {
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={`flex items-center justify-between px-3 py-2 w-36 rounded-md 
-                      bg-gray-900/80 text-gray-100 text-sm font-semibold 
-                      border border-gray-700 hover:border-red-600
-                      hover:bg-gray-800 transition-all duration-200 shadow-md ${
+                      bg-white/10 backdrop-blur-md text-white text-sm font-semibold 
+                      border border-white/20 hover:border-[#9b5daa]/50
+                      hover:bg-white/15 transition-all duration-200 shadow-lg ${
                         isPending ? "opacity-60 cursor-not-allowed" : ""
                       }`}
           disabled={isPending}
@@ -74,13 +74,13 @@ export default function LanguageSwitcher() {
             <span className={`fi fi-${activeLocale.countryCode} fis mr-1`}></span>
             {activeLocale.label.toUpperCase()}
           </span>
-          <span className="ml-2 text-gray-400">{isOpen ? "▲" : "▼"}</span>
+          <span className="ml-2 text-white/70">{isOpen ? "▲" : "▼"}</span>
         </button>
 
         {isOpen && (
           <div
-            className="absolute right-0 mt-2 w-32 bg-gray-950 border border-gray-700 rounded-lg 
-                       shadow-lg overflow-hidden backdrop-blur-md animate-fade-in"
+            className="absolute right-0 mt-2 w-32 bg-white/95 backdrop-blur-xl border border-[#d4a5e5]/50 rounded-lg 
+                       shadow-lg overflow-hidden animate-fade-in"
           >
             {locales
               .filter((loc) => loc.code !== activeLocale.code)
@@ -89,7 +89,7 @@ export default function LanguageSwitcher() {
                   key={loc.code}
                   onClick={() => changeLocale(loc.code)}
                   className="flex items-center gap-2 w-full px-3 py-2 text-left text-sm 
-                             text-gray-300 hover:bg-red-700/20 hover:text-white 
+                             text-gray-700 hover:bg-[#f5e8f8] hover:text-[#8b4d9a] 
                              transition-all duration-150"
                 >
                   <span className={`fi fi-${loc.countryCode} mr-1`}></span>

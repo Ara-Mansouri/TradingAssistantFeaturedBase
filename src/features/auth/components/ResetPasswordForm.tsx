@@ -70,15 +70,15 @@ export default function ResetPasswordForm() {
   return (
     <div className="w-full px-4 sm:px-0 animate-fade-in">
       <div className="text-center mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-white">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-gray-700">
           {t("title")}
         </h1>
-        <p className="text-gray-400 text-sm lg:text-base">{t("description")}</p>
+        <p className="text-white text-sm lg:text-base">{t("description")}</p>
       </div>
 
       <div key={pathname} className="space-y-4 sm:space-y-6">
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-200">
+          <label className="block text-sm font-medium text-gray-700">
             {t("codeLabel")}
           </label>
           <input
@@ -86,15 +86,15 @@ export default function ResetPasswordForm() {
             {...register("code")}
             autoComplete="one-time-code"
             placeholder={t("codePlaceholder")}
-            className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
-                     placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
-                     focus:border-red-500/50 transition-all duration-300
-                     hover:bg-gray-50 hover:border-gray-400"
+            className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900
+                     placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#8b4d9a]/50 
+                     focus:border-[#8b4d9a]/50 transition-all duration-300
+                     hover:bg-gray-50 hover:border-[#9b5daa]/40 shadow-sm"
           />
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-200">
+          <label className="block text-sm font-medium text-gray-700">
             {t("newPasswordLabel")}
           </label>
           <input
@@ -102,15 +102,15 @@ export default function ResetPasswordForm() {
             {...register("newPassword")}
             autoComplete="newPassword"
             placeholder={t("newPasswordPlaceholder")}
-            className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
-                     placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
-                     focus:border-red-500/50 transition-all duration-300
-                     hover:bg-gray-50 hover:border-gray-400"
+            className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900
+                     placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#8b4d9a]/50 
+                     focus:border-[#8b4d9a]/50 transition-all duration-300
+                     hover:bg-gray-50 hover:border-[#9b5daa]/40 shadow-sm"
           />
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-200">
+          <label className="block text-sm font-medium text-gray-700">
             {t("confirmPasswordLabel")}
           </label>
           <input
@@ -118,10 +118,10 @@ export default function ResetPasswordForm() {
             {...register("confirmPassword")}
             autoComplete="confirmPassword"
             placeholder={t("confirmPasswordPlaceholder")}
-            className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-black
-                     placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 
-                     focus:border-red-500/50 transition-all duration-300
-                     hover:bg-gray-50 hover:border-gray-400"
+            className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900
+                     placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#8b4d9a]/50 
+                     focus:border-[#8b4d9a]/50 transition-all duration-300
+                     hover:bg-gray-50 hover:border-[#9b5daa]/40 shadow-sm"
           />
         </div>
 
@@ -131,10 +131,10 @@ export default function ResetPasswordForm() {
           onClick={onSubmit}
           disabled={isPending}
           className="w-full py-3 px-4 rounded-xl font-semibold text-white
-                   bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900
-                   focus:outline-none focus:ring-2 focus:ring-red-500/60 focus:ring-offset-2 focus:ring-offset-transparent
+                   bg-gradient-to-r from-[#8b4d9a] to-[#7a3d8a] hover:from-[#9b5daa] hover:to-[#8b4d9a]
+                   focus:outline-none focus:ring-2 focus:ring-[#8b4d9a]/60 focus:ring-offset-2 focus:ring-offset-white
                    disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300
-                   shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                   shadow-lg hover:shadow-xl hover:shadow-[#8b4d9a]/25 transform hover:-translate-y-0.5"
         >
           {isPending ? (
             <div className="flex items-center justify-center gap-2">
@@ -149,7 +149,7 @@ export default function ResetPasswordForm() {
         <div className="text-center">
           <Link
             href="/auth/Login"
-            className="text-red-400 hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline text-sm"
+            className="text-white hover:text-[#9b5daa] transition-colors duration-200 underline-offset-4 hover:underline text-sm font-medium"
           >
             {t("backToLogin")}
           </Link>
