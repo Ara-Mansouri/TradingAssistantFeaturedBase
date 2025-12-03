@@ -9,8 +9,7 @@ const PUBLIC_PATHS = [
   "/sw.js",
   "/workbox-",
   "/icons/",
-  "/favicon.ico",
-  "/",   
+  "/favicon.ico",  
 ];
 
 export async function middleware(req: NextRequest) {
@@ -32,6 +31,11 @@ export async function middleware(req: NextRequest) {
   // ---------- Tokens ----------
   const accessToken = req.cookies.get("accessToken")?.value;
   const refreshToken = req.cookies.get("refreshToken")?.value;
+
+    if (pathname === "/"  && !verifyAccessToken(accessToken)) 
+    {
+    return NextResponse.redirect(new URL("/auth/register", req.url));
+    }
 
   // ---------- Auth pages ----------
   if (pathname.startsWith("/auth")) {
