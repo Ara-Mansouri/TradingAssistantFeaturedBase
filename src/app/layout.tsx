@@ -8,41 +8,41 @@ import AndroidBackHandler from "@/utils/AndroidBackHandler";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
-
 export async function generateMetadata() {
   const locale = (await headers()).get("x-next-intl-locale") || "en";
   const messages = (await import(`../i18n/messages/${locale}.json`)).default;
   const title = messages.metadata?.title || "Trading Assistant";
   const description = messages.metadata?.description || "AI-powered trading assistant";
 
-  return {
-    title,
-    description,
-    manifest: "/manifest.json",
-    themeColor: "#ff0000",
-    appleWebApp: {
-      title: "Trading Assistant",
-      capable: true,
-      statusBarStyle: "black-translucent",
-    },
-    icons: {
-      icon: "/icons/icon-192.png",
-      apple: "/icons/icon-192.png",
-    },
-  };
+  return { title, description };
 }
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = (await headers()).get("x-next-intl-locale") || "en";
   const messages = (await import(`../i18n/messages/${locale}.json`)).default;
+
   return (
     <html lang={locale}>
+      <head>
+
+        <link rel="manifest" href="/manifest.json" />
+
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <link rel="icon" href="/icons/icon-192.png" />
+
+
+        <meta name="apple-mobile-web-app-title" content="Trading Assistant" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="theme-color" content="#ff0000" />
+
+    
+        <link rel="preload" as="image" href="/images/login-bg.jpg" />
+      </head>
+
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0b0b] text-white h-screen `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0b0b] text-white h-screen`}
       >
         <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>
