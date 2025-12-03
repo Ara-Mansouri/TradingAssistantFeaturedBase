@@ -9,7 +9,9 @@ const PUBLIC_PATHS = [
   "/sw.js",
   "/workbox-",
   "/icons/",
-  "/favicon.ico",  
+  "/favicon.ico", 
+  "/images",
+ "/_next", 
 ];
 
 export async function middleware(req: NextRequest) {
