@@ -1,27 +1,39 @@
-
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyAccessToken } from "@/lib/auth";
 
-
 const defaultLocale = "en";
+
+const PUBLIC_PATHS = [
+  "/manifest.json",
+  "/sw.js",
+  "/workbox-",
+  "/icons/",
+  "/favicon.ico",
+  "/",   
+];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // ---------- 1) allow PWA files ----------
+  if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
+    const res = NextResponse.next();
+    const cookieLocale = req.cookies.get("NEXT_LOCALE")?.value || defaultLocale;
+    res.headers.set("x-next-intl-locale", cookieLocale);
+    return res;
+  }
 
-
+  // ---------- Locale ----------
   const cookieLocale = req.cookies.get("NEXT_LOCALE")?.value || defaultLocale;
-
-
   const res = NextResponse.next();
   res.headers.set("x-next-intl-locale", cookieLocale);
 
-  
+  // ---------- Tokens ----------
   const accessToken = req.cookies.get("accessToken")?.value;
   const refreshToken = req.cookies.get("refreshToken")?.value;
 
-
+  // ---------- Auth pages ----------
   if (pathname.startsWith("/auth")) {
     if (accessToken && verifyAccessToken(accessToken)) {
       return NextResponse.redirect(new URL("/dashboard", req.url));
@@ -29,21 +41,22 @@ export async function middleware(req: NextRequest) {
     return res;
   }
 
-
+  // ---------- Dashboard ----------
   if (pathname.startsWith("/dashboard")) {
     if (!accessToken && !refreshToken) {
       return NextResponse.redirect(new URL("/auth/Login", req.url));
     }
   }
 
-
+  // ---------- Refresh ----------
   if (!verifyAccessToken(accessToken) && refreshToken) {
     const refreshUrl = req.nextUrl.clone();
     refreshUrl.pathname = "/api/auth/refresh-token";
     return NextResponse.rewrite(refreshUrl);
   }
 
-   if (!verifyAccessToken(accessToken) && !refreshToken && !pathname.startsWith("/auth")) 
+  // ---------- Catch-all unauthorized ----------
+  if (!verifyAccessToken(accessToken) && !refreshToken && !pathname.startsWith("/auth")) 
   {
     return NextResponse.redirect(new URL("/auth/Login", req.url));
   }
@@ -53,8 +66,9 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/",            
-    "/auth/:path*", 
-    "/dashboard/:path*", 
+    "/",
+    "/auth/:path*",
+    "/dashboard/:path*",
+    "/((?!_next/static|_next/image|favicon.ico).*)"
   ],
 };
