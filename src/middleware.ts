@@ -2,67 +2,74 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyAccessToken } from "@/lib/auth";
 
-const defaultLocale = "en";
 
-const PUBLIC_PATHS = [
+const defaultLocale = "en"; 
+
+const PUBLIC_STATIC = [
   "/manifest.json",
+  "/favicon.ico",
+  "/icons",
+  "/images",
   "/sw.js",
   "/workbox-",
-  "/icons/",
-  "/favicon.ico", 
-  "/images",
- "/_next", 
+  "/_next",
 ];
 
-export async function middleware(req: NextRequest) {
+
+export async function middleware(req: NextRequest) 
+{
   const { pathname } = req.nextUrl;
 
-  // ---------- 1) allow PWA files ----------
-  if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
-    const res = NextResponse.next();
-    const cookieLocale = req.cookies.get("NEXT_LOCALE")?.value || defaultLocale;
-    res.headers.set("x-next-intl-locale", cookieLocale);
-    return res;
-  }
-
-  // ---------- Locale ----------
   const cookieLocale = req.cookies.get("NEXT_LOCALE")?.value || defaultLocale;
   const res = NextResponse.next();
   res.headers.set("x-next-intl-locale", cookieLocale);
 
-  // ---------- Tokens ----------
+  if (PUBLIC_STATIC.some((p) => pathname.startsWith(p))) 
+  {
+    return res;
+  }
+  
   const accessToken = req.cookies.get("accessToken")?.value;
   const refreshToken = req.cookies.get("refreshToken")?.value;
+  const isValid = accessToken && verifyAccessToken(accessToken);
 
-    if (pathname === "/"  && !verifyAccessToken(accessToken)) 
-    {
-    return NextResponse.redirect(new URL("/auth/register", req.url));
+
+  if (pathname === "/") 
+  {
+    if (!isValid) {
+      return NextResponse.redirect(new URL("/auth/register", req.url));
     }
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
 
-  // ---------- Auth pages ----------
-  if (pathname.startsWith("/auth")) {
-    if (accessToken && verifyAccessToken(accessToken)) {
+  if (pathname.startsWith("/auth")) 
+  {
+    if (isValid)
+    {
       return NextResponse.redirect(new URL("/dashboard", req.url));
     }
     return res;
   }
 
-  // ---------- Dashboard ----------
-  if (pathname.startsWith("/dashboard")) {
-    if (!accessToken && !refreshToken) {
+
+  if (pathname.startsWith("/dashboard"))
+   {
+    if (!isValid && !refreshToken) 
+    {
       return NextResponse.redirect(new URL("/auth/Login", req.url));
     }
   }
 
-  // ---------- Refresh ----------
-  if (!verifyAccessToken(accessToken) && refreshToken) {
+
+  if (!verifyAccessToken(accessToken) && refreshToken) 
+  {
     const refreshUrl = req.nextUrl.clone();
     refreshUrl.pathname = "/api/auth/refresh-token";
     return NextResponse.rewrite(refreshUrl);
   }
 
-  // ---------- Catch-all unauthorized ----------
-  if (!verifyAccessToken(accessToken) && !refreshToken && !pathname.startsWith("/auth")) 
+   if (!verifyAccessToken(accessToken) && !refreshToken && !pathname.startsWith("/auth")) 
+
   {
     return NextResponse.redirect(new URL("/auth/Login", req.url));
   }
@@ -72,9 +79,9 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/",
-    "/auth/:path*",
-    "/dashboard/:path*",
-    "/((?!_next/static|_next/image|favicon.ico).*)"
+    "/",            
+    "/auth/:path*", 
+    "/dashboard/:path*", 
+
   ],
 };
