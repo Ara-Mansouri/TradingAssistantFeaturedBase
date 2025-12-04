@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="icon" href="/icons/icon-192.png" />
 
 
-        <meta name="apple-mobile-web-app-title" content="Trading Assistant" />
+        <meta name="apple-mobile-web-app-title" content="TradingAI" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 

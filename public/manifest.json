@@ -1,6 +1,6 @@
 {
   "name": "Trading Assistant",
-  "short_name": "Trading",
+  "short_name": "TradingAI",
   "description": "AI-powered trading assistant",
   "start_url": "/",
   "scope": "/",
