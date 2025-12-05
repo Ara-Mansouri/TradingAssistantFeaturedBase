@@ -44,3 +44,9 @@ next-env.d.ts
 # Capacitor Native Platforms
 android/
 ios/
+
+
+
+#pwa
+public/sw.js
+public/workbox-*.js
