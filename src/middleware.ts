@@ -37,7 +37,7 @@ export async function middleware(req: NextRequest)
   if (pathname === "/") 
   {
     if (!isValid) {
-      return NextResponse.redirect(new URL("/auth/register", req.url));
+      return NextResponse.redirect(new URL("/auth/Login", req.url));
     }
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
