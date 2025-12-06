@@ -95,7 +95,7 @@ export default function VoiceRecorder({ showText = false }: VoiceRecorderProps)
     }
   };
 
-  const orbSize = showText ? (isMobile ? 160 : 260) : 260;
+  const orbSize = showText ? (isMobile ? 100 : 260) : 260;
 
   return (
     <div className="relative flex flex-col items-center justify-center bg-cover bg-center bg-black text-white animate-fade-in">
