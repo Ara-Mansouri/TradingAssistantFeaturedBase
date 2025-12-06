@@ -22,18 +22,17 @@ export default function ConversationShell()
         <>
         <div className="flex flex-col h-full">
   
-       <div className="flex-1 min-h-0">
+       <div className="flex-1 min-h-0 overflow-y-auto">
           <MessageList messages={messages} />
-       </div>
-
-      {/* Input Bar */}
-      <div className="flex-shrink-0 border-t border-gray-800/50 bg-black/50 backdrop-blur-sm">
-         <ChatInputBar />
       </div>
 
-     </div>
+    {/* Input Bar */}
+    <div className="flex-shrink-0 border-t border-gray-800/50 bg-black/50 backdrop-blur-sm">
+      <ChatInputBar />
+    </div>
 
-      </>
+  </div>
+          </>
       }
     />
   );
