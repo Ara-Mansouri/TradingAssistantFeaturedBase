@@ -105,13 +105,13 @@ export default function VoiceRecorder({ showText = false }: VoiceRecorderProps)
         isRecording={isRecording}
         volume={volume}
         onToggle={handleToggle}
-        disabled={false} //TODO : FIX DISABLED FOR ACTUAL API
+        disabled={true} //TODO : FIX DISABLED FOR ACTUAL API //orb is disabled for now
         size={orbSize}
       />
-
+{/* 
       <p className="mt-3 text-sm text-gray-400">
         {isRecording ? t("stop") || "Stop" : t("start") || "Start"}
-      </p>
+      </p> */}
 
     </div>
   );
