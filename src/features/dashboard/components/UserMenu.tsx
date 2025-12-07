@@ -26,6 +26,7 @@ export default function UserMenu() {
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
+    router.refresh();
     router.replace("/auth/Login");
   };
 

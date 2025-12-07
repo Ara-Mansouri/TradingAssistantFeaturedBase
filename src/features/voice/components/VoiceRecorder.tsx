@@ -6,7 +6,7 @@ import VoiceOrb from "./VoiceOrb";
 import { useTranslations } from "next-intl";
 import { useConversation } from "@/features/conversation/context/useConversation";
 import { useMockVoiceApi, USE_MOCK_API } from "../hooks/useMockVoiceApi";
-import { ChatMessage } from "@/features/chat/components/ChatBubble";//اضافه کردن  پیغام و ریسپانس به چت مسیج
+import { ChatMessage } from "@/features/chat/components/ChatBubble";
 //  const { status, response,setResponse,sessionReady,startRecording, stopRecording , leaveSession } = useVoiceHub();
 // determine screen size for orb display
 function useIsMobile() {
@@ -40,19 +40,19 @@ export default function VoiceRecorder({ showText = false }: VoiceRecorderProps)
   //  const isRecording = status.startsWith("Recording");
   const volume = useMicVolume(isRecording);
 
-  // Handle transcription and AI response in Voice+Text mode
+
   const [processedTranscriptionId, setProcessedTranscriptionId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!showText || !mockApi.mockFinalTranscription || !mockApi.mockAiResponse) return;
     
-    // Prevent duplicate processing
+  
     const transcriptionId = mockApi.mockFinalTranscription;
     if (processedTranscriptionId === transcriptionId) return;
 
     setProcessedTranscriptionId(transcriptionId);
 
-    // Add user message (transcription)
+
     const userMessage: ChatMessage = 
     {
       id: `user-${Date.now()}`,
@@ -62,7 +62,7 @@ export default function VoiceRecorder({ showText = false }: VoiceRecorderProps)
     };
     addMessage(userMessage);
 
-    // Add assistant message (AI response)
+
     const assistantMessage: ChatMessage = {
       id: `assistant-${Date.now()}`,
       role: "assistant",
@@ -70,10 +70,10 @@ export default function VoiceRecorder({ showText = false }: VoiceRecorderProps)
       timestamp: new Date(),
     };
     
-    // Small delay to simulate AI processing
+
     setTimeout(() => {
       addMessage(assistantMessage);
-      // Reset after a delay to allow for next recording
+  
       setTimeout(() => {
         mockApi.reset();
         setProcessedTranscriptionId(null);
@@ -85,12 +85,12 @@ export default function VoiceRecorder({ showText = false }: VoiceRecorderProps)
   const handleToggle = async () => {
     if (isRecording) 
     {
-      // Stop recording and finalize
+
       await mockApi.finalizeMockRecording();
     } 
     else
     {
-      // Start recording
+
       mockApi.startMockRecording();
     }
   };
