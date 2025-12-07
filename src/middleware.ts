@@ -52,13 +52,13 @@ export async function middleware(req: NextRequest)
   }
 
 
-  // if (pathname.startsWith("/dashboard"))
-  //  {
-  //   if (!isValid && !refreshToken) 
-  //   {
-  //     return NextResponse.redirect(new URL("/auth/Login", req.url));
-  //   }
-  // }
+  if (pathname.startsWith("/dashboard"))
+   {
+    if (!isValid && !refreshToken) 
+    {
+      return NextResponse.redirect(new URL("/auth/Login", req.url));
+    }
+  }
 
 
   if (!verifyAccessToken(accessToken) && refreshToken) 
@@ -68,11 +68,11 @@ export async function middleware(req: NextRequest)
     return NextResponse.rewrite(refreshUrl);
   }
 
-  //  if (!verifyAccessToken(accessToken) && !refreshToken && !pathname.startsWith("/auth")) 
+   if (!verifyAccessToken(accessToken) && !refreshToken && !pathname.startsWith("/auth")) 
 
-  // {
-  //   return NextResponse.redirect(new URL("/auth/Login", req.url));
-  // }
+  {
+    return NextResponse.redirect(new URL("/auth/Login", req.url));
+  }
 
   return res;
 }
@@ -81,7 +81,7 @@ export const config = {
   matcher: [
     "/",            
     "/auth/:path*", 
-    //"/dashboard/:path*", 
+    "/dashboard/:path*", 
 
   ],
 };
