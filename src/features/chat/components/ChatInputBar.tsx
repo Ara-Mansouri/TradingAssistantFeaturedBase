@@ -35,9 +35,9 @@ export default function ChatInputBar()
     setInputText("");
     setIsLoading(true);
 
-    // Simulate AI response (mock)
     setTimeout(() => {
-      const mockResponses = "Based on current macroeconomic indicators, liquidity cycles, and historical halving events, the probability of Bitcoin reaching $100,000 in the next market cycle is significant. However, ETF inflows, miner capitulation phases, and global risk sentiment will remain the primary drivers influencing whether this target is reached sustainably.";
+    const mockResponses = "This message is a placeholder mock response used exclusively for validating AI integration and UI behavior.";
+
       const aiResponse: ChatMessage = 
       {
         id: `assistant-${Date.now()}`,
