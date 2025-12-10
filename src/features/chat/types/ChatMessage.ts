@@ -22,3 +22,12 @@ export interface ChatHistoryResponse
 {
     messages : ChatMessageDto[];
 }
+
+export enum ChatStatus {
+  Connected = "connected",
+  Connecting = "connecting",
+  Disconnected = "disconnected",
+  Error = "error",
+}
+
+
