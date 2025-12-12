@@ -4,7 +4,7 @@ import { createContext } from "react";
 import { useState } from "react";
 import { ChatMessage } from "@/features/chat/components/ChatBubble";
 
-export type ConversationMode =  "voice+text";
+// export type ConversationMode =  "voice+text";
 export interface ConversationContextValue 
 {
  messages: ChatMessage[];

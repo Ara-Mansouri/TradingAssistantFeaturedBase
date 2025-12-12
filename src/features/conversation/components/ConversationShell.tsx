@@ -3,7 +3,7 @@
 import { useConversation } from "../context/useConversation";
 import VoiceRecorder from "@/features/voice/components/VoiceRecorder";
 import MessageList from "@/features/chat/components/MessageList";
-import ChatContainer from "./ChatContainer";
+// import ChatContainer from "./ChatContainer";
 import ResponsiveGrid from "./ResponsiveGrid";
 import ChatInputBar from "@/features/chat/components/ChatInputBar";
 
@@ -26,7 +26,7 @@ export default function ConversationShell()
           <MessageList messages={messages} />
       </div>
 
-    {/* Input Bar */}
+
     <div className="flex-shrink-0 border-t border-gray-800/50 bg-black/50 backdrop-blur-sm">
       <ChatInputBar />
     </div>
