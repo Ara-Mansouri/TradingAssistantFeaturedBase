@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { useConversation } from "@/features/conversation/context/useConversation";
 import { ChatMessage } from "./ChatBubble";
+import { useChat } from "../hooks/useChat";
 
 
 
@@ -14,6 +15,7 @@ export default function ChatInputBar()
   const t = useTranslations("Dashboard");
   const { addMessage } = useConversation();
   const [inputText, setInputText] = useState("");
+  const { send } = useChat("chat-001");
   const [isLoading, setIsLoading] = useState(false);
 
 //   const goToWave = () => {
@@ -23,62 +25,13 @@ export default function ChatInputBar()
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!inputText.trim() || isLoading) return;
-
-    const userMessage: ChatMessage = {
-      id: `user-${Date.now()}`,
-      role: "user",
-      content: inputText.trim(),
-      timestamp: new Date(),
-    };
-
-    addMessage(userMessage);
-    setInputText("");
-    setIsLoading(true);
-
-    setTimeout(() => {
-    const mockResponses = "This message is a placeholder mock response used exclusively for validating AI integration and UI behavior.";
-
-      const aiResponse: ChatMessage = 
-      {
-        id: `assistant-${Date.now()}`,
-        role: "assistant",
-        content: mockResponses,
-        timestamp: new Date(),
-      };
-      addMessage(aiResponse);
-      setIsLoading(false);
-    }, 1000);
+     setInputText("");
+     setIsLoading(true);
+    await send(inputText);
   };
 
   return (
     <div className="w-full flex flex-col items-center z-40 px-4 py-4" dir={locale === "fa" ? "rtl" : "ltr"}>
-      {/* {!hasMessages && (
-        <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl text-white font-bold mb-2 tracking-tight">
-            <div
-              aria-hidden
-              className="
-                pointer-events-none absolute -z-10
-                left-1/2 -translate-x-1/2
-                top-[45%]
-                w-full             
-                max-w-[45rem]      
-                h-[5rem]          
-                rounded-full
-                bg-gradient-to-r from-red-800/25 via-red-600/15 to-transparent
-                blur-[50px] opacity-100
-                rotate-[-24deg]
-                md:top-[22%]
-                md:max-w-[55rem]  
-                md:h-[15rem]
-                md:opacity-60
-                md:rotate-[-26deg]
-              "
-            />
-            {t("welcome")}
-          </h1>
-        </div>
-      )} */}
       <div className="w-full max-w-3xl mx-auto">
         <form onSubmit={handleSubmit}>
           <div
