@@ -1,4 +1,4 @@
-export type ChatSender = "user" | "assistent"
+export type ChatSender = "user" | "assistant"
 
 export interface  ChatMessageDto 
 {

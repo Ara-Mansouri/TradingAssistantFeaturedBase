@@ -2,7 +2,7 @@ import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signal
 import { ChatMessageDto } from "../types/ChatMessage";
 import { IchatTransport } from "../core/IChatTransport";
 
-export class ChatService implements IchatTransport {
+export class ChatMockService implements IchatTransport {
   private connection: HubConnection | null = null;
   private chatId: string | null = null;
 
