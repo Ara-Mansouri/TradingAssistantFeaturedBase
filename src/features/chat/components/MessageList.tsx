@@ -1,41 +1,34 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import ChatBubble, { ChatMessage } from "./ChatBubble";
+import ChatBubble from "./ChatBubble";
+import type { ConversationDto } from "@/features/chat/types/chatApi";
 
-interface MessageListProps {
-  messages: ChatMessage[];
-}
-
-export default function MessageList({ messages }: MessageListProps) {
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+export default function MessageList({ items }: { items: ConversationDto[] }) {
+  const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [items]);
 
-
-  if (messages.length === 0) {
-  return (
-    <div className=" h-full flex items-center justify-center">
-      <p className="text-gray-500 text-sm">
-        No messages yet. Start a conversation!
-      </p>
-    </div>
-  );
-}
+  if (items.length === 0) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <p className="text-gray-500 text-sm">No messages yet. Start a conversation!</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 overflow-y-auto px-4 py-6 space-y-2">
       <div className="w-full flex justify-center">
         <div className="w-full max-w-[750px] px-4">
-          {messages.map((message) => (
-            <ChatBubble key={message.id} message={message} />
+          {items.map((x, idx) => (
+            <ChatBubble key={`${x.registeredAt}-${x.side}-${idx}`} item={x} />
           ))}
-          <div ref={messagesEndRef} />
+          <div ref={endRef} />
         </div>
       </div>
     </div>
   );
 }
-

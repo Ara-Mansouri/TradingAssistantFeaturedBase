@@ -1,38 +1,26 @@
 "use client";
 
-import { createContext } from "react";
-import { useState } from "react";
-import { ChatMessage } from "@/features/chat/components/ChatBubble";
+import { createContext, useMemo, useState } from "react";
+import type { ConversationDto } from "@/features/chat/types/chatApi";
 
-// export type ConversationMode =  "voice+text";
-export interface ConversationContextValue 
-{
- messages: ChatMessage[];
- addMessage: (message: ChatMessage) => void;
- clearMessages: () => void;
+export interface ConversationContextValue {
+  displayConversations: ConversationDto[];
+  setDisplayConversations: (items: ConversationDto[]) => void;
+  clearDisplayConversations: () => void;
 }
 
-export const ConversationContext = createContext<ConversationContextValue | null >(null);
+export const ConversationContext = createContext<ConversationContextValue | null>(null);
 
+export function ConversationProvider({ children }: { children: React.ReactNode }) {
+  const [displayConversations, setDisplayConversationsState] = useState<ConversationDto[]>([]);
 
-export function  ConversationProvider({ children }: { children: React.ReactNode })
-{
+  const setDisplayConversations = (items: ConversationDto[]) => setDisplayConversationsState(items);
+  const clearDisplayConversations = () => setDisplayConversationsState([]);
 
-    const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const value = useMemo(
+    () => ({ displayConversations, setDisplayConversations, clearDisplayConversations }),
+    [displayConversations]
+  );
 
-    const addMessage = (message: ChatMessage) =>
-    {
-      setMessages((prev) => [...prev, message]);
-    };
-
-    const clearMessages = () => 
-    {
-      setMessages([]);
-    };
-
-    return (
-            <ConversationContext.Provider value={{ messages, addMessage, clearMessages}}>
-            {children}
-            </ConversationContext.Provider>
-    );
+  return <ConversationContext.Provider value={value}>{children}</ConversationContext.Provider>;
 }
