@@ -1,18 +1,14 @@
-"use client"
+"use client";
 
-import  { useContext } from "react"
-import {ConversationContext} from "./ConversationContext"
+import { useContext } from "react";
+import { ConversationContext } from "./ConversationContext";
 
+export function useConversation() 
 
-export function useConversation()
 {
-    const ctx = useContext(ConversationContext);
-    if (!ctx) 
-    {
+  const ctx = useContext(ConversationContext);
+
+  if (!ctx) 
     throw new Error("useConversation must be used inside <ConversationProvider>");
-    }
-    return ctx;
-
+  return ctx;
 }
-
-
