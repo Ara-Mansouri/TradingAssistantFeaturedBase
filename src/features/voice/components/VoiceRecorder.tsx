@@ -6,7 +6,7 @@ import VoiceOrb from "./VoiceOrb";
 import { useTranslations } from "next-intl";
 import { useConversation } from "@/features/conversation/context/useConversation";
 import { useMockVoiceApi, USE_MOCK_API } from "../hooks/useMockVoiceApi";
-import { ChatMessage } from "@/features/chat/components/ChatBubble";
+//import { ChatMessage } from "@/features/chat/components/ChatBubble";
 //  const { status, response,setResponse,sessionReady,startRecording, stopRecording , leaveSession } = useVoiceHub();
 // determine screen size for orb display
 function useIsMobile() {
@@ -32,7 +32,7 @@ interface VoiceRecorderProps
 
 export default function VoiceRecorder({ showText = false }: VoiceRecorderProps) 
 {
-  const { addMessage } = useConversation();
+  //const { addMessage } = useConversation();
   const t = useTranslations("Dashboard");
   const isMobile = useIsMobile();
   const mockApi = useMockVoiceApi();
@@ -43,43 +43,6 @@ export default function VoiceRecorder({ showText = false }: VoiceRecorderProps)
 
   const [processedTranscriptionId, setProcessedTranscriptionId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!showText || !mockApi.mockFinalTranscription || !mockApi.mockAiResponse) return;
-    
-  
-    const transcriptionId = mockApi.mockFinalTranscription;
-    if (processedTranscriptionId === transcriptionId) return;
-
-    setProcessedTranscriptionId(transcriptionId);
-
-
-    const userMessage: ChatMessage = 
-    {
-      id: `user-${Date.now()}`,
-      role: "user",
-      content: mockApi.mockFinalTranscription,
-      timestamp: new Date(),
-    };
-    addMessage(userMessage);
-
-
-    const assistantMessage: ChatMessage = {
-      id: `assistant-${Date.now()}`,
-      role: "assistant",
-      content: mockApi.mockAiResponse,
-      timestamp: new Date(),
-    };
-    
-
-    setTimeout(() => {
-      addMessage(assistantMessage);
-  
-      setTimeout(() => {
-        mockApi.reset();
-        setProcessedTranscriptionId(null);
-      }, 1000);
-    }, 300);
-  }, [mockApi.mockFinalTranscription, mockApi.mockAiResponse, showText, addMessage, processedTranscriptionId]);
 
 // TODO :FIX HANDLE TOGGLE FOR API
   const handleToggle = async () => {

@@ -4,7 +4,7 @@ import VoiceRecorder from "@/features/voice/components/VoiceRecorder";
 import ResponsiveGrid from "./ResponsiveGrid";
 import MessageList from "@/features/chat/components/MessageList";
 import ChatInputBar from "@/features/chat/components/ChatInputBar";
-import ChatSidebar from "@/features/chat/components/ChatSidebar";
+
 
 import { useConversation } from "@/features/conversation/context/useConversation";
 import type { ChatFlow } from "@/features/chat/hooks/useChatFlow";
