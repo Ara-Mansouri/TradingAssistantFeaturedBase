@@ -8,20 +8,17 @@ import { useChatsList } from "@/features/chat/hooks/useChatsList";
 import { useEffect } from "react";
 import { ConversationProvider } from "@/features/conversation/context/ConversationContext";
 import { ChatsProvider } from "@/features/chat/context/chatContext";
+import NoBackForwardCache from "@/features/common/NoBackForwardCache";
 
 export default function ChatLayout({ children }: { children: React.ReactNode }) {
   const params = useParams();
 const activeChatId = (params as any)?.chatId ?? null;
 
-useEffect(() => {
-  console.log("C Layout MOUNT");
-  return () => console.log("C Layout UNMOUNT");
-}, []);
-
   const chats = useChatsList(); 
 
   return (
      <ConversationProvider>
+         <NoBackForwardCache />
       <ChatsProvider value={chats}>
     <ConversationLayout
       sidebar={
