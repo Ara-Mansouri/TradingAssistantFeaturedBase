@@ -12,7 +12,7 @@ export function useChatThread(opts: {
   const { chatId, onNeedCreateChat } = opts;
 
   const router = useRouter();
-  const { setDisplayConversations, clearDisplayConversations } = useConversation();
+  const { setDisplayConversations, clearDisplayConversations , appendConversation } = useConversation();
 
   const [isConversationsLoading, setIsConversationsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -45,7 +45,12 @@ export function useChatThread(opts: {
         router.push(`/c/${id}`);
         clearDisplayConversations(); 
       }
-
+    
+      appendConversation({
+        text: t,
+        registeredAt: new Date().toISOString(),
+        side: "User",
+      });
       await chatService.sendMessage(id, t);
 
      

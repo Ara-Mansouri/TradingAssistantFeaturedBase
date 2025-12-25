@@ -7,6 +7,7 @@ export interface ConversationContextValue {
   displayConversations: ConversationDto[];
   setDisplayConversations: (items: ConversationDto[]) => void;
   clearDisplayConversations: () => void;
+  appendConversation: (item: ConversationDto) => void;
 }
 
 export const ConversationContext = createContext<ConversationContextValue | null>(null);
@@ -16,9 +17,10 @@ export function ConversationProvider({ children }: { children: React.ReactNode }
 
   const setDisplayConversations = (items: ConversationDto[]) => setDisplayConversationsState(items);
   const clearDisplayConversations = () => setDisplayConversationsState([]);
-
+  const appendConversation = (item: ConversationDto) =>
+    setDisplayConversationsState((prev) => [...prev, item]);
   const value = useMemo(
-    () => ({ displayConversations, setDisplayConversations, clearDisplayConversations }),
+    () => ({ displayConversations, setDisplayConversations, clearDisplayConversations ,appendConversation }),
     [displayConversations]
   );
 
