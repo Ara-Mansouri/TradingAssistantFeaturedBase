@@ -39,20 +39,20 @@ export async function middleware(req: NextRequest)
     if (!isValid) {
       return NextResponse.redirect(new URL("/auth/Login", req.url));
     }
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.redirect(new URL("/c", req.url));
   }
 
   if (pathname.startsWith("/auth")) 
   {
     if (isValid)
     {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
+      return NextResponse.redirect(new URL("/c", req.url));
     }
     return res;
   }
 
 
-  if (pathname.startsWith("/dashboard"))
+  if (pathname.startsWith("/c"))
    {
     if (!isValid && !refreshToken) 
     {
@@ -81,7 +81,7 @@ export const config = {
   matcher: [
     "/",            
     "/auth/:path*", 
-    "/dashboard/:path*", 
+    "/c/:path*", 
 
   ],
 };

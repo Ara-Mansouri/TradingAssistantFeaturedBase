@@ -19,7 +19,7 @@ export default function AndroidBackHandler() {
           return;
         }
 
-        if (pathname === "/dashboard") {
+        if (pathname === "/c") {
           return;
         }
 
