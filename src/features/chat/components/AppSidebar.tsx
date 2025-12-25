@@ -30,7 +30,7 @@ export default function AppSidebar(props: {
   const { setOpenMobile } = useSidebar();
   const closeMobile = () => setOpenMobile(false);
 
-  // rename modal state
+
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
 
@@ -83,16 +83,18 @@ export default function AppSidebar(props: {
         )}
 
         <SidebarMenu>
-          {chats.map((c) => (
-            <ChatSidebarItem
-              key={c.id}
-              chat={c}
-              isActive={c.id === selectedChatId}
-              onSelect={onSelect}
-              onRenameRequest={openRename}
-              closeMobile={closeMobile}
-            />
-          ))}
+        {[...chats]
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .map((c) => (
+        <ChatSidebarItem
+        key={c.id}
+        chat={c}
+        isActive={c.id === selectedChatId}
+        onSelect={onSelect}
+        onRenameRequest={openRename}
+        closeMobile={closeMobile}
+      />
+       ))}
         </SidebarMenu>
 
         {renamingId && (
