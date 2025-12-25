@@ -8,8 +8,10 @@ import ChatInputBar from "@/features/chat/components/ChatInputBar";
 
 import { useConversation } from "@/features/conversation/context/useConversation";
 import type { ChatFlow } from "@/features/chat/hooks/useChatFlow";
+import { useChatThread } from "@/features/chat/hooks/useChatThread";
+export type ChatThread = ReturnType<typeof useChatThread>;
 
-export default function ConversationShell({ chat }: { chat: ChatFlow }) {
+export default function ConversationShell({ chat }: { chat: ChatThread }) {
   const { displayConversations } = useConversation();
 
   return (
