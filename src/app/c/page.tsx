@@ -1,5 +1,6 @@
 "use client";
 
+import { useChats } from "@/features/chat/context/chatContext";
 import { useChatsList } from "@/features/chat/hooks/useChatsList";
 import { useChatThread } from "@/features/chat/hooks/useChatThread";
 import ConversationShell from "@/features/conversation/components/ConversationShell";
@@ -13,7 +14,7 @@ export default function NewChatPage()
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
-  const chats = useChatsList();
+  const chats = useChats();
   const thread = useChatThread({ 
     chatId: null ,
     onNeedCreateChat : async (firstMessageText)  =>

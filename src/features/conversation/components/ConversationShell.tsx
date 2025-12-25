@@ -7,7 +7,6 @@ import ChatInputBar from "@/features/chat/components/ChatInputBar";
 
 
 import { useConversation } from "@/features/conversation/context/useConversation";
-import type { ChatFlow } from "@/features/chat/hooks/useChatFlow";
 import { useChatThread } from "@/features/chat/hooks/useChatThread";
 export type ChatThread = ReturnType<typeof useChatThread>;
 

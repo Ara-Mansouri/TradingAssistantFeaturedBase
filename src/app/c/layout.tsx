@@ -11,7 +11,7 @@ import { ChatsProvider } from "@/features/chat/context/chatContext";
 
 export default function ChatLayout({ children }: { children: React.ReactNode }) {
   const params = useParams();
-const activeChatId = (params as any)?.chatid ?? null;
+const activeChatId = (params as any)?.chatId ?? null;
 
 useEffect(() => {
   console.log("C Layout MOUNT");
