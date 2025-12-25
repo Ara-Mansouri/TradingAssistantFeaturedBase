@@ -5,6 +5,7 @@ import { AuthProvider } from "@/features/auth/context/AuthContext";
 import LanguageSwitcher from "@/features/common/LanguageSwitcher";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import NoBackForwardCache from "@/features/common/NoBackForwardCache";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const locale = useLocale();
@@ -12,6 +13,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   return (
     <AuthProvider>
+         <NoBackForwardCache />
       <main  
         className={`relative min-h-screen bg-black text-white flex items-center justify-center p-4 overflow-hidden 
           ${

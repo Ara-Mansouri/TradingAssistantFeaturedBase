@@ -42,7 +42,7 @@ export async function GET(req: Request) {
 
     const data = await apiResponse.json();
 
-    const res = NextResponse.redirect(new URL(`/dashboard`, req.url));
+    const res = NextResponse.redirect(new URL(`/c`, req.url));
     setAuthCookies(res, data.accessToken, data.refreshToken);
 
 

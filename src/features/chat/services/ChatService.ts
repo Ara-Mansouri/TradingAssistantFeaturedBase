@@ -1,71 +1,63 @@
-import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { ChatMessageDto } from "../types/ChatMessage";
-import { IchatTransport } from "../core/IChatTransport";
+import { handleApiError } from "@/utils/handleApiError";
+import type {
+  GetMyChatsResponseDto,
+  CreateChatResponseDto,
+  GetConversationsResponseDto,
+} from "@/features/chat/types/chatApi";
 
-export class ChatService implements IchatTransport {
-  private connection: HubConnection | null = null;
-  private chatId: string | null = null;
+async function requestJson<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
+  const res = await fetch(input, init);
+  console.log(input)
+  if (res.status === 204) return null as T;
 
-  async connect(chatId: string, onMessage: (msg: ChatMessageDto) => void): Promise<void> {
-    this.chatId = chatId;
+  const data = await res.json().catch(() => ({}));
 
-    this.connection = new HubConnectionBuilder()
-      .withUrl("http://localhost:5000/hubs/chat")
-      .withAutomaticReconnect()
-      .configureLogging(LogLevel.Information)
-      .build();
-
-    this.connection.on("ReceiveMessage", (message: ChatMessageDto) => {
-      if (message.chatId === this.chatId) {
-        onMessage(message);
-      }
-    });
-
-    try {
-      await this.connection.start();
-      console.log("SignalR Connected");
-
-
-      this.startMockMessages(onMessage);
-    } catch (err) {
-      console.error("SignalR connection failed:", err);
-    }
+  if (!res.ok) 
+  {
+    const message = handleApiError(data); 
+    throw new Error(message);
   }
 
-  async sendMessage(content: string): Promise<ChatMessageDto | null> {
-    if (!this.connection || !this.chatId) return null;
-
-    const localMsg: ChatMessageDto = {
-      id: `local-${Date.now()}`,
-      chatId: this.chatId,
-      sender: "user",
-      content,
-      timestamp: new Date().toISOString(),
-    };
-
-    // send to backend when ready:
-    // await this.connection.invoke("SendMessage", this.chatId, content);
-
-    return localMsg;
-  }
-
-  async disconnect(): Promise<void> {
-    await this.connection?.stop();
-  }
-
-  private startMockMessages(push: (msg: ChatMessageDto) => void) {
-    setInterval(() => {
-      if (!this.chatId) return;
-
-      const fakeAssistant: ChatMessageDto = {
-        id: `assistant-${Date.now()}`,
-        chatId: this.chatId!,
-        sender: "assistant",
-        content: "This is a mock AI response.",
-        timestamp: new Date().toISOString(),
-      };
-
-      push(fakeAssistant);
-    }, 4000);
-  }
+  return data as T;
 }
+
+export const chatService = {
+  getMyChats() 
+  {
+    return requestJson<GetMyChatsResponseDto>("/api/chat/chats", { method: "GET" });
+  },
+
+  createChat(title: string) 
+  {
+    return requestJson<CreateChatResponseDto>("/api/chat/chats", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title }),
+    });
+  },
+
+  sendMessage(chatId: string, text: string) 
+  {
+    return requestJson<void>(`/api/chat/chats/${chatId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+  },
+
+  getConversations(chatId: string) {
+    return requestJson<GetConversationsResponseDto>(`/api/chat/chats/${chatId}/conversations`, {
+      method: "GET",
+    });
+  },
+
+  renameChat(chatId: string, title: string) 
+  {
+
+    return requestJson<void>(`/api/chat/chats/${chatId}/rename`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title }),
+    });
+  },
+};

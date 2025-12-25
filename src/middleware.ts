@@ -23,7 +23,17 @@ export async function middleware(req: NextRequest)
   const cookieLocale = req.cookies.get("NEXT_LOCALE")?.value || defaultLocale;
   const res = NextResponse.next();
   res.headers.set("x-next-intl-locale", cookieLocale);
-
+  const setNoStoreHeaders = (response: NextResponse) => 
+  {
+    response.headers.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+    );
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("Expires", "0");
+    response.headers.set("Surrogate-Control", "no-store");
+    response.headers.set("X-Accel-Expires", "0");
+  };
   if (PUBLIC_STATIC.some((p) => pathname.startsWith(p))) 
   {
     return res;
@@ -37,26 +47,35 @@ export async function middleware(req: NextRequest)
   if (pathname === "/") 
   {
     if (!isValid) {
-      return NextResponse.redirect(new URL("/auth/Login", req.url));
+      const redirect = NextResponse.redirect(new URL("/auth/Login", req.url));
+      setNoStoreHeaders(redirect);
+      return redirect;
     }
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    const redirect = NextResponse.redirect(new URL("/c", req.url));
+    setNoStoreHeaders(redirect);
+    return redirect;
   }
 
   if (pathname.startsWith("/auth")) 
   {
     if (isValid)
     {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
+      const redirect = NextResponse.redirect(new URL("/c", req.url));
+      setNoStoreHeaders(redirect);
+      return redirect;
     }
+    setNoStoreHeaders(res);
     return res;
   }
 
 
-  if (pathname.startsWith("/dashboard"))
+  if (pathname.startsWith("/c"))
    {
     if (!isValid && !refreshToken) 
     {
-      return NextResponse.redirect(new URL("/auth/Login", req.url));
+      const redirect = NextResponse.redirect(new URL("/auth/Login", req.url));
+      setNoStoreHeaders(redirect);
+      return redirect;
     }
   }
 
@@ -65,13 +84,20 @@ export async function middleware(req: NextRequest)
   {
     const refreshUrl = req.nextUrl.clone();
     refreshUrl.pathname = "/api/auth/refresh-token";
-    return NextResponse.rewrite(refreshUrl);
+    const rewrite = NextResponse.rewrite(refreshUrl);
+    setNoStoreHeaders(rewrite);
+    return rewrite;
   }
 
    if (!verifyAccessToken(accessToken) && !refreshToken && !pathname.startsWith("/auth")) 
 
   {
-    return NextResponse.redirect(new URL("/auth/Login", req.url));
+    const redirect = NextResponse.redirect(new URL("/auth/Login", req.url));
+    setNoStoreHeaders(redirect);
+    return redirect;
+  }
+ if (pathname.startsWith("/c") || pathname.startsWith("/auth")) {
+    setNoStoreHeaders(res);
   }
 
   return res;
@@ -81,7 +107,7 @@ export const config = {
   matcher: [
     "/",            
     "/auth/:path*", 
-    "/dashboard/:path*", 
+    "/c/:path*", 
 
   ],
 };
