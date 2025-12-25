@@ -23,7 +23,15 @@ export async function middleware(req: NextRequest)
   const cookieLocale = req.cookies.get("NEXT_LOCALE")?.value || defaultLocale;
   const res = NextResponse.next();
   res.headers.set("x-next-intl-locale", cookieLocale);
-
+ const setNoStoreHeaders = (response: NextResponse) => {
+    response.headers.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("Expires", "0");
+    response.headers.set("Surrogate-Control", "no-store");
+  };
   if (PUBLIC_STATIC.some((p) => pathname.startsWith(p))) 
   {
     return res;
@@ -72,6 +80,9 @@ export async function middleware(req: NextRequest)
 
   {
     return NextResponse.redirect(new URL("/auth/Login", req.url));
+  }
+ if (pathname.startsWith("/c") || pathname.startsWith("/auth")) {
+    setNoStoreHeaders(res);
   }
 
   return res;

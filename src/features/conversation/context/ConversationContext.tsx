@@ -18,7 +18,7 @@ export function ConversationProvider({ children }: { children: React.ReactNode }
   const setDisplayConversations = (items: ConversationDto[]) => setDisplayConversationsState(items);
   const clearDisplayConversations = () => setDisplayConversationsState([]);
   const appendConversation = (item: ConversationDto) =>
-    setDisplayConversationsState((prev) => [...prev, item]);
+  setDisplayConversationsState((prev) => [...prev, item]);
   const value = useMemo(
     () => ({ displayConversations, setDisplayConversations, clearDisplayConversations ,appendConversation }),
     [displayConversations]

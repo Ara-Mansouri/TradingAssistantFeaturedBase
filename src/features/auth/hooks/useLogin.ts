@@ -17,7 +17,7 @@ export function useLogin(options?: UseLoginOptions) {
     mutationFn: (payload: LoginPayload) => loginApi(payload),
 
     onSuccess: () => {
-      router.push("/c");
+      router.replace("/c");
     },
 
     onError: (err) => {
