@@ -51,7 +51,7 @@ export function useChatThread(opts: {
         clearDisplayConversations();
       }
 
-      await sendMessageMutation.mutateAsync({ id, text: t }); // Send message to server first
+      await sendMessageMutation.mutateAsync({ id, text: t });
       appendConversation({
         text: t,
         registeredAt: new Date().toISOString(),

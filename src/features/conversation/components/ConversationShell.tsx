@@ -26,7 +26,7 @@ export default function ConversationShell({ chat }: { chat: ChatThread }) {
           rightPanel={
             <div className="flex flex-col h-full">
               <div className="flex-1 min-h-0 overflow-y-auto">
-                <MessageList items={displayConversations} />
+                <MessageList items={displayConversations} isConversationsLoading ={chat.isConversationsLoading} />
               </div>
 
               <div className="flex-shrink-0 border-t border-gray-800/50 bg-black/50 backdrop-blur-sm">
