@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 import type { ChatSummaryDto } from "@/features/chat/types/chatApi";
 import { useState } from "react";
 
@@ -20,17 +20,20 @@ import {
 export const ChatSidebarItem = memo(function ChatSidebarItem(props: {
   chat: ChatSummaryDto;
   isActive: boolean;
-
-
-
   onSelect: (chatId: string) => Promise<void>;
   onRenameRequest: (chatId: string, currentTitle: string) => void;
-
-
   closeMobile: () => void;
-}) {
+}) 
+{
   const { chat, isActive, onSelect, onRenameRequest, closeMobile } = props;
   const [menuOpen, setMenuOpen] = useState(false);
+   const activeRef = useRef<HTMLLIElement | null>(null);
+  useEffect(() => 
+  {
+    if (!isActive) return;
+
+    activeRef.current?.scrollIntoView({ block: "nearest" });
+  }, [isActive]);
   return (
     <SidebarMenuItem >
       <SidebarMenuButton
