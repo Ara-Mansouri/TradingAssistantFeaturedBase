@@ -32,10 +32,10 @@ export const ChatSidebarItem = memo(function ChatSidebarItem(props: {
   {
     if (!isActive) return;
 
-    activeRef.current?.scrollIntoView({ block: "nearest" });
+    activeRef.current?.scrollIntoView({ block: "center" });
   }, [isActive]);
   return (
-    <SidebarMenuItem >
+    <SidebarMenuItem  ref={activeRef} >
       <SidebarMenuButton
         isActive={isActive}
         className="w-full justify-start gap-2 rounded-full px-4 py-5
