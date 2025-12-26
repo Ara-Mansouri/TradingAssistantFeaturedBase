@@ -11,10 +11,11 @@ export default function MessageList({ items }: { items: ConversationDto[] }) {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [items]);
 
-  if (items.length === 0) {
+  if (items.length === 0 ) {
     return (
       <div className="h-full flex items-center justify-center">
-        <p className="text-gray-500 text-sm">No messages yet. Start a conversation!</p>
+        { !endRef.current ? 
+          <p className="text-gray-500 text-sm">No messages yet. Start a conversation!</p> : <>loading...</> }
       </div>
     );
   }
