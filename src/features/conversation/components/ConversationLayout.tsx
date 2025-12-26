@@ -1,7 +1,7 @@
 "use client";
 
 import LanguageSwitcher from "@/features/common/LanguageSwitcher";
-import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/utils/ui/sidebar";
 
 export default function ConversationLayout(props: {
   children: React.ReactNode;

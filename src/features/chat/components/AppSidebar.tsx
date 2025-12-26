@@ -11,9 +11,9 @@ import {
   SidebarFooter,
   SidebarMenu,
   useSidebar,
-} from "@/components/ui/sidebar";
+} from "@/utils/ui/sidebar";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/utils/ui/button";
 import { ChatSidebarItem } from "@/features/chat/components/ChatSidebarItem";
 
 export default function AppSidebar(props: {

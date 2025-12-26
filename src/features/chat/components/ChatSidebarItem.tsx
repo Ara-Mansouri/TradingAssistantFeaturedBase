@@ -9,13 +9,13 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/utils/ui/dropdown-menu";
 
 import {
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/utils/ui/sidebar";
 
 export const ChatSidebarItem = memo(function ChatSidebarItem(props: {
   chat: ChatSummaryDto;
@@ -32,7 +32,7 @@ export const ChatSidebarItem = memo(function ChatSidebarItem(props: {
   {
     if (!isActive) return;
 
-    activeRef.current?.scrollIntoView({ block: "center" });
+    activeRef.current?.scrollIntoView({ block: "nearest" });
   }, [isActive]);
   return (
     <SidebarMenuItem  ref={activeRef} >
