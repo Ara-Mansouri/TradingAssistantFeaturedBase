@@ -29,10 +29,14 @@ export default function AppSidebar(props: {
   const router = useRouter();
   const { setOpenMobile } = useSidebar();
   const closeMobile = () => setOpenMobile(false);
-
+  const handleNewChat = () => 
+     {router.push("/c")
+    closeMobile();
+  };
 
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
+  const [isRenaming, setIsRenaming] = useState(false);
 
   const openRename = (chatId: string, currentTitle: string) => {
     setRenamingId(chatId);
@@ -48,7 +52,9 @@ export default function AppSidebar(props: {
     if (!renamingId) return;
     const t = draft.trim();
     if (!t) return;
+    setIsRenaming(true);
     await onRename(renamingId, t);
+    setIsRenaming(false);
     cancelRename();
   };
 
@@ -65,10 +71,13 @@ export default function AppSidebar(props: {
           <Button
             variant="ghost"
             className="h-9 px-2 hover:bg-white/5"
-            onClick={async () => {
-              await onNewChat();
-              closeMobile();
-            }}
+            // onClick={async () => {
+            //   await onNewChat();
+            //   closeMobile();
+            // }}
+            onClick={handleNewChat
+              
+            }
             type="button"
           >
             + New
@@ -111,8 +120,11 @@ export default function AppSidebar(props: {
                 <Button variant="ghost" className="hover:bg-white/5" onClick={cancelRename}>
                   Cancel
                 </Button>
-                <Button className="bg-white/10 hover:bg-white/15" onClick={submitRename}>
-                  Save
+                <Button 
+                className="bg-white/10 hover:bg-white/15" 
+                onClick={submitRename}
+                disabled={isRenaming}>
+                {isRenaming ? "Renaming.." : "Save" }
                 </Button>
               </div>
             </div>

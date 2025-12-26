@@ -27,7 +27,7 @@ const activeChatId = (params as any)?.chatId ?? null;
           selectedChatId={activeChatId}   
           isLoading={chats.isChatsLoading}
           onNewChat={async () => {
-            await chats.newChat();
+           
           }}
           onSelect={chats.goToChat}
           onRename={chats.renameChat}
