@@ -34,6 +34,7 @@ export default function AppSidebar(props: {
     closeMobile();
   };
 
+  
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
   const [isRenaming, setIsRenaming] = useState(false);
