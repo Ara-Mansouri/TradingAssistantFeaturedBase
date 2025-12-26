@@ -23,13 +23,12 @@ export function useChatThread(opts: {
   const loadConversations = async (id: string) => {
     const requestId = ++latestRequestId.current;
     setIsConversationsLoading(true);
-     setDisplayConversations([]);
+    setDisplayConversations([]);
     try {
       const data = await chatService.getConversations(id);
       if (requestId === latestRequestId.current) {
         setDisplayConversations(data.conversations ?? []);
       }
-      //setDisplayConversations(data.conversations ?? []);
     } finally {
       if (requestId === latestRequestId.current) {
         setIsConversationsLoading(false);
@@ -42,8 +41,6 @@ export function useChatThread(opts: {
     if (!t) return;
     try {
       let id = chatId;
-
-      
       if (!id) {
         if (!onNeedCreateChat) {
           throw new Error("ChatId is null but onNeedCreateChat is not provided.");
@@ -51,23 +48,21 @@ export function useChatThread(opts: {
         const created = await onNeedCreateChat(t);
         id = created.chatId;
         router.push(`/c/${id}`);
-        clearDisplayConversations(); 
+        clearDisplayConversations();
       }
-    
+
+      await sendMessageMutation.mutateAsync({ id, text: t }); // Send message to server first
       appendConversation({
         text: t,
         registeredAt: new Date().toISOString(),
         side: "User",
       });
-      await chatService.sendMessage(id, t);
 
-       setDisplayConversations([]);
       await loadConversations(id);
-    } finally {
+    } catch (error) {
 
     }
   };
-
 
   useEffect(() => {
     if (!chatId) {
@@ -79,7 +74,7 @@ export function useChatThread(opts: {
 
   return {
     isConversationsLoading,
-    isSending :sendMessageMutation.isPending,
+    isSending: sendMessageMutation.isPending,
     loadConversations,
     sendText,
   };
