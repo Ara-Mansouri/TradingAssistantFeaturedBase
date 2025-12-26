@@ -39,7 +39,7 @@ export function useChatsList() {
   };
 
   const newChat = async () => {
-    return createChat("Chat");
+    return createChat("new conversation");
   };
 
   const createChatFromFirstMessage = async (firstMessageText: string) => {
