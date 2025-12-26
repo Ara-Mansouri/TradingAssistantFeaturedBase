@@ -4,7 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Tailwind v4 tokens mapping */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -36,7 +35,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* sidebar */
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -46,7 +45,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* radius */
+
   --radius: 0.5rem;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -65,7 +64,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -80,13 +78,13 @@ body {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Focus styles */
+
 *:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 
-/* Custom animations */
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -98,7 +96,7 @@ body {
 .animate-fade-in { animation: fadeIn 0.5s ease-out; }
 .animate-slide-in { animation: slideIn 0.5s ease-out; }
 
-/* Responsive text sizing */
+
 @media (max-width: 640px) {
   html { font-size: 14px; }
 }
@@ -106,7 +104,6 @@ body {
   html { font-size: 16px; }
 }
 
-/* ✅ FULL token definitions (THIS is what you were missing) */
 :root {
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
@@ -137,7 +134,7 @@ body {
   --input: 214.3 31.8% 91.4%;
   --ring: 222.2 84% 4.9%;
 
-  /* sidebar tokens */
+  
   --sidebar: 120 100% 50%;
   --sidebar-foreground: 222.2 84% 4.9%;
   --sidebar-primary: 222.2 47.4% 11.2%;
@@ -177,7 +174,7 @@ body {
   --input: 217.2 32.6% 17.5%;
   --ring: 212.7 26.8% 83.9%;
 
-  /* sidebar tokens */
+
   --sidebar: 120 100% 50%;
   --sidebar-foreground: 210 40% 98%;
   --sidebar-primary: 210 40% 98%;
