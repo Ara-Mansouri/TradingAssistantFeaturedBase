@@ -34,7 +34,7 @@ export function useChatsList() {
   const createChat = async (title: string) => {
     const created = await chatService.createChat(title);
     await loadChats(); 
-    router.push(`/c/${created.chatId}`);
+    //router.push(`/c/${created.chatId}`);
     return created;
   };
 
