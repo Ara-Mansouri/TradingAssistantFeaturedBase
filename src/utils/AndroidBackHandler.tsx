@@ -14,7 +14,7 @@ export default function AndroidBackHandler() {
     const setup = async () => {
       handler = await App.addListener("backButton", ({ canGoBack }) => {
 
-        if (pathname === "/auth/Login") {
+        if (pathname === "/auth/login") {
           App.exitApp();
           return;
         }

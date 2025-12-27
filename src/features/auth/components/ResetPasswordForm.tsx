@@ -148,7 +148,7 @@ export default function ResetPasswordForm() {
 
         <div className="text-center">
           <Link
-            href="/auth/Login"
+            href="/auth/login"
             className="text-red-400 hover:text-red-300 transition-colors duration-200 underline-offset-4 hover:underline text-sm"
           >
             {t("backToLogin")}

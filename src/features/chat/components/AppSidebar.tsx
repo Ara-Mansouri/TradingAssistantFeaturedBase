@@ -61,7 +61,7 @@ export default function AppSidebar(props: {
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.replace("/auth/Login");
+    router.replace("/auth/login");
   };
 
   return (

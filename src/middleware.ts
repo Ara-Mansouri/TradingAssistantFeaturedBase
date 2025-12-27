@@ -47,7 +47,7 @@ export async function middleware(req: NextRequest)
   if (pathname === "/") 
   {
     if (!isValid) {
-      const redirect = NextResponse.redirect(new URL("/auth/Login", req.url));
+      const redirect = NextResponse.redirect(new URL("/auth/login", req.url));
       setNoStoreHeaders(redirect);
       return redirect;
     }
@@ -73,7 +73,7 @@ export async function middleware(req: NextRequest)
    {
     if (!isValid && !refreshToken) 
     {
-      const redirect = NextResponse.redirect(new URL("/auth/Login", req.url));
+      const redirect = NextResponse.redirect(new URL("/auth/login", req.url));
       setNoStoreHeaders(redirect);
       return redirect;
     }
@@ -92,7 +92,7 @@ export async function middleware(req: NextRequest)
    if (!verifyAccessToken(accessToken) && !refreshToken && !pathname.startsWith("/auth")) 
 
   {
-    const redirect = NextResponse.redirect(new URL("/auth/Login", req.url));
+    const redirect = NextResponse.redirect(new URL("/auth/login", req.url));
     setNoStoreHeaders(redirect);
     return redirect;
   }

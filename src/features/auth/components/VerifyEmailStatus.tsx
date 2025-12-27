@@ -49,7 +49,7 @@ export default function VerifyEmailStatusForm({ code }: { code: string }) {
 
       const redirectTimeout = setTimeout(() => {
         clearInterval(progressInterval);
-        router.push("/auth/Login");
+        router.push("/auth/login");
       }, totalDuration);
 
       return () => {
@@ -60,7 +60,7 @@ export default function VerifyEmailStatusForm({ code }: { code: string }) {
     }
   }, [status, router]);
 
-  const handleGoToLogin = () => router.push("/auth/Login");
+  const handleGoToLogin = () => router.push("/auth/login");
 
   return (
     <div className="w-full flex flex-col items-center justify-center px-4 sm:px-0 min-h-[70vh] animate-fade-in text-center">

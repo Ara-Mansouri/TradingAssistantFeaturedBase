@@ -18,7 +18,7 @@ export async function GET(req: Request) {
 
     if (!refreshToken) {
 
-      return NextResponse.redirect(new URL(`/auth/Login`, req.url));
+      return NextResponse.redirect(new URL(`/auth/login`, req.url));
     }
 
     refreshToken = decodeURIComponent(refreshToken);
@@ -36,7 +36,7 @@ export async function GET(req: Request) {
 
     if (!apiResponse.ok) {
 
-      return NextResponse.redirect(new URL(`/auth/Login`, req.url));
+      return NextResponse.redirect(new URL(`/auth/login`, req.url));
     }
 
 
@@ -49,6 +49,6 @@ export async function GET(req: Request) {
     return res;
   } catch (error) {
 
-    return NextResponse.redirect(new URL(`/auth/Login`, req.url));
+    return NextResponse.redirect(new URL(`/auth/login`, req.url));
   }
 }

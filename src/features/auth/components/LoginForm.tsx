@@ -49,11 +49,10 @@ export default function LoginForm() {
     },
   });
 
-  // Manual submit handler
+
   const onSubmit = async () => {
     clearErrors();
 
-    // Run validation manually
     const isValid = await trigger();
 
     if (!isValid) return;
@@ -74,7 +73,7 @@ export default function LoginForm() {
         </h1>
       </div>
 
-      {/* --- INPUTS WITHOUT <FORM> --- */}
+
       <div key={pathname} className="space-y-4 sm:space-y-6">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-200">

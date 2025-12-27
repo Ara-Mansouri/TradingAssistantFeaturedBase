@@ -21,7 +21,7 @@ export function useResetPassword(options?: UseResetPasswordOptions) {
 
     onSuccess: () => {
      
-      router.replace("/auth/Login");
+      router.replace("/auth/login");
       clearEmail();
     },
       onError: (err) => {

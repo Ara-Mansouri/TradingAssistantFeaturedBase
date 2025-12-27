@@ -45,7 +45,7 @@ export default function NoBackForwardCache()
           else if (!authenticated && isProtectedRoute) 
           {
             
-            router.replace("/auth/Login");
+            router.replace("/auth/login");
           }
          
         }
