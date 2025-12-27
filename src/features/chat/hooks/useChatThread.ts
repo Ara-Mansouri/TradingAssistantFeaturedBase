@@ -6,8 +6,8 @@ import { chatService } from "@/features/chat/services/ChatService";
 import { useConversation } from "@/features/conversation/context/useConversation";
 import { useMutation } from "@tanstack/react-query";
 
-export function useChatThread(opts: {
-  chatId: string | null;
+export function useChatThread(
+  opts: {chatId: string | null;
   onNeedCreateChat?: (firstMessageText: string) => Promise<{ chatId: string }>;
 }) {
   const { chatId, onNeedCreateChat } = opts;
@@ -15,11 +15,16 @@ export function useChatThread(opts: {
   const router = useRouter();
   const { setDisplayConversations, clearDisplayConversations , appendConversation } = useConversation();
 
-  const [isConversationsLoading, setIsConversationsLoading] = useState(false);
+  const [isConversationsLoading, setIsConversationsLoading] = useState(false);/////
   const latestRequestId = useRef(0);
+
+
   const sendMessageMutation = useMutation({
     mutationFn: ({ id, text }: { id: string; text: string }) => chatService.sendMessage(id, text),
   });
+
+
+
   const loadConversations = async (id: string) => {
     const requestId = ++latestRequestId.current;
     setIsConversationsLoading(true);
@@ -50,15 +55,14 @@ export function useChatThread(opts: {
         router.push(`/c/${id}`);
         clearDisplayConversations();
       }
-
-      await sendMessageMutation.mutateAsync({ id, text: t });
-      appendConversation({
+    appendConversation({
         text: t,
         registeredAt: new Date().toISOString(),
         side: "User",
       });
 
-      await loadConversations(id);
+      await sendMessageMutation.mutateAsync({ id, text: t });
+
     } catch (error) {
 
     }
