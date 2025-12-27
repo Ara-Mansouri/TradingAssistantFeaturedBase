@@ -53,7 +53,6 @@ export function useChatThread(
         const created = await onNeedCreateChat(t);
         id = created.chatId;
         router.push(`/c/${id}`);
-        clearDisplayConversations();
       }
     appendConversation({
         text: t,
